@@ -1,0 +1,34 @@
+{
+  "creativetab.agritechtwo": "Aritech: Two",
+
+  "block.agritechtwo.acacia_planter": "Acacia Planter",
+  "block.agritechtwo.bamboo_planter": "Bamboo Planter",
+  "block.agritechtwo.birch_planter": "Birch Planter",
+  "block.agritechtwo.cherry_planter": "Cherry Planter",
+  "block.agritechtwo.crimson_planter": "Crimson Planter",
+  "block.agritechtwo.dark_oak_planter": "Dark Oak Planter",
+  "block.agritechtwo.jungle_planter": "Jungle Planter",
+  "block.agritechtwo.mangrove_planter": "Mangrove Planter",
+  "block.agritechtwo.oak_planter": "Oak Planter",
+  "block.agritechtwo.spruce_planter": "Spruce Planter",
+  "block.agritechtwo.warped_planter": "Warped Planter",
+
+  "blockentity.agritechtwo.name": "Planter",
+
+  "container.agritechtwo.planter": "Agritech Planter",
+
+  "jei.agritechtwo.planter.tooltip": "Agritech Planters",
+
+  "message.agritechtwo.invalid_seed_soil_combination": "This seed cannot grow in this soil!",
+  "message.agritechtwo.invalid_soil": "This block cannot be used as soil!",
+  "message.agritechtwo.slots_full": "The planter is full!",
+  "message.agritechtwo.same_farmland": "This farmland is already of this type!",
+
+  "tooltip.agritechtwo.growth_progress": "Growth Progress",
+  "tooltip.agritechtwo.view_recipes": "Click to view recipes",
+
+  "jade.agritechtwo.crop_progress": "%s (Stage %d/%d - %d%%)",
+  "jade.agritechtwo.crop_ready": "%s (Ready to Harvest)",
+  "jade.agritechtwo.soil_info": "Soil: %s (%s speed)",
+  "jade.agritechtwo.fertilizer_info": "Fertilizer: %s"
+}
