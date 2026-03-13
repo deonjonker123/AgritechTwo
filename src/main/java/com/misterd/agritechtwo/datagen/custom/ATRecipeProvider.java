@@ -1,10 +1,13 @@
 package com.misterd.agritechtwo.datagen.custom;
 
 import com.misterd.agritechtwo.block.ATBlocks;
+import com.misterd.agritechtwo.item.ATItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 
 import java.util.concurrent.CompletableFuture;
@@ -135,6 +138,15 @@ public class ATRecipeProvider extends RecipeProvider implements IConditionBuilde
                 .define('H', Items.HOPPER)
                 .define('D', Items.WARPED_SLAB)
                 .unlockedBy("has_warped_stem", has(Items.WARPED_STEM))
+                .save(recipeOutput);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ATItems.CLOCHE.get(), 4)
+                .pattern("III")
+                .pattern("PPP")
+                .pattern("III")
+                .define('P', Tags.Items.GLASS_PANES)
+                .define('I', Items.IRON_INGOT)
+                .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
                 .save(recipeOutput);
     }
 }

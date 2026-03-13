@@ -9,6 +9,13 @@ AgriTech: Two is a new and improved take on the original Agritech: Crops and Agr
 
 -   **Agritech Planter**: A simple wooden planter that automatically grows crops and saplings. Automatically outputs drops to a container under it. Available in all 11 vanilla wood types.
 
+### **Cloche**
+A glass bell jar that attaches to any planter, boosting both growth speed and harvest yield. Stacks with fertilizer for maximum efficiency. Configurable speed and yield multipliers.
+
+- Right-click a planter with a cloche to attach it
+- Shift-right-click with an empty hand to detach and recover it
+- Breaking a cloched planter drops both items separately
+
 ### **Fertilizer System**
 
 Fertilizer support with configurable speed and yield multipliers:
@@ -53,12 +60,20 @@ Fertilizer support with configurable speed and yield multipliers:
 
 ## Advanced Configuration System
 
-1.  **Mod Compatibility Toggles**: Enable/disable specific mod integrations
-2.  **Crop/Sapling/Soil Database**: Comprehensive JSON-based system with TOML overrides
+1.  **Mod Compatibility Toggles**: Enable/disable specific mod integrations per-mod, so you only load what you need.
+2.  **Crop/Sapling/Soil Database**: Comprehensive JSON-based system defining what grows on what, with full TOML override support for custom rules.
 
-### **Hot Reloading**
+### **Live Config Reloading**
 
-Configuration changes apply without server restart, with dedicated error logging for troubleshooting.
+No server/client restart required. Changes to crops, soils, fertilizers, or compatibility settings can be applied instantly via in-game commands — invaluable for modpack devs and server admins tuning configurations on the fly.
+
+| Command | Effect |
+|--|--|
+| `/agritechtwo reload` | Reloads all configs |
+| `/agritechtwo reload plantables` | Reloads the crop/soil/sapling database only |
+| `/agritechtwo reload config` | Reloads the main TOML config only |
+
+Failed reloads report errors directly in chat rather than silently failing.
 
 ### **Interactive Placement**
 
@@ -75,8 +90,7 @@ Configuration changes apply without server restart, with dedicated error logging
 
 ## JEI Integration
 
--   Compatible crop/soil combinations for each planter
--   Compostable items for the composter
+-   Compatible crop/soil combinations the planters
 
 ## Jade Integration
 
@@ -84,3 +98,4 @@ Configuration changes apply without server restart, with dedicated error logging
 -   Shows growth stage and progress percentage
 -   Shows active soil type and its growth modifier
 -   Shows active fertilizer when one is slotted
+- Shows cloche status with speed and yield modifiers

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "tag": "c:glass_panes"
+    }
+  },
+  "pattern": [
+    "III",
+    "PPP",
+    "III"
+  ],
+  "result": {
+    "count": 4,
+    "id": "agritechtwo:cloche_dome"
+  }
+}

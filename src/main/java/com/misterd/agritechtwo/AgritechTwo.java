@@ -9,10 +9,13 @@ import com.misterd.agritechtwo.gui.ATMenuTypes;
 import com.misterd.agritechtwo.gui.custom.PlanterBlockScreen;
 import com.misterd.agritechtwo.item.ATCreativeTab;
 import com.misterd.agritechtwo.item.ATItems;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -98,6 +101,14 @@ public class AgritechTwo {
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ATMenuTypes.PLANTER_BLOCK_MENU.get(), PlanterBlockScreen::new);
+        }
+
+        @SubscribeEvent
+        public static void onRegisterAdditionalModels(ModelEvent.RegisterAdditional event) {
+            event.register(new ModelResourceLocation(
+                    ResourceLocation.fromNamespaceAndPath(MODID, "block/cloche_dome"),
+                    "standalone"
+            ));
         }
     }
 }

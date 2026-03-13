@@ -4,6 +4,8 @@ import com.misterd.agritechtwo.blockentity.ATBlockEntities;
 import com.misterd.agritechtwo.blockentity.custom.PlanterBlockEntity;
 import com.misterd.agritechtwo.config.PlantablesConfig;
 import com.misterd.agritechtwo.gui.custom.PlanterBlockMenu;
+import com.misterd.agritechtwo.item.ATItems;
+import com.misterd.agritechtwo.item.custom.ClocheItem;
 import com.misterd.agritechtwo.util.RegistryHelper;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -15,6 +17,7 @@ import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.HoeItem;
@@ -28,8 +31,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.fml.ModList;
 
@@ -38,11 +45,31 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class PlanterBlock extends BaseEntityBlock {
-    public static final VoxelShape SHAPE = Block.box(1.0D, 0.0D, 1.1D, 15.0D, 11.0D, 15.0D);
+    public static final VoxelShape SHAPE = Shapes.or(
+            // Four legs
+            Block.box(1, 0, 1,  3, 11,  3),   // front-left
+            Block.box(13, 0, 1, 15, 11,  3),  // front-right
+            Block.box(1, 0, 13,  3, 11, 15),  // back-left
+            Block.box(13, 0, 13, 15, 11, 15), // back-right
+            // Planter box walls
+            Block.box(2, 2, 2,  14, 10,  3),  // front wall
+            Block.box(2, 2, 13, 14, 10, 14),  // back wall
+            Block.box(2, 2, 3,   3, 10, 13),  // left wall
+            Block.box(13, 2, 3, 14, 10, 13),  // right wall
+            // Base/floor of the box
+            Block.box(3, 2, 3,  13,  3, 13)
+    );
     public static final MapCodec<PlanterBlock> CODEC = simpleCodec(PlanterBlock::new);
+    public static final BooleanProperty CLOCHED = BooleanProperty.create("cloched");
 
     public PlanterBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(CLOCHED, false));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(CLOCHED);
     }
 
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
@@ -64,6 +91,15 @@ public class PlanterBlock extends BaseEntityBlock {
 
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (state.getBlock() != newState.getBlock()) {
+            // Drop the cloche separately if one is attached
+            if (state.getValue(CLOCHED)) {
+                ItemEntity itemEntity = new ItemEntity(
+                        level,
+                        pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                        new ItemStack(ATItems.CLOCHE.get())
+                );
+                level.addFreshEntity(itemEntity);
+            }
             if (level.getBlockEntity(pos) instanceof PlanterBlockEntity planterBlockEntity) {
                 planterBlockEntity.drops();
                 level.updateNeighbourForOutputSignal(pos, this);
@@ -78,16 +114,43 @@ public class PlanterBlock extends BaseEntityBlock {
             return ItemInteractionResult.FAIL;
         }
 
-        if (player.isCrouching()) {
+        ItemStack heldItem = player.getItemInHand(hand);
+
+        // --- Cloche removal: shift + empty hand ---
+        if (player.isCrouching() && heldItem.isEmpty() && state.getValue(CLOCHED)) {
             if (!level.isClientSide()) {
-                openGui(player, planter, pos);
+                level.setBlock(pos, state.setValue(CLOCHED, false), 3);
+                ItemEntity itemEntity = new ItemEntity(
+                        level,
+                        pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5,
+                        new ItemStack(ATItems.CLOCHE.get())
+                );
+                level.addFreshEntity(itemEntity);
+                level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 0.5F, 1.2F);
             }
             return ItemInteractionResult.SUCCESS;
         }
 
-        ItemStack heldItem = player.getItemInHand(hand);
+        // --- Open GUI: shift + any other interaction ---
+        if (player.isCrouching()) {
+            if (!level.isClientSide()) openGui(player, planter, pos);
+            return ItemInteractionResult.SUCCESS;
+        }
+
         String heldItemId = RegistryHelper.getItemId(heldItem);
 
+        // --- Cloche placement ---
+        if (heldItem.getItem() instanceof ClocheItem) {
+            if (state.getValue(CLOCHED)) return ItemInteractionResult.FAIL;
+            if (!level.isClientSide()) {
+                level.setBlock(pos, state.setValue(CLOCHED, true), 3);
+                if (!player.getAbilities().instabuild) heldItem.shrink(1);
+                level.playSound(null, pos, SoundEvents.GLASS_PLACE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            }
+            return ItemInteractionResult.SUCCESS;
+        }
+
+        // --- Seed or Sapling ---
         if (PlantablesConfig.isValidSeed(heldItemId) || PlantablesConfig.isValidSapling(heldItemId)) {
             if (!planter.inventory.getStackInSlot(0).isEmpty()) {
                 if (!level.isClientSide()) openGui(player, planter, pos);
@@ -115,6 +178,7 @@ public class PlanterBlock extends BaseEntityBlock {
             planter.setChanged();
             return ItemInteractionResult.SUCCESS;
 
+            // --- Soil ---
         } else if (PlantablesConfig.isValidSoil(heldItemId)) {
             if (!planter.inventory.getStackInSlot(1).isEmpty()) {
                 if (!level.isClientSide()) openGui(player, planter, pos);
@@ -142,6 +206,7 @@ public class PlanterBlock extends BaseEntityBlock {
             planter.setChanged();
             return ItemInteractionResult.SUCCESS;
 
+            // --- Hoe tilling ---
         } else if (heldItem.getItem() instanceof HoeItem) {
             ItemStack soilStack = planter.inventory.getStackInSlot(1);
             if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
@@ -171,6 +236,7 @@ public class PlanterBlock extends BaseEntityBlock {
                 }
             }
 
+            // --- Mystical Agriculture essence upgrade ---
         } else {
             Map<String, String> essenceToFarmland = new HashMap<>();
             essenceToFarmland.put("mysticalagriculture:inferium_essence", "mysticalagriculture:inferium_farmland");
@@ -201,9 +267,7 @@ public class PlanterBlock extends BaseEntityBlock {
                             }
 
                             planter.inventory.setStackInSlot(1, new ItemStack(resultBlock));
-                            if (!player.getAbilities().instabuild) {
-                                stack.shrink(1);
-                            }
+                            if (!player.getAbilities().instabuild) stack.shrink(1);
                             level.playSound(player, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 1.0F, 1.0F);
                             return ItemInteractionResult.sidedSuccess(level.isClientSide());
                         }
@@ -212,9 +276,7 @@ public class PlanterBlock extends BaseEntityBlock {
             }
         }
 
-        if (!level.isClientSide()) {
-            openGui(player, planter, pos);
-        }
+        if (!level.isClientSide()) openGui(player, planter, pos);
         return ItemInteractionResult.SUCCESS;
     }
 

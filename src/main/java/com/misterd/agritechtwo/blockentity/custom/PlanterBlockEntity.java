@@ -2,6 +2,7 @@ package com.misterd.agritechtwo.blockentity.custom;
 
 import com.misterd.agritechtwo.Config;
 import com.misterd.agritechtwo.block.ATBlocks;
+import com.misterd.agritechtwo.block.custom.PlanterBlock;
 import com.misterd.agritechtwo.blockentity.ATBlockEntities;
 import com.misterd.agritechtwo.config.PlantablesConfig;
 import com.misterd.agritechtwo.gui.custom.PlanterBlockMenu;
@@ -97,7 +98,8 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         if (!blockEntity.readyToHarvest) {
             float soilModifier = blockEntity.getSoilGrowthModifier(soilStack);
             float fertilizerGrowthModifier = blockEntity.getFertilizerGrowthModifier();
-            float totalModifier = soilModifier * fertilizerGrowthModifier;
+            float clocheGrowthModifier = blockEntity.getClocheGrowthModifier(state);
+            float totalModifier = soilModifier * fertilizerGrowthModifier * clocheGrowthModifier;
             int baseGrowthTime = blockEntity.getBaseGrowthTime(plantStack);
             int adjustedGrowthTime = Math.max(1, Math.round((float) baseGrowthTime / totalModifier));
             blockEntity.growthTicks++;
@@ -122,7 +124,7 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         }
 
         if (blockEntity.readyToHarvest && blockEntity.hasOutputSpace()) {
-            blockEntity.harvestPlant();
+            blockEntity.harvestPlant(state);
         }
 
         if (state.is(ATBlocks.ACACIA_PLANTER.get()) || state.is(ATBlocks.BAMBOO_PLANTER.get())
@@ -135,16 +137,24 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         }
     }
 
+    private float getClocheGrowthModifier(BlockState state) {
+        return state.getValue(PlanterBlock.CLOCHED) ? (float) Config.getClocheSpeedMultiplier() : 1.0F;
+    }
+
+    private float getClocheYieldModifier(BlockState state) {
+        return state.getValue(PlanterBlock.CLOCHED) ? (float) Config.getClocheYieldMultiplier() : 1.0F;
+    }
+
     private float getFertilizerGrowthModifier() {
         ItemStack fertilizerStack = this.inventory.getStackInSlot(2);
         if (fertilizerStack.isEmpty()) return 1.0F;
         String fertilizerId = RegistryHelper.getItemId(fertilizerStack);
         return switch (fertilizerId) {
-            case "minecraft:bone_meal"                         -> (float) Config.getFertilizerBoneMealSpeedMultiplier();
-            case "immersiveengineering:fertilizer"             -> (float) Config.getFertilizerImmersiveFertilizerSpeedMultiplier();
-            case "mysticalagriculture:fertilized_essence"      -> (float) Config.getFertilizerFertilizedEssenceSpeedMultiplier();
-            case "mysticalagriculture:mystical_fertilizer"     -> (float) Config.getFertilizerMysticalFertilizerSpeedMultiplier();
-            case "forbidden_arcanus:arcane_bone_meal"          -> (float) Config.getFertilizerArcaneBoneMealSpeedMultiplier();
+            case "minecraft:bone_meal"                        -> (float) Config.getFertilizerBoneMealSpeedMultiplier();
+            case "immersiveengineering:fertilizer"            -> (float) Config.getFertilizerImmersiveFertilizerSpeedMultiplier();
+            case "mysticalagriculture:fertilized_essence"     -> (float) Config.getFertilizerFertilizedEssenceSpeedMultiplier();
+            case "mysticalagriculture:mystical_fertilizer"    -> (float) Config.getFertilizerMysticalFertilizerSpeedMultiplier();
+            case "forbidden_arcanus:arcane_bone_meal"         -> (float) Config.getFertilizerArcaneBoneMealSpeedMultiplier();
             default -> {
                 PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(fertilizerId);
                 yield info != null ? info.speedMultiplier : 1.0F;
@@ -157,11 +167,11 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         if (fertilizerStack.isEmpty()) return 1.0F;
         String fertilizerId = RegistryHelper.getItemId(fertilizerStack);
         return switch (fertilizerId) {
-            case "minecraft:bone_meal"                         -> (float) Config.getFertilizerBoneMealYieldMultiplier();
-            case "immersiveengineering:fertilizer"             -> (float) Config.getFertilizerImmersiveFertilizerYieldMultiplier();
-            case "mysticalagriculture:fertilized_essence"      -> (float) Config.getFertilizerFertilizedEssenceYieldMultiplier();
-            case "mysticalagriculture:mystical_fertilizer"     -> (float) Config.getFertilizerMysticalFertilizerYieldMultiplier();
-            case "forbidden_arcanus:arcane_bone_meal"          -> (float) Config.getFertilizerArcaneBoneMealYieldMultiplier();
+            case "minecraft:bone_meal"                        -> (float) Config.getFertilizerBoneMealYieldMultiplier();
+            case "immersiveengineering:fertilizer"            -> (float) Config.getFertilizerImmersiveFertilizerYieldMultiplier();
+            case "mysticalagriculture:fertilized_essence"     -> (float) Config.getFertilizerFertilizedEssenceYieldMultiplier();
+            case "mysticalagriculture:mystical_fertilizer"    -> (float) Config.getFertilizerMysticalFertilizerYieldMultiplier();
+            case "forbidden_arcanus:arcane_bone_meal"         -> (float) Config.getFertilizerArcaneBoneMealYieldMultiplier();
             default -> {
                 PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(fertilizerId);
                 yield info != null ? info.yieldMultiplier : 1.0F;
@@ -213,11 +223,15 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         this.setChanged();
     }
 
-    public void harvestPlant() {
+    public void harvestPlant(BlockState state) {
         if (!this.readyToHarvest) return;
 
         float fertilizerYieldModifier = this.getFertilizerYieldModifier();
-        List<ItemStack> drops = applyYieldModifier(this.getHarvestDrops(this.inventory.getStackInSlot(0)), fertilizerYieldModifier);
+        float clocheYieldModifier = this.getClocheYieldModifier(state);
+        List<ItemStack> drops = applyYieldModifier(
+                this.getHarvestDrops(this.inventory.getStackInSlot(0)),
+                fertilizerYieldModifier * clocheYieldModifier
+        );
 
         for (ItemStack drop : drops) {
             int remaining = drop.getCount();

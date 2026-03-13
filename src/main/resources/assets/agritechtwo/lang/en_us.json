@@ -13,6 +13,8 @@
   "block.agritechtwo.spruce_planter": "Spruce Planter",
   "block.agritechtwo.warped_planter": "Warped Planter",
 
+  "item.agritechtwo.cloche_dome": "Cloche Dome",
+
   "blockentity.agritechtwo.name": "Planter",
 
   "container.agritechtwo.planter": "Agritech Planter",
@@ -27,8 +29,13 @@
   "tooltip.agritechtwo.growth_progress": "Growth Progress",
   "tooltip.agritechtwo.view_recipes": "Click to view recipes",
 
+  "item.agritechtwo.cloche.tooltip.line1": "Place on a planter to boost growth and yield.",
+  "item.agritechtwo.cloche.tooltip.line2": "Stacks with fertilizer for maximum efficiency.",
+  "item.agritechtwo.cloche.tooltip.line3": "Shift-right-click with empty hand to remove.",
+
   "jade.agritechtwo.crop_progress": "%s (Stage %d/%d - %d%%)",
   "jade.agritechtwo.crop_ready": "%s (Ready to Harvest)",
   "jade.agritechtwo.soil_info": "Soil: %s (%s speed)",
-  "jade.agritechtwo.fertilizer_info": "Fertilizer: %s"
+  "jade.agritechtwo.fertilizer_info": "Fertilizer: %s (Speed: %s, Yield: %s)",
+  "jade.agritechtwo.cloche_installed": "Cloche: Installed (Speed: %s, Yield: %s)"
 }

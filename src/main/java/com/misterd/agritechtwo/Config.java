@@ -48,6 +48,10 @@ public class Config {
     public static ModConfigSpec.DoubleValue FERTILIZER_ARCANE_BONE_MEAL_SPEED_MULTIPLIER;
     public static ModConfigSpec.DoubleValue FERTILIZER_ARCANE_BONE_MEAL_YIELD_MULTIPLIER;
 
+    // Cloche
+    public static ModConfigSpec.DoubleValue CLOCHE_SPEED_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue CLOCHE_YIELD_MULTIPLIER;
+
     public static ModConfigSpec.IntValue PLANTER_BASE_PROCESSING_TIME;
 
     // Booleans populated on load
@@ -123,7 +127,9 @@ public class Config {
 
     private static void planterConfig() {
         COMMON_BUILDER.comment("Planter Configuration").push("planter");
-        PLANTER_BASE_PROCESSING_TIME   = COMMON_BUILDER.comment("Base processing time (ticks)").defineInRange("base_processing_time", 1200, 1, 72000);
+        PLANTER_BASE_PROCESSING_TIME = COMMON_BUILDER.comment("Base processing time (ticks)").defineInRange("base_processing_time", 1200, 1, 72000);
+        CLOCHE_SPEED_MULTIPLIER = COMMON_BUILDER.comment("Speed multiplier applied when a cloche is attached to a planter").defineInRange("cloche_speed_multiplier", 1.15D, 0.1D, 10.0D);
+        CLOCHE_YIELD_MULTIPLIER = COMMON_BUILDER.comment("Yield multiplier applied when a cloche is attached to a planter").defineInRange("cloche_yield_multiplier", 1.10D, 0.1D, 10.0D);
         COMMON_BUILDER.pop();
     }
 
@@ -139,7 +145,11 @@ public class Config {
     public static double getFertilizerArcaneBoneMealSpeedMultiplier()      { return FERTILIZER_ARCANE_BONE_MEAL_SPEED_MULTIPLIER.get(); }
     public static double getFertilizerArcaneBoneMealYieldMultiplier()      { return FERTILIZER_ARCANE_BONE_MEAL_YIELD_MULTIPLIER.get(); }
 
-    public static int getPlanterBaseProcessingTime()        { return PLANTER_BASE_PROCESSING_TIME.get(); }
+    // --- Cloche getters ---
+    public static double getClocheSpeedMultiplier() { return CLOCHE_SPEED_MULTIPLIER.get(); }
+    public static double getClocheYieldMultiplier() { return CLOCHE_YIELD_MULTIPLIER.get(); }
+
+    public static int getPlanterBaseProcessingTime() { return PLANTER_BASE_PROCESSING_TIME.get(); }
 
     public static void loadConfig() {
         PlantablesConfig.loadConfig();
@@ -186,11 +196,11 @@ public class Config {
                 new Mod(enableForbiddenArcanus,     "forbidden_arcanus",    "Forbidden and Arcanus"),
                 new Mod(enableIntegratedDynamics,   "integrateddynamics",   "Integrated Dynamics"),
                 new Mod(enableOccultism,            "occultism",            "Occultism"),
-                new Mod(enablePamsCrops,            "pamhc2crops",            "Pam's HarvestCraft - Crops"),
-                new Mod(enablePamsTrees,            "pamhc2trees",            "Pam's HarvestCraft - Trees"),
+                new Mod(enablePamsCrops,            "pamhc2crops",          "Pam's HarvestCraft - Crops"),
+                new Mod(enablePamsTrees,            "pamhc2trees",          "Pam's HarvestCraft - Trees"),
                 new Mod(enableCroptopia,            "croptopia",            "Croptopia"),
                 new Mod(enableCobblemon,            "cobblemon",            "Cobblemon"),
-                new Mod(enableActuallyAdditions,            "actuallyadditions",            "Actually Additions")
+                new Mod(enableActuallyAdditions,    "actuallyadditions",    "Actually Additions")
         }) {
             if (m.enabled() && ModList.get().isLoaded(m.modId())) {
                 LOGGER.info("  - {}: ENABLED", m.label());

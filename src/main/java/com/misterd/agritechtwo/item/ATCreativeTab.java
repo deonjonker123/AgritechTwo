@@ -29,6 +29,7 @@ public class ATCreativeTab {
                         output.accept(ATBlocks.OAK_PLANTER);
                         output.accept(ATBlocks.SPRUCE_PLANTER);
                         output.accept(ATBlocks.WARPED_PLANTER);
+                        output.accept(ATItems.CLOCHE.get());
                     }).build());
 
     public static void register(IEventBus eventBus) {
