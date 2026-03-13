@@ -140,8 +140,6 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         if (fertilizerStack.isEmpty()) return 1.0F;
         String fertilizerId = RegistryHelper.getItemId(fertilizerStack);
         return switch (fertilizerId) {
-            case "agritechevolved:biomass"                      -> (float) Config.getFertilizerBiomassSpeedMultiplier();
-            case "agritechevolved:compacted_biomass"            -> (float) Config.getFertilizerCompactedBiomassSpeedMultiplier();
             case "minecraft:bone_meal"                         -> (float) Config.getFertilizerBoneMealSpeedMultiplier();
             case "immersiveengineering:fertilizer"             -> (float) Config.getFertilizerImmersiveFertilizerSpeedMultiplier();
             case "mysticalagriculture:fertilized_essence"      -> (float) Config.getFertilizerFertilizedEssenceSpeedMultiplier();
@@ -159,8 +157,6 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         if (fertilizerStack.isEmpty()) return 1.0F;
         String fertilizerId = RegistryHelper.getItemId(fertilizerStack);
         return switch (fertilizerId) {
-            case "agritechevolved:biomass"                      -> (float) Config.getFertilizerBiomassYieldMultiplier();
-            case "agritechevolved:compacted_biomass"            -> (float) Config.getFertilizerCompactedBiomassYieldMultiplier();
             case "minecraft:bone_meal"                         -> (float) Config.getFertilizerBoneMealYieldMultiplier();
             case "immersiveengineering:fertilizer"             -> (float) Config.getFertilizerImmersiveFertilizerYieldMultiplier();
             case "mysticalagriculture:fertilized_essence"      -> (float) Config.getFertilizerFertilizedEssenceYieldMultiplier();

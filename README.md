@@ -22,25 +22,28 @@ Fertilizer support with configurable speed and yield multipliers:
 
 ### **Supported Crop Mods**
 
--   Mystical Agriculture & Mystical Agradditions
--   Farmer's Delight
--   Ars Nouveau
--   Silent Gear
--   Immersive Engineering
--   Occultism
+- Mystical Agriculture & Mystical Agradditions
+- Farmer's Delight
+- Ars Nouveau
+- Silent Gear
+- Immersive Engineering
+- Occultism
 - Cobblemon
 - Pam's HarvestCraft 2 - Crops
 - Actually Additions
+- Croptopia
 
 ### **Supported Tree Mods**
 
--   Ars Nouveau & Ars Elemental
--   EvilCraft
--   Forbidden & Arcanus
--   Integrated Dynamics
--   Occultism
+- Ars Nouveau & Ars Elemental
+- Forbidden & Arcanus
+- Integrated Dynamics
+- Silent Gear
+- Occultism
 - Cobblemon
 - Pam's HarvestCraft 2 - Trees
+- Croptopia
+- EvilCraft
 
 ### **Supported Soil Mods**
 

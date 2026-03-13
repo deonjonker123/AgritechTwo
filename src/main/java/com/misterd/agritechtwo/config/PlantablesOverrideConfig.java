@@ -341,7 +341,12 @@ public class PlantablesOverrideConfig {
                     continue;
                 }
 
-                List<String> validSoils = new ArrayList<>();
+                // Merge soils into existing entry if present, otherwise start fresh
+                List<String> existingValidSoils = isCrop
+                        ? (crops.containsKey(seedId) ? crops.get(seedId).validSoils : new ArrayList<>())
+                        : (trees.containsKey(seedId) ? trees.get(seedId).validSoils : new ArrayList<>());
+
+                List<String> validSoils = new ArrayList<>(existingValidSoils);
                 Object soilsObj = plantConfig.get("soil");
                 if (soilsObj instanceof List<?> soilList) {
                     for (Object soilObj : soilList) {
@@ -350,7 +355,7 @@ public class PlantablesOverrideConfig {
                             String info = lineInfo(lineNumbers, plantName);
                             MAIN_LOGGER.warn("{} override '{}'{} references non-existent soil block: {}, skipping this soil", plantType, plantName, info, soilId);
                             logWarning("{} override '{}'{} references non-existent soil block: {}, skipping this soil", plantType, plantName, info, soilId);
-                        } else {
+                        } else if (!validSoils.contains(soilId)) {
                             validSoils.add(soilId);
                         }
                     }
@@ -363,23 +368,27 @@ public class PlantablesOverrideConfig {
                     continue;
                 }
 
-                List<PlantablesConfig.DropInfo> drops = processDrops(plantConfig, plantName, lineNumbers, plantType);
-                if (drops.isEmpty()) {
-                    String info = lineInfo(lineNumbers, plantName);
-                    MAIN_LOGGER.warn("{} override '{}'{} has no valid drops, skipping", plantType, plantName, info);
-                    logWarning("{} override '{}'{} has no valid drops, skipping", plantType, plantName, info);
-                    continue;
+                // Use overridden drops if provided, otherwise fall back to existing drops
+                List<PlantablesConfig.DropInfo> drops = null;
+                if (plantConfig.containsKey("drops")) {
+                    drops = processDrops(plantConfig, plantName, lineNumbers, plantType);
+                    if (drops.isEmpty()) {
+                        String info = lineInfo(lineNumbers, plantName);
+                        MAIN_LOGGER.warn("{} override '{}'{} has no valid drops, skipping", plantType, plantName, info);
+                        logWarning("{} override '{}'{} has no valid drops, skipping", plantType, plantName, info);
+                        continue;
+                    }
                 }
 
                 if (isCrop) {
-                    PlantablesConfig.CropInfo cropInfo = new PlantablesConfig.CropInfo();
+                    PlantablesConfig.CropInfo cropInfo = crops.getOrDefault(seedId, new PlantablesConfig.CropInfo());
                     cropInfo.validSoils = validSoils;
-                    cropInfo.drops = drops;
+                    if (drops != null) cropInfo.drops = drops;
                     crops.put(seedId, cropInfo);
                 } else {
-                    PlantablesConfig.TreeInfo treeInfo = new PlantablesConfig.TreeInfo();
+                    PlantablesConfig.TreeInfo treeInfo = trees.getOrDefault(seedId, new PlantablesConfig.TreeInfo());
                     treeInfo.validSoils = validSoils;
-                    treeInfo.drops = drops;
+                    if (drops != null) treeInfo.drops = drops;
                     trees.put(seedId, treeInfo);
                 }
 
@@ -405,9 +414,9 @@ public class PlantablesOverrideConfig {
         Object dropsObj = plantConfig.get("drops");
         if (!(dropsObj instanceof List<?> dropsList)) return Collections.emptyList();
 
-        int defaultMin    = plantConfig.get("min_count") instanceof Number n ? n.intValue()   : 1;
-        int defaultMax    = plantConfig.get("max_count") instanceof Number n ? n.intValue()   : 1;
-        float defaultChance = plantConfig.get("chance")  instanceof Number n ? n.floatValue() : 1.0F;
+        int defaultMin      = plantConfig.get("min_count") instanceof Number n ? n.intValue()   : 1;
+        int defaultMax      = plantConfig.get("max_count") instanceof Number n ? n.intValue()   : 1;
+        float defaultChance = plantConfig.get("chance")    instanceof Number n ? n.floatValue() : 1.0F;
 
         List<PlantablesConfig.DropInfo> drops = new ArrayList<>();
 
@@ -427,7 +436,7 @@ public class PlantablesOverrideConfig {
                     logWarning("{} override '{}'{} has drop without item ID, skipping", plantType, plantName, info);
                     continue;
                 }
-                dropId  = itemObj.toString();
+                dropId = itemObj.toString();
                 if (dropMap.get("min_count") instanceof Number n) minCount = n.intValue();
                 if (dropMap.get("max_count") instanceof Number n) maxCount = n.intValue();
                 if (dropMap.get("chance")    instanceof Number n) chance   = n.floatValue();
@@ -477,7 +486,7 @@ public class PlantablesOverrideConfig {
                 }
 
                 float growthModifier = soilConfig.get("growth_modifier") instanceof Number n ? n.floatValue() : 1.0F;
-                cropSoils.put(soilId, new PlantablesConfig.SoilInfo(growthModifier < 1.0F ? growthModifier : 0.5F));
+                cropSoils.put(soilId, new PlantablesConfig.SoilInfo(growthModifier));
                 treeSoils.put(soilId, new PlantablesConfig.SoilInfo(growthModifier));
                 count++;
                 MAIN_LOGGER.info("Added soil override for '{}' with block {}", soilName, soilId);
@@ -565,15 +574,20 @@ public class PlantablesOverrideConfig {
                 # The mod uses resource location format (e.g., "minecraft:dirt" not just "dirt")
                 # The easiest way to check IDs is with F3+H enabled (shows tooltip IDs) or via JEI/REI
 
+                # NOTES ON OVERRIDES:
+                # - If a crop/tree already exists in the core config, its soils list will be EXTENDED,
+                #   not replaced. Only the soils you specify here will be added.
+                # - If you omit the 'drops' field entirely, the existing drops from the core config
+                #   will be preserved. Only specify 'drops' if you want to change them.
+
                 # Example crops:
 
                 # [crops.example_wheat]
-                # seed = "examplemod:wheat_seeds"
+                # seed = "minecraft:wheat_seeds"
                 # soil = [
-                #   "minecraft:farmland",
-                #   "examplemod:rich_soil"
+                #   "examplemod:custom_soil"
                 # ]
-                # # There are two ways to specify drops:
+                # # Drops are optional — omit to keep the existing drops for this crop.
                 # # 1. Simple drops with default settings:
                 # drops = [
                 #   "examplemod:wheat",
@@ -600,6 +614,7 @@ public class PlantablesOverrideConfig {
                 #   "minecraft:dirt",
                 #   "examplemod:rich_soil"
                 # ]
+                # # Drops are optional — omit to keep the existing drops for this tree.
                 # # 1. Simple drops with default settings:
                 # drops = [
                 #   "examplemod:oak_log",

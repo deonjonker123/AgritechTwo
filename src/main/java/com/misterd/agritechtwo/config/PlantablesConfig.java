@@ -58,75 +58,103 @@ public class PlantablesConfig {
         List<CropEntry> defaultCrops = new ArrayList<>();
         addVanillaCrops(defaultCrops);
         if (Config.enableMysticalAgriculture) {
-            LOGGER.info("Adding Mystical Agriculture crops to AgriTech Two config");
+            LOGGER.info("Adding Mystical Agriculture crops to AgriTech: Two config");
             addMysticalAgricultureCrops(defaultCrops);
         }
         if (Config.enableFarmersDelight) {
-            LOGGER.info("Adding Farmer's Delight crops to AgriTech Two config");
+            LOGGER.info("Adding Farmer's Delight crops to AgriTech: Two config");
             addFarmersDelightCrops(defaultCrops);
         }
         if (Config.enableArsNouveau) {
-            LOGGER.info("Adding Ars Nouveau crops to AgriTech Two config");
+            LOGGER.info("Adding Ars Nouveau crops to AgriTech: Two config");
             addArsNouveauCrops(defaultCrops);
         }
         if (Config.enableSilentGear) {
-            LOGGER.info("Adding Silent Gear crops to AgriTech Two config");
+            LOGGER.info("Adding Silent Gear crops to AgriTech: Two config");
             addSilentGearCrops(defaultCrops);
         }
         if (Config.enableImmersiveEngineering) {
-            LOGGER.info("Adding Immersive Engineering Hemp Fiber to AgriTech Two config");
+            LOGGER.info("Adding Immersive Engineering Hemp Fiber to AgriTech: Two config");
             addImmersiveEngineering(defaultCrops);
         }
         if (Config.enableOccultism) {
-            LOGGER.info("Adding Occultism Crops to AgriTech Two config");
+            LOGGER.info("Adding Occultism crops to AgriTech: Two config");
             addOccultimCrops(defaultCrops);
+        }
+        if (Config.enablePamsCrops) {
+            LOGGER.info("Adding Pam's HarvestCraft - Crops to AgriTech: Two config");
+            addPamsCrops(defaultCrops);
+        }
+        if (Config.enableCroptopia) {
+            LOGGER.info("Adding Croptopia crops to AgriTech: Two config");
+            addCroptopiaCrops(defaultCrops);
+        }
+        if (Config.enableActuallyAdditions) {
+            LOGGER.info("Adding Actually Additions crops to AgriTech: Two config");
+            addActuallyAdditionsCrops(defaultCrops);
+        }
+        if (Config.enableCobblemon) {
+            LOGGER.info("Adding Cobblemon crops to AgriTech: Two config");
+            addCobblemonCrops(defaultCrops);
         }
         config.allowedCrops = defaultCrops;
 
         List<TreeEntry> defaultTrees = new ArrayList<>();
         addVanillaTrees(defaultTrees);
         if (Config.enableArsElemental) {
-            LOGGER.info("Adding Ars Nouveau Archwood trees to AgriTech Two config");
+            LOGGER.info("Adding Ars Nouveau Archwood trees to AgriTech: Two config");
             addArsElementalTrees(defaultTrees);
         }
         if (Config.enableArsNouveau) {
-            LOGGER.info("Adding Ars Nouveau Archwood trees to AgriTech Two config");
+            LOGGER.info("Adding Ars Nouveau Archwood trees to AgriTech: Two config");
             addArsNouveauTrees(defaultTrees);
         }
         if (Config.enableEvilCraft) {
-            LOGGER.info("Adding Evilcraft trees to AgriTech Two config");
+            LOGGER.info("Adding Evilcraft trees to AgriTech: Two config");
             addEvilCraftTrees(defaultTrees);
         }
         if (Config.enableForbiddenArcanus) {
-            LOGGER.info("Adding Forbidden Arcanus trees to AgriTech Two config");
+            LOGGER.info("Adding Forbidden Arcanus trees to AgriTech: Two config");
             addForbiddenArcanusTrees(defaultTrees);
         }
         if (Config.enableIntegratedDynamics) {
-            LOGGER.info("Adding Menril trees to AgriTech Two config");
+            LOGGER.info("Adding Menril trees to AgriTech: Two config");
             addIntegratedDynamicsTrees(defaultTrees);
         }
+        if (Config.enableSilentGear) {
+            LOGGER.info("Adding Silent Gear trees to AgriTech: Two config");
+            addSilentGearTrees(defaultTrees);
+        }
         if (Config.enableOccultism) {
-            LOGGER.info("Adding Occultism trees to AgriTech Two config");
+            LOGGER.info("Adding Occultism trees to AgriTech: Two config");
             addOccultismTrees(defaultTrees);
+        }
+        if (Config.enablePamsTrees) {
+            LOGGER.info("Adding Pam's HarvestCraft - Trees to AgriTech: Two config");
+            addPamsTrees(defaultTrees);
+        }
+        if (Config.enableCroptopia) {
+            LOGGER.info("Adding Croptopia trees to AgriTech: Two config");
+            addCroptopiaTrees(defaultTrees);
+        }
+        if (Config.enableCobblemon) {
+            LOGGER.info("Adding Cobblemon trees to AgriTech: Two config");
+            addCobblemonTrees(defaultTrees);
         }
         config.allowedTrees = defaultTrees;
 
         List<SoilEntry> defaultSoils = new ArrayList<>();
         addVanillaSoils(defaultSoils);
         if (Config.enableMysticalAgriculture) {
-            LOGGER.info("Adding Mystical Agriculture soils to AgriTech Two config");
+            LOGGER.info("Adding Mystical Agriculture soils to AgriTech: Two config");
             addMysticalAgricultureSoils(defaultSoils);
         }
         if (Config.enableFarmersDelight) {
-            LOGGER.info("Adding Farmer's Delight soils to AgriTech Two config");
+            LOGGER.info("Adding Farmer's Delight soils to AgriTech: Two config");
             addFarmersDelightSoils(defaultSoils);
         }
-        if (Config.enableAgritechEvolved) {
-            LOGGER.info("Adding Agritech Two soils to AgriTech Two config");
-            addAgritechEvolvedSoils(defaultSoils);
-        }
         if (Config.enableJustDireThings) {
-            LOGGER.info("Adding Just Dire Things soils to AgriTech Two config");
+            LOGGER.info("Adding Just Dire Things soils to AgriTech: Two config");
             addJustDireThingsSoils(defaultSoils);
         }
         config.allowedSoils = defaultSoils;
@@ -134,20 +162,16 @@ public class PlantablesConfig {
         List<FertilizerEntry> defaultFertilizers = new ArrayList<>();
         addVanillaFertilizers(defaultFertilizers);
         if (Config.enableImmersiveEngineering) {
-            LOGGER.info("Adding Immersive Engineering fertilizer to AgriTech Two config");
+            LOGGER.info("Adding Immersive Engineering fertilizer to AgriTech: Two config");
             addImmersiveEngineeringFertilizers(defaultFertilizers);
         }
         if (Config.enableForbiddenArcanus) {
-            LOGGER.info("Adding Forbidden Arcanus fertilizer to AgriTech Two config");
+            LOGGER.info("Adding Forbidden Arcanus fertilizer to AgriTech: Two config");
             addForbiddenArcanusFertilizers(defaultFertilizers);
         }
         if (Config.enableMysticalAgriculture) {
-            LOGGER.info("Adding Mystical Agriculture fertilizer to AgriTech Two config");
+            LOGGER.info("Adding Mystical Agriculture fertilizer to AgriTech: Two config");
             addMysticalAgricultureFertilizers(defaultFertilizers);
-        }
-        if (Config.enableAgritechEvolved) {
-            LOGGER.info("Adding Agritech Two biomass to AgriTech Two config");
-            addAgritechEvolvedFertilizer(defaultFertilizers);
         }
         config.allowedFertilizers = defaultFertilizers;
 
@@ -396,7 +420,7 @@ public class PlantablesConfig {
                 "mysticalagriculture:steeleaf_seeds", "mysticalagriculture:ironwood_seeds",
                 "mysticalagriculture:sky_stone_seeds", "mysticalagriculture:certus_quartz_seeds",
                 "mysticalagriculture:quartz_enriched_iron_seeds", "mysticalagriculture:manasteel_seeds",
-                "mysticalagriculture:aquamarine_seeds"
+                "mysticalagriculture:aquamarine_seeds", "mysticalagriculture:phantom_seeds", "mysticalagriculture:sculk_seeds"
         }) addMysticalAgricultureCrop(crops, seed, tier3Soils);
 
         List<String> tier4Soils = List.of(
@@ -477,6 +501,9 @@ public class PlantablesConfig {
 
         crops.add(makeCrop("farmersdelight:onion", STANDARD_FARMLAND_SOILS,
                 makeDrop("farmersdelight:onion", 1, 3, 1.0F)));
+
+        crops.add(makeCrop("farmersdelight:rice", STANDARD_FARMLAND_SOILS,
+                makeDrop("farmersdelight:rice_panicle", 1, 1, 1.0F)));
     }
 
     private static void addOccultimCrops(List<CropEntry> crops) {
@@ -526,6 +553,568 @@ public class PlantablesConfig {
                 makeDrop("silentgear:flax_fiber", 1, 4, 1.0F),
                 makeDrop("silentgear:flax_seeds", 1, 1, 0.2F),
                 makeDrop("silentgear:flax_flowers", 1, 1, 0.2F)));
+    }
+
+    private static void addPamsCrops(List<CropEntry> crops) {
+        crops.add(makeCrop("pamhc2crops:agaveseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:agaveitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:alfalfaseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:alfalfaitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:aloeseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:aloeitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:amaranthseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:amaranthitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:arrowrootseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:arrowrootitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:artichokeseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:artichokeitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:asparagusseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:asparagusitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:barleyseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:barleyitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:barrelcactusseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:barrelcactusitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:beanseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:beanitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:bellpepperseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:bellpepperitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:blackberryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:blackberryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:blueberryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:blueberryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:bokchoyseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:bokchoyitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:broccoliseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:broccoliitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:brusselsproutseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:brusselsproutitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:cabbageseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:cabbageitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:cactusfruitseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:cactusfruititem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:calabashseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:calabashitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:candleberryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:candleberryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:canolaseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:canolaitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:cantaloupeseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:cantaloupeitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:cassavaseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:cassavaitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:cattailseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:cattailitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:cauliflowerseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:caulifloweritem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:celeryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:celeryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:chiaseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:chiaitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:chickpeaseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:chickpeaitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:chilipepperseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:chilipepperitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:cloudberryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:cloudberryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:coffeebeanseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:coffeebeanitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:cornseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:cornitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:cottonseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:cottonitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:cranberryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:cranberryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:cucumberseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:cucumberitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:eggplantseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:eggplantitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:elderberryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:elderberryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:flaxseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:flaxitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:garlicseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:garlicitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:gingerseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:gingeritem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:grapeseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:grapeitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:greengrapeseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:greengrapeitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:guaranaseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:guaranaitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:huckleberryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:huckleberryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:jicamaseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:jicamaitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:juniperberryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:juniperberryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:juteseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:juteitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:kaleseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:kaleitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:kenafseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:kenafitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:kiwiseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:kiwiitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:kohlrabiseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:kohlrabiitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:leekseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:leekitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:lentilseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:lentilitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:lettuceseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:lettuceitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:lotusseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:lotusitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:milletseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:milletitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:mulberryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:mulberryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:mustardseedsseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:mustardseedsitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:nettlesseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:nettlesitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:nopalesseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:nopalesitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:oatsseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:oatsitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:okraseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:okraitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:onionseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:onionitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:papyrusseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:papyrusitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:parsnipseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:parsnipitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:peanutseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:peanutitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:peasseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:peasitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:pineappleseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:pineappleitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:quinoaseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:quinoaitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:radishseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:radishitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:raspberryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:raspberryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:rhubarbseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:rhubarbitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:riceseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:riceitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:rutabagaseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:rutabagaitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:ryeseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:ryeitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:scallionseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:scallionitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:sesameseedsseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:sesameseedsitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:sisalseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:sisalitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:sorghumseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:sorghumitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:soybeanseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:soybeanitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:spiceleafseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:spiceleafitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:spinachseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:spinachitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:strawberryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:strawberryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:sweetpotatoseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:sweetpotatoitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:taroseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:taroitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:tealeafseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:tealeafitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:tomatilloseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:tomatilloitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:tomatoseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:tomatoitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:truffleseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:truffleitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:turnipseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:turnipitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:waterchestnutseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:waterchestnutitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:whitemushroomseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:whitemushroomitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:wintersquashseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:wintersquashitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:wolfberryseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:wolfberryitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:yuccaseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:yuccaitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:zucchiniseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:zucchiniitem", 2, 4, 1.0F)));
+        crops.add(makeCrop("pamhc2crops:sunchokeseeditem", STANDARD_FARMLAND_SOILS,
+                makeDrop("pamhc2crops:sunchokeitem", 2, 4, 1.0F)));
+    }
+
+    private static void addCroptopiaCrops(List<CropEntry> crops) {
+        crops.add(makeCrop("croptopia:artichoke_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:artichoke", 2, 4, 1.0F),
+                makeDrop("croptopia:artichoke_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:asparagus_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:asparagus", 2, 4, 1.0F),
+                makeDrop("croptopia:asparagus_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:barley_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:barley", 2, 4, 1.0F),
+                makeDrop("croptopia:barley_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:basil_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:basil", 2, 4, 1.0F),
+                makeDrop("croptopia:basil_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:bellpepper_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:bellpepper", 2, 4, 1.0F),
+                makeDrop("croptopia:bellpepper_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:blackbean_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:blackbean", 2, 4, 1.0F),
+                makeDrop("croptopia:blackbean_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:blackberry_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:blackberry", 2, 4, 1.0F),
+                makeDrop("croptopia:blackberry_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:blueberry_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:blueberry", 2, 4, 1.0F),
+                makeDrop("croptopia:blueberry_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:broccoli_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:broccoli", 2, 4, 1.0F),
+                makeDrop("croptopia:broccoli_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:cabbage_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:cabbage", 2, 4, 1.0F),
+                makeDrop("croptopia:cabbage_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:cantaloupe_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:cantaloupe", 2, 4, 1.0F),
+                makeDrop("croptopia:cantaloupe_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:cauliflower_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:cauliflower", 2, 4, 1.0F),
+                makeDrop("croptopia:cauliflower_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:celery_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:celery", 2, 4, 1.0F),
+                makeDrop("croptopia:celery_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:chile_pepper_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:chile_pepper", 2, 4, 1.0F),
+                makeDrop("croptopia:chile_pepper_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:coffee_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:coffee", 2, 4, 1.0F),
+                makeDrop("croptopia:coffee_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:corn_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:corn", 2, 4, 1.0F),
+                makeDrop("croptopia:corn_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:cranberry_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:cranberry", 2, 4, 1.0F),
+                makeDrop("croptopia:cranberry_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:cucumber_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:cucumber", 2, 4, 1.0F),
+                makeDrop("croptopia:cucumber_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:currant_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:currant", 2, 4, 1.0F),
+                makeDrop("croptopia:currant_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:eggplant_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:eggplant", 2, 4, 1.0F),
+                makeDrop("croptopia:eggplant_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:elderberry_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:elderberry", 2, 4, 1.0F),
+                makeDrop("croptopia:elderberry_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:garlic_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:garlic", 2, 4, 1.0F),
+                makeDrop("croptopia:garlic_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:ginger_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:ginger", 2, 4, 1.0F),
+                makeDrop("croptopia:ginger_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:grape_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:grape", 2, 4, 1.0F),
+                makeDrop("croptopia:grape_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:greenbean_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:greenbean", 2, 4, 1.0F),
+                makeDrop("croptopia:greenbean_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:greenonion_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:greenonion", 2, 4, 1.0F),
+                makeDrop("croptopia:greenonion_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:honeydew_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:honeydew", 2, 4, 1.0F),
+                makeDrop("croptopia:honeydew_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:hops_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:hops", 2, 4, 1.0F),
+                makeDrop("croptopia:hops_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:kale_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:kale", 2, 4, 1.0F),
+                makeDrop("croptopia:kale_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:kiwi_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:kiwi", 2, 4, 1.0F),
+                makeDrop("croptopia:kiwi_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:leek_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:leek", 2, 4, 1.0F),
+                makeDrop("croptopia:leek_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:lettuce_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:lettuce", 2, 4, 1.0F),
+                makeDrop("croptopia:lettuce_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:mustard_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:mustard", 2, 4, 1.0F),
+                makeDrop("croptopia:mustard_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:oat_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:oat", 2, 4, 1.0F),
+                makeDrop("croptopia:oat_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:olive_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:olive", 2, 4, 1.0F),
+                makeDrop("croptopia:olive_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:onion_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:onion", 2, 4, 1.0F),
+                makeDrop("croptopia:onion_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:peanut_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:peanut", 2, 4, 1.0F),
+                makeDrop("croptopia:peanut_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:pepper_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:pepper", 2, 4, 1.0F),
+                makeDrop("croptopia:pepper_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:pineapple_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:pineapple", 2, 4, 1.0F),
+                makeDrop("croptopia:pineapple_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:radish_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:radish", 2, 4, 1.0F),
+                makeDrop("croptopia:radish_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:raspberry_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:raspberry", 2, 4, 1.0F),
+                makeDrop("croptopia:raspberry_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:rhubarb_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:rhubarb", 2, 4, 1.0F),
+                makeDrop("croptopia:rhubarb_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:rice_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:rice", 2, 4, 1.0F),
+                makeDrop("croptopia:rice_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:rutabaga_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:rutabaga", 2, 4, 1.0F),
+                makeDrop("croptopia:rutabaga_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:saguaro_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:saguaro", 2, 4, 1.0F),
+                makeDrop("croptopia:saguaro_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:soybean_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:soybean", 2, 4, 1.0F),
+                makeDrop("croptopia:soybean_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:spinach_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:spinach", 2, 4, 1.0F),
+                makeDrop("croptopia:spinach_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:squash_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:squash", 2, 4, 1.0F),
+                makeDrop("croptopia:squash_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:strawberry_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:strawberry", 2, 4, 1.0F),
+                makeDrop("croptopia:strawberry_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:sweetpotato_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:sweetpotato", 2, 4, 1.0F),
+                makeDrop("croptopia:sweetpotato_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:tea_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:tea", 2, 4, 1.0F),
+                makeDrop("croptopia:tea_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:tomatillo_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:tomatillo", 2, 4, 1.0F),
+                makeDrop("croptopia:tomatillo_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:tomato_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:tomato", 2, 4, 1.0F),
+                makeDrop("croptopia:tomato_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:turmeric_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:turmeric", 2, 4, 1.0F),
+                makeDrop("croptopia:turmeric_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:turnip_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:turnip", 2, 4, 1.0F),
+                makeDrop("croptopia:turnip_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:vanilla_seeds", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:vanilla", 2, 4, 1.0F),
+                makeDrop("croptopia:vanilla_seeds", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:yam_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:yam", 2, 4, 1.0F),
+                makeDrop("croptopia:yam_seed", 1, 1, 0.2F)));
+        crops.add(makeCrop("croptopia:zucchini_seed", STANDARD_FARMLAND_SOILS,
+                makeDrop("croptopia:zucchini", 2, 4, 1.0F),
+                makeDrop("croptopia:zucchini_seed", 1, 1, 0.2F)));
+    }
+
+    private static void addActuallyAdditionsCrops(List<CropEntry> crops) {
+        crops.add(makeCrop("actuallyadditions:rice_seeds", STANDARD_FARMLAND_SOILS,
+                makeDrop("actuallyadditions:rice", 1, 4, 1.0F),
+                makeDrop("actuallyadditions:rice_seeds", 1, 1, 0.2F)));
+        crops.add(makeCrop("actuallyadditions:canola_seeds", STANDARD_FARMLAND_SOILS,
+                makeDrop("actuallyadditions:canola", 1, 4, 1.0F),
+                makeDrop("actuallyadditions:canola_seeds", 1, 1, 0.2F)));
+        crops.add(makeCrop("actuallyadditions:flax_seeds", STANDARD_FARMLAND_SOILS,
+                makeDrop("minecraft:string", 2, 4, 1.0F),
+                makeDrop("actuallyadditions:flax_seeds", 1, 1, 0.2F)));
+        crops.add(makeCrop("actuallyadditions:coffee_beans", STANDARD_FARMLAND_SOILS,
+                makeDrop("actuallyadditions:coffee_beans", 1, 4, 1.0F)));
+    }
+
+    private static void addCobblemonCrops(List<CropEntry> crops) {
+        crops.add(makeCrop("cobblemon:revival_herb", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:revival_herb", 1, 2, 1.0F),
+                makeDrop("cobblemon:pep_up_flower", 1, 1, 1.0F)));
+        crops.add(makeCrop("cobblemon:vivichoke_seeds", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:vivichoke", 1, 1, 1.0F),
+                makeDrop("cobblemon:vivichoke_seeds", 1, 1, 1.0F)));
+        crops.add(makeCrop("cobblemon:big_root", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:big_root", 1, 1, 1.0F),
+                makeDrop("cobblemon:energy_root", 1, 1, 0.5F)));
+        crops.add(makeCrop("cobblemon:galarica_nuts", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:galarica_nuts", 1, 1, 1.0F)));
+        crops.add(makeCrop("cobblemon:hearty_grains", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:hearty_grains", 1, 2, 1.0F)));
+
+        crops.add(makeCrop("cobblemon:medicinal_leek",
+                List.of("minecraft:mud"),
+                makeDrop("cobblemon:medicinal_leek", 1, 1, 1.0F)));
+
+        crops.add(makeCrop("cobblemon:aguav_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:aguav_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:apicot_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:apicot_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:aspear_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:aspear_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:babiri_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:babiri_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:belue_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:belue_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:bluk_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:bluk_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:charti_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:charti_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:cheri_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:cheri_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:chesto_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:chesto_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:chilan_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:chilan_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:chople_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:chople_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:coba_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:coba_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:colbur_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:colbur_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:cornn_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:cornn_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:custap_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:custap_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:durin_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:durin_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:eggant_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:eggant_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:enigma_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:enigma_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:figy_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:figy_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:ganlon_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:ganlon_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:grepa_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:grepa_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:haban_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:haban_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:hondew_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:hondew_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:hopo_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:hopo_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:iapapa_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:iapapa_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:jaboca_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:jaboca_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:kasib_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:kasib_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:kebia_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:kebia_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:kee_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:kee_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:kelpsy_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:kelpsy_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:lansat_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:lansat_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:leppa_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:leppa_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:liechi_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:liechi_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:lum_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:lum_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:mago_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:mago_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:magost_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:magost_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:maranga_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:maranga_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:micle_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:micle_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:nanab_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:nanab_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:nomel_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:nomel_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:occa_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:occa_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:oran_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:oran_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:pamtre_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:pamtre_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:passho_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:passho_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:payapa_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:payapa_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:pecha_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:pecha_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:persim_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:persim_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:petaya_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:petaya_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:pinap_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:pinap_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:pomeg_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:pomeg_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:qualot_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:qualot_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:rabuta_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:rabuta_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:rawst_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:rawst_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:razz_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:razz_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:rindo_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:rindo_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:roseli_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:roseli_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:rowap_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:rowap_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:salac_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:salac_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:shuca_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:shuca_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:sitrus_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:sitrus_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:spelon_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:spelon_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:starf_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:starf_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:tamato_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:tamato_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:tanga_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:tanga_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:touga_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:touga_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:wacan_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:wacan_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:watmel_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:watmel_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:wepear_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:wepear_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:wiki_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:wiki_berry", 1, 3, 1.0F)));
+        crops.add(makeCrop("cobblemon:yache_berry", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:yache_berry", 1, 3, 1.0F)));
+
+        crops.add(makeCrop("cobblemon:red_mint_seeds", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:red_mint_leaf", 1, 4, 1.0F)));
+        crops.add(makeCrop("cobblemon:blue_mint_seeds", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:blue_mint_leaf", 1, 4, 1.0F)));
+        crops.add(makeCrop("cobblemon:cyan_mint_seeds", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:cyan_mint_leaf", 1, 4, 1.0F)));
+        crops.add(makeCrop("cobblemon:pink_mint_seeds", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:pink_mint_leaf", 1, 4, 1.0F)));
+        crops.add(makeCrop("cobblemon:green_mint_seeds", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:green_mint_leaf", 1, 4, 1.0F)));
+        crops.add(makeCrop("cobblemon:white_mint_seeds", STANDARD_FARMLAND_SOILS,
+                makeDrop("cobblemon:white_mint_leaf", 1, 4, 1.0F)));
     }
 
     private static void addVanillaTrees(List<TreeEntry> trees) {
@@ -642,7 +1231,7 @@ public class PlantablesConfig {
                 makeDrop("forbidden_arcanus:aurum_log", 2, 6),
                 makeDrop("forbidden_arcanus:aurum_sapling", 1, 3),
                 makeDrop("minecraft:stick", 1, 2, 0.5F),
-                makeDrop("minecraft:gold_nugget", 1, 2, 0.1F)));
+                makeDrop("minecraft:gold_nugget", 1, 2, 0.05F)));
 
         trees.add(makeTree("forbidden_arcanus:growing_edelwood", STANDARD_TREE_SOILS,
                 makeDrop("forbidden_arcanus:edelwood_log", 2, 6),
@@ -661,7 +1250,447 @@ public class PlantablesConfig {
     private static void addOccultismTrees(List<TreeEntry> trees) {
         trees.add(makeTree("occultism:otherworld_sapling", STANDARD_TREE_SOILS,
                 makeDrop("occultism:otherworld_log", 2, 6),
-                makeDrop("occultism:otherworld_sapling", 1, 3)));
+                makeDrop("occultism:otherworld_sapling", 1, 3),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+    }
+
+    private static void addSilentGearTrees(List<TreeEntry> trees) {
+        trees.add(makeTree("silentgear:netherwood_sapling", STANDARD_TREE_SOILS,
+                makeDrop("silentgear:netherwood_log", 2, 6),
+                makeDrop("silentgear:netherwood_sapling", 1, 1, 0.3F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+    }
+
+    private static void addPamsTrees(List<TreeEntry> trees) {
+        trees.add(makeTree("pamhc2trees:acorn_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:acorn_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:acornitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:almond_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:almond_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:almonditem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:apple_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:apple_sapling", 1, 1, 0.3F),
+                makeDrop("minecraft:apple", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:apricot_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:apricot_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:apricotitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:avocado_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:avocado_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:avocadoitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:banana_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:banana_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:bananaitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:breadfruit_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:breadfruit_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:breadfruititem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:candlenut_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:candlenut_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:candlenutitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:cherry_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:cherry_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:cherryitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:chestnut_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:chestnut_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:chestnutitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:cinnamon_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:cinnamon_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:cinnamonitem", 1, 1, 0.5F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:coconut_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:coconut_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:coconutitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:date_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:date_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:dateitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:dragonfruit_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:dragonfruit_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:dragonfruititem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:durian_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:durian_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:durianitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:fig_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:fig_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:figitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:gooseberry_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:gooseberry_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:gooseberryitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:grapefruit_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:grapefruit_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:grapefruititem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:guava_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:guava_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:guavaitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:hazelnut_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:hazelnut_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:hazelnutitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:jackfruit_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:jackfruit_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:jackfruititem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:lemon_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:lemon_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:lemonitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:lime_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:lime_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:limeitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:lychee_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:lychee_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:lycheeitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:mango_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:mango_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:mangoitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:maple_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:spruce_log", 2, 4),
+                makeDrop("pamhc2trees:maple_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:pammaple", 1, 2, 0.5F),
+                makeDrop("pamhc2trees:maplesyrupitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:nutmeg_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:nutmeg_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:nutmegitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:olive_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:olive_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:oliveitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:orange_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:orange_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:orangeitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:papaya_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:papaya_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:papayaitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:paperbark_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 2, 6),
+                makeDrop("minecraft:paper", 1, 2, 1.0F),
+                makeDrop("pamhc2trees:paperbark_sapling", 1, 1, 0.3F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:passionfruit_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:passionfruit_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:passionfruititem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:pawpaw_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:pawpaw_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:pawpawitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:peach_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:peach_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:peachitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:pear_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:pear_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:pearitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:pecan_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:pecan_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:pecanitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:peppercorn_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:peppercorn_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:peppercornitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:persimmon_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:persimmon_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:persimmonitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:pinenut_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:spruce_log", 4, 8),
+                makeDrop("pamhc2trees:pinenut_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:pinenutitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:pistachio_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:pistachio_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:pistachioitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:plum_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:plum_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:plumitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:pomegranate_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:pomegranate_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:pomegranateitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:rambutan_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:rambutan_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:rambutanitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:soursop_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:soursop_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:soursopitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:spiderweb_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:spiderweb_sapling", 1, 1, 0.3F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:starfruit_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:starfruit_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:starfruititem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:tamarind_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:tamarind_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:tamarinditem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:walnut_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 8),
+                makeDrop("pamhc2trees:walnut_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:walnutitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:cashew_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:cashew_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:cashewitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("pamhc2trees:vanillabean_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 8),
+                makeDrop("pamhc2trees:vanillabean_sapling", 1, 1, 0.3F),
+                makeDrop("pamhc2trees:vanillabeanitem", 1, 1, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+    }
+
+    private static void addCroptopiaTrees(List<TreeEntry> trees) {
+        trees.add(makeTree("croptopia:almond_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:dark_oak_log", 4, 6),
+                makeDrop("croptopia:almond_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:almond", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:apple_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 6),
+                makeDrop("croptopia:apple_sapling", 1, 1, 0.3F),
+                makeDrop("minecraft:apple", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:apricot_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 6),
+                makeDrop("croptopia:apricot_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:apricot", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:avocado_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:spruce_log", 4, 6),
+                makeDrop("croptopia:avocado_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:avocado", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:banana_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 6),
+                makeDrop("croptopia:banana_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:banana", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:cashew_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:dark_oak_log", 4, 6),
+                makeDrop("croptopia:cashew_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:cashew", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:cherry_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 6),
+                makeDrop("croptopia:cherry_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:cherry", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:cinnamon_sapling", STANDARD_TREE_SOILS,
+                makeDrop("croptopia:cinnamon_log", 4, 6),
+                makeDrop("croptopia:cinnamon_sapling", 1, 1, 0.3F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:coconut_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 6),
+                makeDrop("croptopia:coconut_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:coconut", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:date_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 6),
+                makeDrop("croptopia:date_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:date", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:dragonfruit_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 6),
+                makeDrop("croptopia:dragonfruit_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:dragonfruit", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:fig_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 6),
+                makeDrop("croptopia:fig_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:fig", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:grapefruit_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 6),
+                makeDrop("croptopia:grapefruit_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:grapefruit", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:kumquat_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 6),
+                makeDrop("croptopia:kumquat_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:kumquat", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:lemon_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 6),
+                makeDrop("croptopia:lemon_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:lemon", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:lime_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 6),
+                makeDrop("croptopia:lime_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:lime", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:mango_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 6),
+                makeDrop("croptopia:mango_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:mango", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:nectarine_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 6),
+                makeDrop("croptopia:nectarine_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:nectarine", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:nutmeg_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:jungle_log", 4, 6),
+                makeDrop("croptopia:nutmeg_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:nutmeg", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:orange_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 6),
+                makeDrop("croptopia:orange_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:orange", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:peach_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 6),
+                makeDrop("croptopia:peach_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:peach", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:pear_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 6),
+                makeDrop("croptopia:pear_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:pear", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:pecan_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:dark_oak_log", 4, 6),
+                makeDrop("croptopia:pecan_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:pecan", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:persimmon_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 6),
+                makeDrop("croptopia:persimmon_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:persimmon", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:plum_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 6),
+                makeDrop("croptopia:plum_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:plum", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:starfruit_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:oak_log", 4, 6),
+                makeDrop("croptopia:starfruit_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:starfruit", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("croptopia:walnut_sapling", STANDARD_TREE_SOILS,
+                makeDrop("minecraft:dark_oak_log", 4, 6),
+                makeDrop("croptopia:walnut_sapling", 1, 1, 0.3F),
+                makeDrop("croptopia:walnut", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+    }
+
+    private static void addCobblemonTrees(List<TreeEntry> trees) {
+        trees.add(makeTree("cobblemon:red_apricorn_seed", STANDARD_TREE_SOILS,
+                makeDrop("cobblemon:apricorn_log", 4, 6),
+                makeDrop("cobblemon:red_apricorn_seed", 1, 1, 0.3F),
+                makeDrop("cobblemon:red_apricorn", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("cobblemon:yellow_apricorn_seed", STANDARD_TREE_SOILS,
+                makeDrop("cobblemon:apricorn_log", 4, 6),
+                makeDrop("cobblemon:yellow_apricorn_seed", 1, 1, 0.3F),
+                makeDrop("cobblemon:yellow_apricorn", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("cobblemon:green_apricorn_seed", STANDARD_TREE_SOILS,
+                makeDrop("cobblemon:apricorn_log", 4, 6),
+                makeDrop("cobblemon:green_apricorn_seed", 1, 1, 0.3F),
+                makeDrop("cobblemon:green_apricorn", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("cobblemon:blue_apricorn_seed", STANDARD_TREE_SOILS,
+                makeDrop("cobblemon:apricorn_log", 4, 6),
+                makeDrop("cobblemon:blue_apricorn_seed", 1, 1, 0.3F),
+                makeDrop("cobblemon:blue_apricorn", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("cobblemon:pink_apricorn_seed", STANDARD_TREE_SOILS,
+                makeDrop("cobblemon:apricorn_log", 4, 6),
+                makeDrop("cobblemon:pink_apricorn_seed", 1, 1, 0.3F),
+                makeDrop("cobblemon:pink_apricorn", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("cobblemon:black_apricorn_seed", STANDARD_TREE_SOILS,
+                makeDrop("cobblemon:apricorn_log", 4, 6),
+                makeDrop("cobblemon:black_apricorn_seed", 1, 1, 0.3F),
+                makeDrop("cobblemon:black_apricorn", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("cobblemon:white_apricorn_seed", STANDARD_TREE_SOILS,
+                makeDrop("cobblemon:apricorn_log", 4, 6),
+                makeDrop("cobblemon:white_apricorn_seed", 1, 1, 0.3F),
+                makeDrop("cobblemon:white_apricorn", 2, 4, 1.0F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
+        trees.add(makeTree("cobblemon:saccharine_sapling", STANDARD_TREE_SOILS,
+                makeDrop("cobblemon:saccharine_log", 4, 6),
+                makeDrop("cobblemon:saccharine_sapling", 1, 1, 0.3F),
+                makeDrop("minecraft:stick", 1, 2, 0.5F)));
     }
 
     private static void addVanillaSoils(List<SoilEntry> soils) {
@@ -691,18 +1720,6 @@ public class PlantablesConfig {
             SoilEntry e = new SoilEntry();
             e.soil = s.id();
             e.growthModifier = s.mod();
-            soils.add(e);
-        }
-    }
-
-    private static void addAgritechEvolvedSoils(List<SoilEntry> soils) {
-        for (String[] s : new String[][]{
-                { "2.0"},
-                {            "1.5"}
-        }) {
-            SoilEntry e = new SoilEntry();
-            e.soil = s[0];
-            e.growthModifier = Float.parseFloat(s[1]);
             soils.add(e);
         }
     }
@@ -742,7 +1759,8 @@ public class PlantablesConfig {
                     "mysticalagradditions:dragon_egg_crux",
                     "mysticalagradditions:awakened_draconium_crux",
                     "mysticalagradditions:neutronium_crux",
-                    "mysticalagradditions:nitro_crystal_crux"
+                    "mysticalagradditions:nitro_crystal_crux",
+                    "mysticalagradditions:gaia_spirit_crux"
             }) {
                 SoilEntry e = new SoilEntry();
                 e.soil = id;
@@ -773,20 +1791,6 @@ public class PlantablesConfig {
         boneMeal.speedMultiplier = (float) Config.getFertilizerBoneMealSpeedMultiplier();
         boneMeal.yieldMultiplier = (float) Config.getFertilizerBoneMealYieldMultiplier();
         fertilizers.add(boneMeal);
-    }
-
-    private static void addAgritechEvolvedFertilizer(List<FertilizerEntry> fertilizers) {
-        FertilizerEntry biomass = new FertilizerEntry();
-        biomass.item = "agritechtwo:biomass";
-        biomass.speedMultiplier = (float) Config.getFertilizerBiomassSpeedMultiplier();
-        biomass.yieldMultiplier = (float) Config.getFertilizerBiomassYieldMultiplier();
-        fertilizers.add(biomass);
-
-        FertilizerEntry compacted = new FertilizerEntry();
-        compacted.item = "agritechtwo:compacted_biomass";
-        compacted.speedMultiplier = (float) Config.getFertilizerCompactedBiomassSpeedMultiplier();
-        compacted.yieldMultiplier = (float) Config.getFertilizerCompactedBiomassYieldMultiplier();
-        fertilizers.add(compacted);
     }
 
     private static void addImmersiveEngineeringFertilizers(List<FertilizerEntry> fertilizers) {

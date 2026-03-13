@@ -13,7 +13,6 @@ public class ATCommands {
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(
                 LiteralArgumentBuilder.<CommandSourceStack>literal("agritechtwo")
-                        .requires(source -> source.hasPermission(2))
                         .then(Commands.literal("reload")
                                 .executes(context -> reloadAll(context.getSource()))
                                 .then(Commands.literal("plantables")
@@ -21,10 +20,10 @@ public class ATCommands {
                                             try {
                                                 PlantablesOverrideConfig.resetErrorFlag();
                                                 PlantablesConfig.loadConfig();
-                                                context.getSource().sendSuccess(() -> Component.literal("AgriTech Two plantables config reloaded successfully!"), true);
+                                                context.getSource().sendSuccess(() -> Component.literal("AgriTech: Two plantables config reloaded successfully!"), true);
                                                 return 1;
                                             } catch (Exception e) {
-                                                context.getSource().sendFailure(Component.literal("Failed to reload AgriTech Two plantables config: " + e.getMessage()));
+                                                context.getSource().sendFailure(Component.literal("Failed to reload AgriTech: Two plantables config: " + e.getMessage()));
                                                 return 0;
                                             }
                                         }))
@@ -32,10 +31,10 @@ public class ATCommands {
                                         .executes(context -> {
                                             try {
                                                 Config.loadConfig();
-                                                context.getSource().sendSuccess(() -> Component.literal("AgriTech Two main config reloaded successfully!"), true);
+                                                context.getSource().sendSuccess(() -> Component.literal("AgriTech: Two main config reloaded successfully!"), true);
                                                 return 1;
                                             } catch (Exception e) {
-                                                context.getSource().sendFailure(Component.literal("Failed to reload AgriTech Two main config: " + e.getMessage()));
+                                                context.getSource().sendFailure(Component.literal("Failed to reload AgriTech: Two main config: " + e.getMessage()));
                                                 return 0;
                                             }
                                         })))
@@ -47,10 +46,10 @@ public class ATCommands {
             PlantablesOverrideConfig.resetErrorFlag();
             Config.loadConfig();
             PlantablesConfig.loadConfig();
-            source.sendSuccess(() -> Component.literal("All AgriTech Two configs reloaded successfully!"), true);
+            source.sendSuccess(() -> Component.literal("All AgriTech: Two configs reloaded successfully!"), true);
             return 1;
         } catch (Exception e) {
-            source.sendFailure(Component.literal("Failed to reload AgriTech Two configs: " + e.getMessage()));
+            source.sendFailure(Component.literal("Failed to reload AgriTech: Two configs: " + e.getMessage()));
             return 0;
         }
     }
