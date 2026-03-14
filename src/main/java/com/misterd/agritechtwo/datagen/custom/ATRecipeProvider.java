@@ -142,9 +142,9 @@ public class ATRecipeProvider extends RecipeProvider implements IConditionBuilde
 
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ATItems.CLOCHE.get(), 4)
                 .pattern("III")
-                .pattern("PPP")
+                .pattern("IPI")
                 .pattern("III")
-                .define('P', Tags.Items.GLASS_PANES)
+                .define('P', Tags.Items.GLASS_BLOCKS)
                 .define('I', Items.IRON_INGOT)
                 .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
                 .save(recipeOutput);

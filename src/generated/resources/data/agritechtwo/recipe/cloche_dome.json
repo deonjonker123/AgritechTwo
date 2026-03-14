@@ -6,12 +6,12 @@
       "item": "minecraft:iron_ingot"
     },
     "P": {
-      "tag": "c:glass_panes"
+      "tag": "c:glass_blocks"
     }
   },
   "pattern": [
     "III",
-    "PPP",
+    "IPI",
     "III"
   ],
   "result": {

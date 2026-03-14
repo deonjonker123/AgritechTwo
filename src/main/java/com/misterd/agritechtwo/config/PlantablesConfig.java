@@ -206,6 +206,7 @@ public class PlantablesConfig {
             "minecraft:mud",
             "minecraft:moss_block",
             "minecraft:muddy_mangrove_roots",
+            "minecraft:water_bucket",
             "mysticalagriculture:inferium_farmland",
             "mysticalagriculture:prudentium_farmland",
             "mysticalagriculture:tertium_farmland",
@@ -303,7 +304,7 @@ public class PlantablesConfig {
                 makeDrop("minecraft:chorus_flower", 1, 1, 0.02F)));
 
         crops.add(makeCrop("minecraft:kelp",
-                List.of("minecraft:mud"),
+                List.of("minecraft:water_bucket"),
                 makeDrop("minecraft:kelp", 1, 2)));
 
         crops.add(makeCrop("minecraft:brown_mushroom",
@@ -959,7 +960,7 @@ public class PlantablesConfig {
                 makeDrop("cobblemon:hearty_grains", 1, 2, 1.0F)));
 
         crops.add(makeCrop("cobblemon:medicinal_leek",
-                List.of("minecraft:mud"),
+                List.of("minecraft:water_bucket"),
                 makeDrop("cobblemon:medicinal_leek", 1, 1, 1.0F)));
 
         crops.add(makeCrop("cobblemon:aguav_berry", STANDARD_FARMLAND_SOILS,
@@ -1713,6 +1714,7 @@ public class PlantablesConfig {
                 new S("minecraft:jungle_log",             0.5F),
                 new S("minecraft:jungle_wood",            0.5F),
                 new S("minecraft:stripped_jungle_log",    0.5F),
+                new S("minecraft:water_bucket",           0.5F),
                 new S("minecraft:stripped_jungle_wood",   0.5F),
                 new S("minecraft:crimson_nylium",         0.6F),
                 new S("minecraft:warped_nylium",          0.6F)

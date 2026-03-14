@@ -1,4 +1,4 @@
-// 1.21.1	2026-03-14T01:25:15.9341971	Recipes
+// 1.21.1	2026-03-14T02:07:24.6498418	Recipes
 5b48028c5e95efae261c994a09955797563e46d3 data/agritechtwo/advancement/recipes/misc/acacia_planter.json
 db7df9d53094f1ea05d170689e258e9b449b53c7 data/agritechtwo/advancement/recipes/misc/bamboo_planter.json
 b3cd91748e7e1f10934a7400e34bde14c5253ee2 data/agritechtwo/advancement/recipes/misc/birch_planter.json
@@ -15,7 +15,7 @@ f9eccd7464274e5b810612c791292a9ada971300 data/agritechtwo/recipe/acacia_planter.
 625e07fa2757889687c79b72feae57f317cc6651 data/agritechtwo/recipe/bamboo_planter.json
 2b4f4d455f9932711ce9203bc8c1a27cca8aa059 data/agritechtwo/recipe/birch_planter.json
 03d003c892d4dd74dbef5f723d4a858858ba2514 data/agritechtwo/recipe/cherry_planter.json
-2fbeddded1f8a06e21fa24063c867c50e77cc86c data/agritechtwo/recipe/cloche_dome.json
+751156d6e517412ee694ee53214025693a09385b data/agritechtwo/recipe/cloche_dome.json
 86c027544e02f2a1b171ba52e9bb68c5b51fa9f2 data/agritechtwo/recipe/crimson_planter.json
 d147db3e5c2ade1cc6ec1779c7921ff46b1af3f2 data/agritechtwo/recipe/dark_oak_planter.json
 b1b0321a370800f0ab1a32d31cf80707aeaf93e7 data/agritechtwo/recipe/jungle_planter.json
