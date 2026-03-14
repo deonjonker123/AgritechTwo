@@ -42,21 +42,21 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
         float growthProgress       = blockEntity.getGrowthProgress();
         int growthStage            = blockEntity.getGrowthStage();
 
-        // Render cloche dome FIRST so translucency sorting doesn't cull soil/crop geometry
+        // Render cloche dome FIRST — cutoutMipped avoids competing in the translucent sort buffer
         if (blockEntity.getBlockState().getValue(PlanterBlock.CLOCHED)) {
             BakedModel domeModel = Minecraft.getInstance().getModelManager().getModel(CLOCHE_DOME_MODEL);
             poseStack.pushPose();
             poseStack.translate(0.0, 0 / 16.0, 0.0);
             Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(
                     poseStack.last(),
-                    bufferSource.getBuffer(RenderType.translucent()),
+                    bufferSource.getBuffer(RenderType.cutoutMipped()),
                     null,
                     domeModel,
                     1.0F, 1.0F, 1.0F,
                     packedLight,
                     OverlayTexture.NO_OVERLAY,
                     ModelData.EMPTY,
-                    RenderType.translucent()
+                    RenderType.cutoutMipped()
             );
             poseStack.popPose();
         }
