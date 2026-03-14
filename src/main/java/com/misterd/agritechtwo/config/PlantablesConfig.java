@@ -1158,8 +1158,8 @@ public class PlantablesConfig {
                         "minecraft:mycelium"),
                 makeDrop("minecraft:mangrove_log", 2, 6),
                 makeDrop("minecraft:mangrove_propagule", 1, 2, 0.5F),
-                makeDrop("minecraft:mangrove_roots", 1, 3, 0.3F),
-                makeDrop("minecraft:mangrove_roots", 1, 2, 0.5F)));
+                makeDrop("minecraft:stick", 1, 2, 0.5F),
+                makeDrop("minecraft:mangrove_roots", 1, 1, 0.3F)));
 
         trees.add(makeTree("minecraft:cherry_sapling", STANDARD_TREE_SOILS,
                 makeDrop("minecraft:cherry_log", 2, 6),
