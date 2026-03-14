@@ -65,7 +65,7 @@ Fertilizer support with configurable speed and yield multipliers:
 
 ### **Live Config Reloading**
 
-No server/client restart required. Changes to crops, soils, fertilizers, or compatibility settings can be applied instantly via in-game commands — invaluable for modpack devs and server admins tuning configurations on the fly.
+No server/client restart required. Changes to crops, soils, fertilizers via the overrider toml, or compatibility settings can be applied instantly via in-game commands.
 
 | Command | Effect |
 |--|--|
@@ -81,6 +81,7 @@ Failed reloads report errors directly in chat rather than silently failing.
 -   Right-click with saplings for instant placement
 -   Right-click with soil blocks for instant placement
 -   Right-click with hoes to till compatible blocks
+- Right-click with mystical essence to convert vanilla farmland to the mystical farmland
 
 ### **Visual Feedback**
 
@@ -90,7 +91,7 @@ Failed reloads report errors directly in chat rather than silently failing.
 
 ## JEI Integration
 
--   Compatible crop/soil combinations the planters
+-   Compatible crop/soil combinations of the planters
 
 ## Jade Integration
 
