@@ -42,7 +42,26 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
         float growthProgress       = blockEntity.getGrowthProgress();
         int growthStage            = blockEntity.getGrowthStage();
 
-        // Render soil
+        // Render cloche dome FIRST so translucency sorting doesn't cull soil/crop geometry
+        if (blockEntity.getBlockState().getValue(PlanterBlock.CLOCHED)) {
+            BakedModel domeModel = Minecraft.getInstance().getModelManager().getModel(CLOCHE_DOME_MODEL);
+            poseStack.pushPose();
+            poseStack.translate(0.0, 0 / 16.0, 0.0);
+            Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(
+                    poseStack.last(),
+                    bufferSource.getBuffer(RenderType.translucent()),
+                    null,
+                    domeModel,
+                    1.0F, 1.0F, 1.0F,
+                    packedLight,
+                    OverlayTexture.NO_OVERLAY,
+                    ModelData.EMPTY,
+                    RenderType.translucent()
+            );
+            poseStack.popPose();
+        }
+
+        // Render soil SECOND
         ItemStack soilStack = inventory.getStackInSlot(1);
         if (!soilStack.isEmpty()) {
             String soilId = RegistryHelper.getItemId(soilStack);
@@ -58,7 +77,7 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
             }
         }
 
-        // Render plant
+        // Render plant THIRD
         ItemStack plantStack = inventory.getStackInSlot(0);
         if (!plantStack.isEmpty() && !soilStack.isEmpty() && plantStack.getItem() instanceof BlockItem plantBlockItem) {
             String plantId = RegistryHelper.getItemId(plantStack);
@@ -85,25 +104,6 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
                 poseStack.popPose();
             }
         }
-
-        // Render cloche dome
-        if (blockEntity.getBlockState().getValue(PlanterBlock.CLOCHED)) {
-            BakedModel domeModel = Minecraft.getInstance().getModelManager().getModel(CLOCHE_DOME_MODEL);
-            poseStack.pushPose();
-            poseStack.translate(0.0, 0 / 16.0, 0.0);
-            Minecraft.getInstance().getBlockRenderer().getModelRenderer().renderModel(
-                    poseStack.last(),
-                    bufferSource.getBuffer(RenderType.translucent()),
-                    null,
-                    domeModel,
-                    1.0F, 1.0F, 1.0F,
-                    packedLight,
-                    OverlayTexture.NO_OVERLAY,
-                    ModelData.EMPTY,
-                    RenderType.translucent()
-            );
-            poseStack.popPose();
-        }
     }
 
     private void renderWater(PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
@@ -111,7 +111,6 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
                 .getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
                 .apply(WATER_STILL);
 
-        // Flat quad at y=0.41, matching the soil render height
         float y    = 0.41F;
         float xMin = 0.175F;
         float xMax = 0.825F;
@@ -127,7 +126,6 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
         Matrix4f matrix = poseStack.last().pose();
         VertexConsumer buffer = bufferSource.getBuffer(RenderType.translucent());
 
-        // Render top face of water quad
         buffer.addVertex(matrix, xMin, y, zMin).setColor(0x3F, 0x76, 0xE4, 0xA0).setUv(u0, v0).setLight(packedLight).setNormal(0, 1, 0);
         buffer.addVertex(matrix, xMin, y, zMax).setColor(0x3F, 0x76, 0xE4, 0xA0).setUv(u0, v1).setLight(packedLight).setNormal(0, 1, 0);
         buffer.addVertex(matrix, xMax, y, zMax).setColor(0x3F, 0x76, 0xE4, 0xA0).setUv(u1, v1).setLight(packedLight).setNormal(0, 1, 0);

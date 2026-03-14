@@ -25,6 +25,8 @@ Fertilizer support with configurable speed and yield multipliers:
 -   Immersive Engineering fertilizers
 -   Forbidden & Arcanus arcane bone meal
 
+Fertilizer can be automated via hopper or pipe into any of the four cardinal sides of the planter.
+
 ## Mod Compatibility
 
 ### **Supported Crop Mods**

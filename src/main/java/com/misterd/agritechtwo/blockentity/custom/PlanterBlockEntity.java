@@ -394,6 +394,49 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         Containers.dropContents(this.level, this.worldPosition, inv);
     }
 
+    public IItemHandler getCapabilityHandler() {
+        return new IItemHandler() {
+            @Override
+            public int getSlots() {
+                return inventory.getSlots();
+            }
+
+            @Override
+            public ItemStack getStackInSlot(int slot) {
+                return inventory.getStackInSlot(slot);
+            }
+
+            @Override
+            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+                // Only allow insertion into the fertilizer slot (slot 2)
+                if (slot != 2) return stack;
+
+                // Validate it's actually a recognised fertilizer
+                String itemId = RegistryHelper.getItemId(stack);
+                if (!PlantablesConfig.isValidFertilizer(itemId)) return stack;
+
+                return inventory.insertItem(slot, stack, simulate);
+            }
+
+            @Override
+            public ItemStack extractItem(int slot, int amount, boolean simulate) {
+                // No extraction from any side
+                return ItemStack.EMPTY;
+            }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return inventory.getSlotLimit(slot);
+            }
+
+            @Override
+            public boolean isItemValid(int slot, ItemStack stack) {
+                if (slot != 2) return false;
+                return PlantablesConfig.isValidFertilizer(RegistryHelper.getItemId(stack));
+            }
+        };
+    }
+
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);

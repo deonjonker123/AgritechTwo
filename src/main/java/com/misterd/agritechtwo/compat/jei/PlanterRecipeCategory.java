@@ -46,8 +46,9 @@ public class PlanterRecipeCategory implements IRecipeCategory<PlanterRecipe> {
 
         int outputIndex = 0;
         for (ItemStack output : recipe.getOutputs()) {
+            if (outputIndex >= 12) break;
             int x = 52 + outputIndex % 4 * 18;
-            int y = 10 + outputIndex / 3 * 18;
+            int y = 10 + outputIndex / 4 * 18;
             builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).addItemStack(output);
             outputIndex++;
         }
