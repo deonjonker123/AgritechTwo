@@ -307,6 +307,20 @@ public class PlantablesConfig {
                 List.of("minecraft:water_bucket"),
                 makeDrop("minecraft:kelp", 1, 2)));
 
+        crops.add(makeCrop("minecraft:lily_pad",
+                List.of("minecraft:water_bucket"),
+                makeDrop("minecraft:lily_pad", 1, 1)));
+
+        crops.add(makeCrop("minecraft:spore_blossom",
+                List.of("minecraft:moss_block"),
+                makeDrop("minecraft:spore_blossom", 1, 1)));
+
+        crops.add(makeCrop("minecraft:moss_block",
+                List.of("minecraft:stone"),
+                makeDrop("minecraft:moss_block", 1, 2),
+                makeDrop("minecraft:moss_carpet", 1, 1, 0.1F),
+                makeDrop("minecraft:wheat_seeds", 1, 1, 0.1F)));
+
         crops.add(makeCrop("minecraft:brown_mushroom",
                 List.of("minecraft:mycelium", "minecraft:podzol", 
                         "farmersdelight:rich_soil", "farmersdelight:organic_compost"),
@@ -328,7 +342,6 @@ public class PlantablesConfig {
         crops.add(makeCrop("minecraft:torchflower_seeds", STANDARD_FARMLAND_SOILS,
                 makeDrop("minecraft:torchflower", 1, 1)));
 
-        // Flowers — all use STANDARD_GROUND_SOILS and drop 1 of themselves
         for (String flower : new String[]{
                 "minecraft:allium", "minecraft:azure_bluet", "minecraft:blue_orchid",
                 "minecraft:cornflower", "minecraft:dandelion", "minecraft:lily_of_the_valley",
@@ -1717,7 +1730,9 @@ public class PlantablesConfig {
                 new S("minecraft:water_bucket",           0.5F),
                 new S("minecraft:stripped_jungle_wood",   0.5F),
                 new S("minecraft:crimson_nylium",         0.6F),
-                new S("minecraft:warped_nylium",          0.6F)
+                new S("minecraft:warped_nylium",          0.6F),
+                new S("minecraft:stone",                  0.6F)
+
         }) {
             SoilEntry e = new SoilEntry();
             e.soil = s.id();

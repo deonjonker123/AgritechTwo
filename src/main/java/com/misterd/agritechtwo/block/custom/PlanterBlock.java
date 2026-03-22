@@ -46,17 +46,14 @@ import java.util.Map;
 
 public class PlanterBlock extends BaseEntityBlock {
     public static final VoxelShape SHAPE = Shapes.or(
-            // Four legs
-            Block.box(1, 0, 1,  3, 11,  3),   // front-left
-            Block.box(13, 0, 1, 15, 11,  3),  // front-right
-            Block.box(1, 0, 13,  3, 11, 15),  // back-left
-            Block.box(13, 0, 13, 15, 11, 15), // back-right
-            // Planter box walls
-            Block.box(2, 2, 2,  14, 10,  3),  // front wall
-            Block.box(2, 2, 13, 14, 10, 14),  // back wall
-            Block.box(2, 2, 3,   3, 10, 13),  // left wall
-            Block.box(13, 2, 3, 14, 10, 13),  // right wall
-            // Base/floor of the box
+            Block.box(1, 0, 1,  3, 11,  3),
+            Block.box(13, 0, 1, 15, 11,  3),
+            Block.box(1, 0, 13,  3, 11, 15),
+            Block.box(13, 0, 13, 15, 11, 15),
+            Block.box(2, 2, 2,  14, 10,  3),
+            Block.box(2, 2, 13, 14, 10, 14),
+            Block.box(2, 2, 3,   3, 10, 13),
+            Block.box(13, 2, 3, 14, 10, 13),
             Block.box(3, 2, 3,  13,  3, 13)
     );
     public static final MapCodec<PlanterBlock> CODEC = simpleCodec(PlanterBlock::new);
@@ -91,7 +88,6 @@ public class PlanterBlock extends BaseEntityBlock {
 
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (state.getBlock() != newState.getBlock()) {
-            // Drop the cloche separately if one is attached
             if (state.getValue(CLOCHED)) {
                 ItemEntity itemEntity = new ItemEntity(
                         level,
@@ -116,7 +112,6 @@ public class PlanterBlock extends BaseEntityBlock {
 
         ItemStack heldItem = player.getItemInHand(hand);
 
-        // --- Cloche removal: shift + empty hand ---
         if (player.isCrouching() && heldItem.isEmpty() && state.getValue(CLOCHED)) {
             if (!level.isClientSide()) {
                 level.setBlock(pos, state.setValue(CLOCHED, false), 3);
@@ -131,7 +126,6 @@ public class PlanterBlock extends BaseEntityBlock {
             return ItemInteractionResult.SUCCESS;
         }
 
-        // --- Open GUI: shift + any other interaction ---
         if (player.isCrouching()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return ItemInteractionResult.SUCCESS;
@@ -139,7 +133,6 @@ public class PlanterBlock extends BaseEntityBlock {
 
         String heldItemId = RegistryHelper.getItemId(heldItem);
 
-        // --- Cloche placement ---
         if (heldItem.getItem() instanceof ClocheItem) {
             if (state.getValue(CLOCHED)) return ItemInteractionResult.FAIL;
             if (!level.isClientSide()) {
@@ -150,7 +143,6 @@ public class PlanterBlock extends BaseEntityBlock {
             return ItemInteractionResult.SUCCESS;
         }
 
-        // --- Seed or Sapling ---
         if (PlantablesConfig.isValidSeed(heldItemId) || PlantablesConfig.isValidSapling(heldItemId)) {
             if (!planter.inventory.getStackInSlot(0).isEmpty()) {
                 if (!level.isClientSide()) openGui(player, planter, pos);
@@ -178,7 +170,6 @@ public class PlanterBlock extends BaseEntityBlock {
             planter.setChanged();
             return ItemInteractionResult.SUCCESS;
 
-            // --- Soil ---
         } else if (PlantablesConfig.isValidSoil(heldItemId)) {
             if (!planter.inventory.getStackInSlot(1).isEmpty()) {
                 if (!level.isClientSide()) openGui(player, planter, pos);
@@ -206,7 +197,6 @@ public class PlanterBlock extends BaseEntityBlock {
             planter.setChanged();
             return ItemInteractionResult.SUCCESS;
 
-            // --- Hoe tilling ---
         } else if (heldItem.getItem() instanceof HoeItem) {
             ItemStack soilStack = planter.inventory.getStackInSlot(1);
             if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
@@ -236,7 +226,6 @@ public class PlanterBlock extends BaseEntityBlock {
                 }
             }
 
-            // --- Mystical Agriculture essence upgrade ---
         } else {
             Map<String, String> essenceToFarmland = new HashMap<>();
             essenceToFarmland.put("mysticalagriculture:inferium_essence", "mysticalagriculture:inferium_farmland");
