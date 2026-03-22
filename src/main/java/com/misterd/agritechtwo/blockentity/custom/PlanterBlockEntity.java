@@ -127,14 +127,7 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
             blockEntity.harvestPlant(state);
         }
 
-        if (state.is(ATBlocks.ACACIA_PLANTER.get()) || state.is(ATBlocks.BAMBOO_PLANTER.get())
-                || state.is(ATBlocks.BIRCH_PLANTER.get()) || state.is(ATBlocks.CHERRY_PLANTER.get())
-                || state.is(ATBlocks.CRIMSON_PLANTER.get()) || state.is(ATBlocks.DARK_OAK_PLANTER.get())
-                || state.is(ATBlocks.JUNGLE_PLANTER.get()) || state.is(ATBlocks.MANGROVE_PLANTER.get())
-                || state.is(ATBlocks.OAK_PLANTER.get()) || state.is(ATBlocks.SPRUCE_PLANTER.get())
-                || state.is(ATBlocks.WARPED_PLANTER.get())) {
-            tryOutputItemsBelow(level, pos, blockEntity);
-        }
+        tryOutputItemsBelow(level, pos, blockEntity);
     }
 
     private float getClocheGrowthModifier(BlockState state) {
