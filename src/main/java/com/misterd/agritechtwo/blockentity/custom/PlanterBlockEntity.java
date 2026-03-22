@@ -408,10 +408,8 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
 
             @Override
             public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-                // Only allow insertion into the fertilizer slot (slot 2)
                 if (slot != 2) return stack;
 
-                // Validate it's actually a recognised fertilizer
                 String itemId = RegistryHelper.getItemId(stack);
                 if (!PlantablesConfig.isValidFertilizer(itemId)) return stack;
 
@@ -420,7 +418,6 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
 
             @Override
             public ItemStack extractItem(int slot, int amount, boolean simulate) {
-                // No extraction from any side
                 return ItemStack.EMPTY;
             }
 
@@ -433,6 +430,43 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
             public boolean isItemValid(int slot, ItemStack stack) {
                 if (slot != 2) return false;
                 return PlantablesConfig.isValidFertilizer(RegistryHelper.getItemId(stack));
+            }
+        };
+    }
+
+    public IItemHandler getExtractHandler() {
+        return new IItemHandler() {
+            @Override
+            public int getSlots() {
+                return inventory.getSlots();
+            }
+
+            @Override
+            public ItemStack getStackInSlot(int slot) {
+                return inventory.getStackInSlot(slot);
+            }
+
+            @Override
+            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
+                return stack;
+            }
+
+            @Override
+            public ItemStack extractItem(int slot, int amount, boolean simulate) {
+                if (slot < 3) {
+                    return ItemStack.EMPTY;
+                }
+                return inventory.extractItem(slot, amount, simulate);
+            }
+
+            @Override
+            public int getSlotLimit(int slot) {
+                return inventory.getSlotLimit(slot);
+            }
+
+            @Override
+            public boolean isItemValid(int slot, ItemStack stack) {
+                return false;
             }
         };
     }

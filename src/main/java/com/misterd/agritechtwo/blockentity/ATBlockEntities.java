@@ -3,6 +3,7 @@ package com.misterd.agritechtwo.blockentity;
 import com.misterd.agritechtwo.AgritechTwo;
 import com.misterd.agritechtwo.block.ATBlocks;
 import com.misterd.agritechtwo.blockentity.custom.PlanterBlockEntity;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -35,11 +36,18 @@ public class ATBlockEntities {
     private static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PLANTER_BLOCK_BE.get(),
                 (blockEntity, direction) -> {
-                    if (blockEntity instanceof PlanterBlockEntity planterBlockEntity
-                            && direction != null
-                            && direction.getAxis().isHorizontal()) {
-                        return planterBlockEntity.getCapabilityHandler();
+                    if (!(blockEntity instanceof PlanterBlockEntity planter) || direction == null) {
+                        return null;
                     }
+
+                    if (direction.getAxis().isHorizontal()) {
+                        return planter.getCapabilityHandler();
+                    }
+
+                    if (direction == Direction.DOWN) {
+                        return planter.getExtractHandler();
+                    }
+
                     return null;
                 });
     }
