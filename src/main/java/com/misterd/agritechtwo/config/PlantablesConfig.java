@@ -263,11 +263,11 @@ public class PlantablesConfig {
                 makeDrop("minecraft:pumpkin", 1, 1)));
 
         crops.add(makeCrop("minecraft:sugar_cane",
-                List.of("minecraft:dirt", "minecraft:grass_block", "minecraft:sand", "minecraft:red_sand"),
+                List.of("minecraft:dirt", "minecraft:grass_block", "minecraft:sand", "minecraft:red_sand", "snad:snad", "snad:red_snad"),
                 makeDrop("minecraft:sugar_cane", 1, 3)));
 
         crops.add(makeCrop("minecraft:cactus",
-                List.of("minecraft:sand", "minecraft:red_sand"),
+                List.of("minecraft:sand", "minecraft:red_sand", "snad:snad", "snad:red_snad"),
                 makeDrop("minecraft:cactus", 1, 3)));
 
         crops.add(makeCrop("minecraft:bamboo",
@@ -295,7 +295,7 @@ public class PlantablesConfig {
                 makeDrop("minecraft:glow_berries", 2, 4)));
 
         crops.add(makeCrop("minecraft:nether_wart",
-                List.of("minecraft:soul_sand"),
+                List.of("minecraft:soul_sand", "snad:suol_snad"),
                 makeDrop("minecraft:nether_wart", 1, 3)));
 
         crops.add(makeCrop("minecraft:chorus_flower",
@@ -1731,7 +1731,10 @@ public class PlantablesConfig {
                 new S("minecraft:stripped_jungle_wood",   0.5F),
                 new S("minecraft:crimson_nylium",         0.6F),
                 new S("minecraft:warped_nylium",          0.6F),
-                new S("minecraft:stone",                  0.6F)
+                new S("minecraft:stone",                  0.6F),
+                new S("snad:suol_snad",                  1.2F),
+                new S("snad:snad",                  1.2F),
+                new S("snad:red_snad",                  1.2F)
 
         }) {
             SoilEntry e = new SoilEntry();
