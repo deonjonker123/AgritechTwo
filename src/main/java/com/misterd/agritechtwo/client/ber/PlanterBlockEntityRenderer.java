@@ -42,7 +42,6 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
         float growthProgress       = blockEntity.getGrowthProgress();
         int growthStage            = blockEntity.getGrowthStage();
 
-        // Render cloche dome FIRST — cutoutMipped avoids competing in the translucent sort buffer
         if (blockEntity.getBlockState().getValue(PlanterBlock.CLOCHED)) {
             BakedModel domeModel = Minecraft.getInstance().getModelManager().getModel(CLOCHE_DOME_MODEL);
             poseStack.pushPose();
@@ -61,7 +60,6 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
             poseStack.popPose();
         }
 
-        // Render soil SECOND
         ItemStack soilStack = inventory.getStackInSlot(1);
         if (!soilStack.isEmpty()) {
             String soilId = RegistryHelper.getItemId(soilStack);
@@ -77,7 +75,6 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
             }
         }
 
-        // Render plant THIRD
         ItemStack plantStack = inventory.getStackInSlot(0);
         if (!plantStack.isEmpty() && !soilStack.isEmpty() && plantStack.getItem() instanceof BlockItem plantBlockItem) {
             String plantId = RegistryHelper.getItemId(plantStack);

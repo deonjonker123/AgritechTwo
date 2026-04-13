@@ -11,7 +11,7 @@ public class ATItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(AgritechTwo.MODID);
 
     public static final DeferredHolder<Item, ClocheItem> CLOCHE = ITEMS.register("cloche_dome",
-            () -> new ClocheItem(new Item.Properties().stacksTo(16)));
+            () -> new ClocheItem(new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
