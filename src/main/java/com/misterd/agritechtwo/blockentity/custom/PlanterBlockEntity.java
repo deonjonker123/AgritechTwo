@@ -142,34 +142,16 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         ItemStack fertilizerStack = this.inventory.getStackInSlot(2);
         if (fertilizerStack.isEmpty()) return 1.0F;
         String fertilizerId = RegistryHelper.getItemId(fertilizerStack);
-        return switch (fertilizerId) {
-            case "minecraft:bone_meal"                        -> (float) Config.getFertilizerBoneMealSpeedMultiplier();
-            case "immersiveengineering:fertilizer"            -> (float) Config.getFertilizerImmersiveFertilizerSpeedMultiplier();
-            case "mysticalagriculture:fertilized_essence"     -> (float) Config.getFertilizerFertilizedEssenceSpeedMultiplier();
-            case "mysticalagriculture:mystical_fertilizer"    -> (float) Config.getFertilizerMysticalFertilizerSpeedMultiplier();
-            case "forbidden_arcanus:arcane_bone_meal"         -> (float) Config.getFertilizerArcaneBoneMealSpeedMultiplier();
-            default -> {
-                PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(fertilizerId);
-                yield info != null ? info.speedMultiplier : 1.0F;
-            }
-        };
+        PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(fertilizerId);
+        return info != null ? info.speedMultiplier : 1.0F;
     }
 
     private float getFertilizerYieldModifier() {
         ItemStack fertilizerStack = this.inventory.getStackInSlot(2);
         if (fertilizerStack.isEmpty()) return 1.0F;
         String fertilizerId = RegistryHelper.getItemId(fertilizerStack);
-        return switch (fertilizerId) {
-            case "minecraft:bone_meal"                        -> (float) Config.getFertilizerBoneMealYieldMultiplier();
-            case "immersiveengineering:fertilizer"            -> (float) Config.getFertilizerImmersiveFertilizerYieldMultiplier();
-            case "mysticalagriculture:fertilized_essence"     -> (float) Config.getFertilizerFertilizedEssenceYieldMultiplier();
-            case "mysticalagriculture:mystical_fertilizer"    -> (float) Config.getFertilizerMysticalFertilizerYieldMultiplier();
-            case "forbidden_arcanus:arcane_bone_meal"         -> (float) Config.getFertilizerArcaneBoneMealYieldMultiplier();
-            default -> {
-                PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(fertilizerId);
-                yield info != null ? info.yieldMultiplier : 1.0F;
-            }
-        };
+        PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(fertilizerId);
+        return info != null ? info.yieldMultiplier : 1.0F;
     }
 
     private boolean isValidPlantSoilCombination(String plantId, String soilId) {

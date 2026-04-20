@@ -22,6 +22,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -200,29 +201,19 @@ public class PlanterBlock extends BaseEntityBlock {
         } else if (heldItem.getItem() instanceof HoeItem) {
             ItemStack soilStack = planter.inventory.getStackInSlot(1);
             if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
-                String soilId = RegistryHelper.getBlockId(soilBlockItem.getBlock());
-
-                Map<String, String> tillableBlocks = new HashMap<>();
-                tillableBlocks.put("minecraft:dirt", "minecraft:farmland");
-                tillableBlocks.put("minecraft:grass_block", "minecraft:farmland");
-                tillableBlocks.put("minecraft:mycelium", "minecraft:farmland");
-                tillableBlocks.put("minecraft:podzol", "minecraft:farmland");
-                tillableBlocks.put("minecraft:coarse_dirt", "minecraft:farmland");
-                tillableBlocks.put("minecraft:rooted_dirt", "minecraft:farmland");
-                if (ModList.get().isLoaded("farmersdelight")) {
-                    tillableBlocks.put("farmersdelight:rich_soil", "farmersdelight:rich_soil_farmland");
-                }
-
-                if (tillableBlocks.containsKey(soilId)) {
-                    Block resultBlock = RegistryHelper.getBlock(tillableBlocks.get(soilId));
-                    if (resultBlock != null) {
-                        planter.inventory.setStackInSlot(1, new ItemStack(resultBlock));
-                        level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-                        if (!player.getAbilities().instabuild) {
-                            heldItem.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
-                        }
-                        return ItemInteractionResult.sidedSuccess(level.isClientSide());
+                BlockState soilState = soilBlockItem.getBlock().defaultBlockState();
+                BlockState result = soilState.getToolModifiedState(
+                        new UseOnContext(level, player, hand, heldItem, hitResult),
+                        net.neoforged.neoforge.common.ItemAbilities.HOE_TILL,
+                        false
+                );
+                if (result != null) {
+                    planter.inventory.setStackInSlot(1, new ItemStack(result.getBlock()));
+                    level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    if (!player.getAbilities().instabuild) {
+                        heldItem.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
                     }
+                    return ItemInteractionResult.sidedSuccess(level.isClientSide());
                 }
             }
 

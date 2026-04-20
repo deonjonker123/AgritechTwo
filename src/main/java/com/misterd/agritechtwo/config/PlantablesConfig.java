@@ -1968,7 +1968,7 @@ public class PlantablesConfig {
     }
 
     public static int getBaseSaplingGrowthTime(String saplingId) {
-        return 2000;
+        return Config.getPlanterBaseProcessingTime();
     }
 
     public static Map<String, List<String>> getAllSeedToSoilMappings() {
