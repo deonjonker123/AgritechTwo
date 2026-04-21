@@ -81,27 +81,21 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
     private boolean moveToSpecialSlots(ItemStack stack) {
         String id = RegistryHelper.getItemId(stack);
 
-        // Plant slot
         if ((PlantablesConfig.isValidSeed(id) || PlantablesConfig.isValidSapling(id))
                 && blockEntity.getStack(0).isEmpty()) {
-
             insertSingle(stack, 0);
             return true;
         }
 
-        // Soil slot
         if (PlantablesConfig.isValidSoil(id)
                 && blockEntity.getStack(1).isEmpty()) {
-
             insertSingle(stack, 1);
             return true;
         }
 
-        // Fertilizer slot
-        if (PlantablesConfig.isValidFertilizer(id)
-                && blockEntity.getStack(2).isEmpty()) {
-
-            insertSingle(stack, 2);
+        if (PlantablesConfig.isValidFertilizer(id)) {
+            Slot fertSlot = slots.get(2);
+            if (!moveItemStackTo(stack, 2, 3, false)) return false;
             return true;
         }
 

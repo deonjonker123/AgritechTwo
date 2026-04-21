@@ -58,7 +58,7 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
                 case 0 -> PlantablesConfig.isValidSeed(itemId) || PlantablesConfig.isValidSapling(itemId);
                 case 1 -> PlantablesConfig.isValidSoil(itemId);
                 case 2 -> PlantablesConfig.isValidFertilizer(itemId);
-                default -> false;
+                default -> true;
             };
         }
 

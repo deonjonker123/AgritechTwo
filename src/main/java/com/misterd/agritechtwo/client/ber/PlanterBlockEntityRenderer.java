@@ -4,11 +4,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.QuadInstance;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.block.BlockTintSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlas;
@@ -122,7 +125,7 @@ public class PlanterBlockEntityRenderer
                 poseStack.pushPose();
                 poseStack.translate(0.175, 0.4, 0.175);
                 poseStack.scale(0.65f, 0.05f, 0.65f);
-                submitBlockState(soilState, poseStack, collector, light);
+                submitBlockState(soilState, poseStack, collector, light, false);
                 poseStack.popPose();
             }
         }
@@ -152,7 +155,7 @@ public class PlanterBlockEntityRenderer
                 }
 
                 if (plantState != null) {
-                    submitBlockState(plantState, poseStack, collector, light);
+                    submitBlockState(plantState, poseStack, collector, light, false);
                 }
                 poseStack.popPose();
             }
@@ -180,18 +183,29 @@ public class PlanterBlockEntityRenderer
      * and submitting its quads via submitCustomGeometry.
      */
     private static void submitBlockState(BlockState blockState, PoseStack poseStack,
-                                         SubmitNodeCollector collector, int light) {
+                                         SubmitNodeCollector collector, int light, boolean cutout) {
         var modelSet = Minecraft.getInstance().getModelManager().getBlockStateModelSet();
         var model    = modelSet.get(blockState);
         if (model == null) return;
 
-        var parts = new java.util.ArrayList<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart>();
+        var parts = new java.util.ArrayList<BlockStateModelPart>();
         model.collectParts(net.minecraft.util.RandomSource.create(), parts);
 
+        var blockColors = Minecraft.getInstance().getBlockColors();
+        int[] tints = new int[4];
+        for (int i = 0; i < 4; i++) {
+            BlockTintSource source = blockColors.getTintSource(blockState, i);
+            tints[i] = source != null ? source.color(blockState) : -1;
+        }
+
+        RenderType renderType = cutout
+                ? RenderTypes.entityCutout(TextureAtlas.LOCATION_BLOCKS, true)
+                : RenderTypes.entitySolid(TextureAtlas.LOCATION_BLOCKS);
+
         collector.submitBlockModel(poseStack,
-                RenderTypes.entityCutout(TextureAtlas.LOCATION_BLOCKS),
+                renderType,
                 parts,
-                new int[]{-1, -1, -1, -1},
+                tints,
                 light,
                 net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY,
                 -1);
