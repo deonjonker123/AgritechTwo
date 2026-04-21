@@ -1,11 +1,11 @@
 package com.misterd.agritechtwo.blockentity.custom;
 
 import com.misterd.agritechtwo.Config;
-import com.misterd.agritechtwo.block.ATBlocks;
 import com.misterd.agritechtwo.block.custom.PlanterBlock;
 import com.misterd.agritechtwo.blockentity.ATBlockEntities;
 import com.misterd.agritechtwo.config.PlantablesConfig;
 import com.misterd.agritechtwo.gui.custom.PlanterBlockMenu;
+import com.misterd.agritechtwo.item.ATItems;
 import com.misterd.agritechtwo.util.RegistryHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -18,6 +18,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -26,26 +27,34 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import org.jetbrains.annotations.NotNull;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
+import net.neoforged.neoforge.transfer.transaction.TransactionContext;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
 public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
-    public final ItemStackHandler inventory = new ItemStackHandler(15) {
+
+    // 15 slots: 0=plant, 1=soil, 2=fertilizer, 3-14=output
+    public final ItemStacksResourceHandler inventory = new ItemStacksResourceHandler(15) {
         @Override
-        public int getSlotLimit(int slot) {
-            return slot != 0 && slot != 1 ? super.getSlotLimit(slot) : 1;
+        public long getCapacityAsLong(int index, ItemResource resource) {
+            // Plant and soil slots hold exactly 1 item
+            return (index == 0 || index == 1) ? 1 : resource.toStack().getMaxStackSize();
         }
 
         @Override
-        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            String itemId = RegistryHelper.getItemId(stack);
-            return switch (slot) {
+        public boolean isValid(int index, ItemResource resource) {
+            if (resource.isEmpty()) return false;
+            String itemId = RegistryHelper.getItemId(resource.toStack());
+            return switch (index) {
                 case 0 -> PlantablesConfig.isValidSeed(itemId) || PlantablesConfig.isValidSapling(itemId);
                 case 1 -> PlantablesConfig.isValidSoil(itemId);
                 case 2 -> PlantablesConfig.isValidFertilizer(itemId);
@@ -53,11 +62,13 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
             };
         }
 
+        // S = ItemStack for ItemStacksResourceHandler
         @Override
-        protected void onContentsChanged(int slot) {
+        protected void onContentsChanged(int index, ItemStack previousContents) {
             PlanterBlockEntity.this.setChanged();
-            if (!PlanterBlockEntity.this.level.isClientSide()) {
-                PlanterBlockEntity.this.level.sendBlockUpdated(
+            Level lvl = PlanterBlockEntity.this.level;
+            if (lvl != null && !lvl.isClientSide()) {
+                lvl.sendBlockUpdated(
                         PlanterBlockEntity.this.getBlockPos(),
                         PlanterBlockEntity.this.getBlockState(),
                         PlanterBlockEntity.this.getBlockState(),
@@ -68,67 +79,76 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
     };
 
     private int growthProgress = 0;
-    private int growthTicks = 0;
+    private int growthTicks   = 0;
     private boolean readyToHarvest = false;
-    private int lastGrowthStage = -1;
+    private int lastGrowthStage    = -1;
 
     public PlanterBlockEntity(BlockPos pos, BlockState blockState) {
         super(ATBlockEntities.PLANTER_BLOCK_BE.get(), pos, blockState);
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, PlanterBlockEntity blockEntity) {
+    // -------------------------------------------------------------------------
+    // Tick
+    // -------------------------------------------------------------------------
+
+    public static void tick(Level level, BlockPos pos, BlockState state, PlanterBlockEntity be) {
         if (level.isClientSide()) return;
 
-        ItemStack plantStack = blockEntity.inventory.getStackInSlot(0);
-        ItemStack soilStack = blockEntity.inventory.getStackInSlot(1);
+        ItemStack plantStack = be.getStack(0);
+        ItemStack soilStack  = be.getStack(1);
 
         if (plantStack.isEmpty() || soilStack.isEmpty()) {
-            blockEntity.resetGrowth();
+            be.resetGrowth();
             return;
         }
 
         String plantId = RegistryHelper.getItemId(plantStack);
-        String soilId = RegistryHelper.getItemId(soilStack);
+        String soilId  = RegistryHelper.getItemId(soilStack);
 
-        if (!blockEntity.isValidPlantSoilCombination(plantId, soilId)) {
-            blockEntity.resetGrowth();
+        if (!be.isValidPlantSoilCombination(plantId, soilId)) {
+            be.resetGrowth();
             return;
         }
 
-        if (!blockEntity.readyToHarvest) {
-            float soilModifier = blockEntity.getSoilGrowthModifier(soilStack);
-            float fertilizerGrowthModifier = blockEntity.getFertilizerGrowthModifier();
-            float clocheGrowthModifier = blockEntity.getClocheGrowthModifier(state);
-            float totalModifier = soilModifier * fertilizerGrowthModifier * clocheGrowthModifier;
-            int baseGrowthTime = blockEntity.getBaseGrowthTime(plantStack);
-            int adjustedGrowthTime = Math.max(1, Math.round((float) baseGrowthTime / totalModifier));
-            blockEntity.growthTicks++;
+        if (!be.readyToHarvest) {
+            float soilMod    = be.getSoilGrowthModifier(soilStack);
+            float fertMod    = be.getFertilizerGrowthModifier();
+            float clocheMod  = be.getClocheGrowthModifier(state);
+            float totalMod   = soilMod * fertMod * clocheMod;
+            int baseTime     = be.getBaseGrowthTime(plantStack);
+            int adjustedTime = Math.max(1, Math.round((float) baseTime / totalMod));
 
-            if (blockEntity.growthTicks >= adjustedGrowthTime) {
-                blockEntity.readyToHarvest = true;
-                blockEntity.growthProgress = 100;
-                blockEntity.lastGrowthStage = blockEntity.getGrowthStage();
+            be.growthTicks++;
+
+            if (be.growthTicks >= adjustedTime) {
+                be.readyToHarvest  = true;
+                be.growthProgress  = 100;
+                be.lastGrowthStage = be.getGrowthStage();
                 level.sendBlockUpdated(pos, state, state, 3);
-                blockEntity.setChanged();
+                be.setChanged();
             } else {
-                blockEntity.growthProgress = (int) ((float) blockEntity.growthTicks / adjustedGrowthTime * 100.0F);
-                int currentGrowthStage = blockEntity.getGrowthStage();
-                if (currentGrowthStage != blockEntity.lastGrowthStage) {
-                    blockEntity.lastGrowthStage = currentGrowthStage;
+                be.growthProgress = (int) ((float) be.growthTicks / adjustedTime * 100.0F);
+                int stage = be.getGrowthStage();
+                if (stage != be.lastGrowthStage) {
+                    be.lastGrowthStage = stage;
                 }
-                if (blockEntity.growthTicks % 20 == 0) {
+                if (be.growthTicks % 20 == 0) {
                     level.sendBlockUpdated(pos, state, state, 3);
-                    blockEntity.setChanged();
+                    be.setChanged();
                 }
             }
         }
 
-        if (blockEntity.readyToHarvest && blockEntity.hasOutputSpace()) {
-            blockEntity.harvestPlant(state);
+        if (be.readyToHarvest && be.hasOutputSpace()) {
+            be.harvestPlant(state);
         }
 
-        tryOutputItemsBelow(level, pos, blockEntity);
+        tryOutputItemsBelow(level, pos, be);
     }
+
+    // -------------------------------------------------------------------------
+    // Growth helpers
+    // -------------------------------------------------------------------------
 
     private float getClocheGrowthModifier(BlockState state) {
         return state.getValue(PlanterBlock.CLOCHED) ? (float) Config.getClocheSpeedMultiplier() : 1.0F;
@@ -139,49 +159,34 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     private float getFertilizerGrowthModifier() {
-        ItemStack fertilizerStack = this.inventory.getStackInSlot(2);
-        if (fertilizerStack.isEmpty()) return 1.0F;
-        String fertilizerId = RegistryHelper.getItemId(fertilizerStack);
-        PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(fertilizerId);
+        ItemStack stack = getStack(2);
+        if (stack.isEmpty()) return 1.0F;
+        PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(RegistryHelper.getItemId(stack));
         return info != null ? info.speedMultiplier : 1.0F;
     }
 
     private float getFertilizerYieldModifier() {
-        ItemStack fertilizerStack = this.inventory.getStackInSlot(2);
-        if (fertilizerStack.isEmpty()) return 1.0F;
-        String fertilizerId = RegistryHelper.getItemId(fertilizerStack);
-        PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(fertilizerId);
+        ItemStack stack = getStack(2);
+        if (stack.isEmpty()) return 1.0F;
+        PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(RegistryHelper.getItemId(stack));
         return info != null ? info.yieldMultiplier : 1.0F;
     }
 
     private boolean isValidPlantSoilCombination(String plantId, String soilId) {
-        if (PlantablesConfig.isValidSeed(plantId)) {
-            return PlantablesConfig.isSoilValidForSeed(soilId, plantId);
-        } else if (PlantablesConfig.isValidSapling(plantId)) {
-            return PlantablesConfig.isSoilValidForSapling(soilId, plantId);
-        }
+        if (PlantablesConfig.isValidSeed(plantId))    return PlantablesConfig.isSoilValidForSeed(soilId, plantId);
+        if (PlantablesConfig.isValidSapling(plantId)) return PlantablesConfig.isSoilValidForSapling(soilId, plantId);
         return false;
     }
 
     private boolean isTree() {
-        ItemStack plantStack = this.inventory.getStackInSlot(0);
-        if (plantStack.isEmpty()) return false;
-        return PlantablesConfig.isValidSapling(RegistryHelper.getItemId(plantStack));
-    }
-
-    private boolean isCrop() {
-        ItemStack plantStack = this.inventory.getStackInSlot(0);
-        if (plantStack.isEmpty()) return false;
-        return PlantablesConfig.isValidSeed(RegistryHelper.getItemId(plantStack));
+        ItemStack s = getStack(0);
+        return !s.isEmpty() && PlantablesConfig.isValidSapling(RegistryHelper.getItemId(s));
     }
 
     private int getBaseGrowthTime(ItemStack plantStack) {
-        String itemId = RegistryHelper.getItemId(plantStack);
-        if (PlantablesConfig.isValidSeed(itemId)) {
-            return Config.getPlanterBaseProcessingTime();
-        } else if (PlantablesConfig.isValidSapling(itemId)) {
-            return PlantablesConfig.getBaseSaplingGrowthTime(itemId);
-        }
+        String id = RegistryHelper.getItemId(plantStack);
+        if (PlantablesConfig.isValidSeed(id))    return Config.getPlanterBaseProcessingTime();
+        if (PlantablesConfig.isValidSapling(id)) return PlantablesConfig.getBaseSaplingGrowthTime(id);
         return Config.getPlanterBaseProcessingTime();
     }
 
@@ -191,65 +196,82 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     private void resetGrowth() {
-        this.growthProgress = 0;
-        this.growthTicks = 0;
-        this.readyToHarvest = false;
-        this.lastGrowthStage = -1;
-        this.setChanged();
+        growthProgress  = 0;
+        growthTicks     = 0;
+        readyToHarvest  = false;
+        lastGrowthStage = -1;
+        setChanged();
     }
 
-    public void harvestPlant(BlockState state) {
-        if (!this.readyToHarvest) return;
+    // -------------------------------------------------------------------------
+    // Harvest
+    // -------------------------------------------------------------------------
 
-        float fertilizerYieldModifier = this.getFertilizerYieldModifier();
-        float clocheYieldModifier = this.getClocheYieldModifier(state);
+    public void harvestPlant(BlockState state) {
+        if (!readyToHarvest) return;
+
+        float fertYield   = getFertilizerYieldModifier();
+        float clocheYield = getClocheYieldModifier(state);
         List<ItemStack> drops = applyYieldModifier(
-                this.getHarvestDrops(this.inventory.getStackInSlot(0)),
-                fertilizerYieldModifier * clocheYieldModifier
+                getHarvestDrops(getStack(0)),
+                fertYield * clocheYield
         );
 
         for (ItemStack drop : drops) {
             int remaining = drop.getCount();
+            ItemResource res = ItemResource.of(drop);
 
-            for (int slot = 3; slot <= 14; slot++) {
-                ItemStack existing = this.inventory.getStackInSlot(slot);
-                if (existing.isEmpty()) {
-                    int toPlace = Math.min(remaining, drop.getMaxStackSize());
-                    this.inventory.setStackInSlot(slot, new ItemStack(drop.getItem(), toPlace));
-                    remaining -= toPlace;
-                } else if (existing.is(drop.getItem()) && existing.getCount() < existing.getMaxStackSize()) {
+            // Merge into existing stacks first
+            for (int slot = 3; slot <= 14 && remaining > 0; slot++) {
+                ItemStack existing = getStack(slot);
+                if (!existing.isEmpty() && existing.is(drop.getItem())) {
                     int space = existing.getMaxStackSize() - existing.getCount();
+                    if (space <= 0) continue;
                     int toAdd = Math.min(space, remaining);
-                    existing.grow(toAdd);
-                    remaining -= toAdd;
+                    try (Transaction tx = Transaction.openRoot()) {
+                        int inserted = inventory.insert(slot, res, toAdd, tx);
+                        tx.commit();
+                        remaining -= inserted;
+                    }
                 }
+            }
 
-                if (remaining <= 0) break;
+            // Then fill empty slots
+            for (int slot = 3; slot <= 14 && remaining > 0; slot++) {
+                if (getStack(slot).isEmpty()) {
+                    int toPlace = Math.min(remaining, drop.getMaxStackSize());
+                    try (Transaction tx = Transaction.openRoot()) {
+                        int inserted = inventory.insert(slot, res, toPlace, tx);
+                        tx.commit();
+                        remaining -= inserted;
+                    }
+                }
             }
 
             if (remaining > 0) break;
         }
 
-        this.consumeFertilizer();
-        this.resetGrowth();
+        consumeFertilizer();
+        resetGrowth();
     }
 
     private void consumeFertilizer() {
-        ItemStack fertilizerStack = this.inventory.getStackInSlot(2);
-        if (fertilizerStack.isEmpty()) return;
-        fertilizerStack.shrink(1);
-        this.inventory.setStackInSlot(2, fertilizerStack.isEmpty() ? ItemStack.EMPTY : fertilizerStack);
-        this.setChanged();
+        ItemStack stack = getStack(2);
+        if (stack.isEmpty()) return;
+        try (Transaction tx = Transaction.openRoot()) {
+            inventory.extract(2, ItemResource.of(stack), 1, tx);
+            tx.commit();
+        }
+        setChanged();
     }
 
-    private List<ItemStack> applyYieldModifier(List<ItemStack> drops, float yieldModifier) {
-        if (yieldModifier == 1.0F) return drops;
-        List<ItemStack> modified = new ArrayList<>();
+    private List<ItemStack> applyYieldModifier(List<ItemStack> drops, float mod) {
+        if (mod == 1.0F) return drops;
+        List<ItemStack> out = new ArrayList<>();
         for (ItemStack drop : drops) {
-            int newCount = Math.max(1, Math.round(drop.getCount() * yieldModifier));
-            modified.add(new ItemStack(drop.getItem(), newCount));
+            out.add(new ItemStack(drop.getItem(), Math.max(1, Math.round(drop.getCount() * mod))));
         }
-        return modified;
+        return out;
     }
 
     private List<ItemStack> getHarvestDrops(ItemStack plantStack) {
@@ -259,223 +281,231 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         String plantId = RegistryHelper.getItemId(plantStack);
         List<PlantablesConfig.DropInfo> configDrops;
 
-        if (PlantablesConfig.isValidSeed(plantId)) {
-            configDrops = PlantablesConfig.getCropDrops(plantId);
-        } else if (PlantablesConfig.isValidSapling(plantId)) {
-            configDrops = PlantablesConfig.getTreeDrops(plantId);
-        } else {
-            return drops;
-        }
+        if (PlantablesConfig.isValidSeed(plantId))         configDrops = PlantablesConfig.getCropDrops(plantId);
+        else if (PlantablesConfig.isValidSapling(plantId)) configDrops = PlantablesConfig.getTreeDrops(plantId);
+        else return drops;
 
-        Random random = new Random();
-        for (PlantablesConfig.DropInfo dropInfo : configDrops) {
-            if (random.nextFloat() <= dropInfo.chance) {
-                int count = dropInfo.maxCount > dropInfo.minCount
-                        ? dropInfo.minCount + random.nextInt(dropInfo.maxCount - dropInfo.minCount + 1)
-                        : dropInfo.minCount;
-                Item item = RegistryHelper.getItem(dropInfo.item);
-                if (item != null) {
-                    drops.add(new ItemStack(item, count));
-                }
+        Random rng = new Random();
+        for (PlantablesConfig.DropInfo info : configDrops) {
+            if (rng.nextFloat() <= info.chance) {
+                int count = info.maxCount > info.minCount
+                        ? info.minCount + rng.nextInt(info.maxCount - info.minCount + 1)
+                        : info.minCount;
+                Item item = RegistryHelper.getItem(info.item);
+                if (item != null) drops.add(new ItemStack(item, count));
             }
         }
-
         return drops;
     }
 
-    private static void tryOutputItemsBelow(Level level, BlockPos pos, PlanterBlockEntity blockEntity) {
-        BlockPos belowPos = pos.below();
-        if (level.getBlockEntity(belowPos) == null) return;
+    // -------------------------------------------------------------------------
+    // Output to block below
+    // -------------------------------------------------------------------------
 
-        IItemHandler targetInventory = level.getCapability(Capabilities.ItemHandler.BLOCK, belowPos, Direction.UP);
-        if (targetInventory == null) return;
+    private static void tryOutputItemsBelow(Level level, BlockPos pos, PlanterBlockEntity be) {
+        BlockPos below = pos.below();
+        if (level.getBlockEntity(below) == null) return;
+
+        // Capabilities.Item.BLOCK is the new key (ResourceHandler<ItemResource>) since 21.9+
+        ResourceHandler<ItemResource> target = level.getCapability(Capabilities.Item.BLOCK, below, Direction.UP);
+        if (target == null) return;
 
         boolean changed = false;
         for (int slot = 3; slot <= 14; slot++) {
-            if (blockEntity.inventory.getStackInSlot(slot).isEmpty()) continue;
+            ItemResource res = be.inventory.getResource(slot);
+            if (res.isEmpty()) continue;
+            int available = be.inventory.getAmountAsInt(slot);
+            if (available <= 0) continue;
 
-            ItemStack extracted = blockEntity.inventory.extractItem(slot, 64, true);
-            if (extracted.isEmpty()) continue;
-
-            ItemStack remaining = ItemHandlerHelper.insertItemStacked(targetInventory, extracted, false);
-            int inserted = extracted.getCount() - remaining.getCount();
-            if (inserted > 0) {
-                blockEntity.inventory.extractItem(slot, inserted, false);
-                changed = true;
+            // move(from, to, Predicate<T> filter, maxAmount, tx)
+            // Use a single-slot wrapper by filtering on exact resource match
+            final int s = slot;
+            final ItemResource slotRes = res;
+            try (Transaction tx = Transaction.openRoot()) {
+                int moved = ResourceHandlerUtil.move(be.inventory, target, slotRes::equals, available, tx);
+                if (moved > 0) {
+                    tx.commit();
+                    changed = true;
+                }
             }
         }
 
         if (changed) {
-            blockEntity.setChanged();
+            be.setChanged();
             level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 3);
         }
     }
 
+    // -------------------------------------------------------------------------
+    // Output space check (pure simulation — no transactions needed)
+    // -------------------------------------------------------------------------
+
     public boolean hasOutputSpace() {
-        List<ItemStack> potentialDrops = this.getHarvestDrops(this.inventory.getStackInSlot(0));
-        Map<Integer, ItemStack> simulatedSlots = new HashMap<>();
+        List<ItemStack> drops = getHarvestDrops(getStack(0));
+
+        Map<Integer, Integer> simAmounts  = new HashMap<>();
+        Map<Integer, Item>    simItems    = new HashMap<>();
+        Map<Integer, Integer> simCapacity = new HashMap<>();
 
         for (int slot = 3; slot <= 14; slot++) {
-            ItemStack stack = this.inventory.getStackInSlot(slot);
-            simulatedSlots.put(slot, stack.isEmpty() ? ItemStack.EMPTY : stack.copy());
+            ItemStack s = getStack(slot);
+            simAmounts.put(slot, s.getCount());
+            simItems.put(slot, s.isEmpty() ? null : s.getItem());
+            simCapacity.put(slot, s.isEmpty() ? 64 : s.getMaxStackSize());
         }
 
-        for (ItemStack drop : potentialDrops) {
+        for (ItemStack drop : drops) {
             int remaining = drop.getCount();
 
-            for (int slot = 3; slot <= 14; slot++) {
-                ItemStack existing = simulatedSlots.get(slot);
-                if (!existing.isEmpty() && existing.is(drop.getItem()) && existing.getCount() < existing.getMaxStackSize()) {
-                    int space = existing.getMaxStackSize() - existing.getCount();
+            for (int slot = 3; slot <= 14 && remaining > 0; slot++) {
+                Item here = simItems.get(slot);
+                if (here != null && here == drop.getItem()) {
+                    int space = simCapacity.get(slot) - simAmounts.get(slot);
                     int toAdd = Math.min(space, remaining);
-                    existing.grow(toAdd);
+                    simAmounts.merge(slot, toAdd, Integer::sum);
                     remaining -= toAdd;
-                    if (remaining <= 0) break;
                 }
             }
 
-            if (remaining > 0) {
-                for (int slot = 3; slot <= 14; slot++) {
-                    if (simulatedSlots.get(slot).isEmpty()) {
-                        simulatedSlots.put(slot, new ItemStack(drop.getItem(), remaining));
-                        remaining = 0;
-                        break;
-                    }
+            for (int slot = 3; slot <= 14 && remaining > 0; slot++) {
+                if (simItems.get(slot) == null) {
+                    simItems.put(slot, drop.getItem());
+                    simAmounts.put(slot, remaining);
+                    remaining = 0;
                 }
             }
 
             if (remaining > 0) return false;
         }
-
         return true;
     }
 
+    // -------------------------------------------------------------------------
+    // Capability handlers (returned to your capability registration code)
+    // -------------------------------------------------------------------------
+
+    /**
+     * Insert-only handler exposed on the sides — allows piping fertilizer into slot 2.
+     */
+    public ResourceHandler<ItemResource> getInsertHandler() {
+        return new ResourceHandler<>() {
+            @Override public int size() { return inventory.size(); }
+            @Override public ItemResource getResource(int index) { return inventory.getResource(index); }
+            @Override public long getAmountAsLong(int index) { return inventory.getAmountAsLong(index); }
+            @Override public long getCapacityAsLong(int index, ItemResource resource) { return inventory.getCapacityAsLong(index, resource); }
+            @Override public boolean isValid(int index, ItemResource resource) {
+                return index == 2 && PlantablesConfig.isValidFertilizer(RegistryHelper.getItemId(resource.toStack()));
+            }
+            @Override
+            public int insert(int index, ItemResource resource, int amount, TransactionContext tx) {
+                if (index != 2) return 0;
+                if (!PlantablesConfig.isValidFertilizer(RegistryHelper.getItemId(resource.toStack()))) return 0;
+                return inventory.insert(index, resource, amount, tx);
+            }
+            @Override
+            public int extract(int index, ItemResource resource, int amount, TransactionContext tx) {
+                return 0;
+            }
+        };
+    }
+
+    /**
+     * Extract-only handler exposed on the bottom — allows pipes to pull from output slots 3-14.
+     */
+    public ResourceHandler<ItemResource> getExtractHandler() {
+        return new ResourceHandler<>() {
+            @Override public int size() { return inventory.size(); }
+            @Override public ItemResource getResource(int index) { return inventory.getResource(index); }
+            @Override public long getAmountAsLong(int index) { return inventory.getAmountAsLong(index); }
+            @Override public long getCapacityAsLong(int index, ItemResource resource) { return inventory.getCapacityAsLong(index, resource); }
+            @Override public boolean isValid(int index, ItemResource resource) { return false; }
+            @Override
+            public int insert(int index, ItemResource resource, int amount, TransactionContext tx) {
+                return 0;
+            }
+            @Override
+            public int extract(int index, ItemResource resource, int amount, TransactionContext tx) {
+                if (index < 3) return 0;
+                return inventory.extract(index, resource, amount, tx);
+            }
+        };
+    }
+
+    // -------------------------------------------------------------------------
+    // Misc public API
+    // -------------------------------------------------------------------------
+
+    /** Convenience getter — converts handler slot to an ItemStack. */
+    public ItemStack getStack(int slot) {
+        ItemResource res = inventory.getResource(slot);
+        if (res.isEmpty()) return ItemStack.EMPTY;
+        return res.toStack(inventory.getAmountAsInt(slot));
+    }
+
     public float getGrowthProgress() {
-        return this.growthProgress / 100.0F;
+        return growthProgress / 100.0F;
     }
 
     public int getGrowthStage() {
-        if (this.isTree()) {
-            return this.growthProgress > 50 ? 1 : 0;
+        if (isTree()) return growthProgress > 50 ? 1 : 0;
+        return Math.min(8, (int) (growthProgress / 12.5F));
+    }
+
+    /**
+     * Called by the engine before this block entity is removed from the level.
+     * Drop the cloche and inventory contents here.
+     */
+    @Override
+    public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+        // Drop cloche if present
+        if (state.getValue(PlanterBlock.CLOCHED)) {
+            level.addFreshEntity(new ItemEntity(
+                    level,
+                    pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
+                    new ItemStack(ATItems.CLOCHE.get())
+            ));
         }
-        return Math.min(8, (int) (this.growthProgress / 12.5F));
+        // Drop inventory contents
+        drops();
     }
 
     public void drops() {
-        SimpleContainer inv = new SimpleContainer(this.inventory.getSlots());
-        for (int i = 0; i < this.inventory.getSlots(); i++) {
-            inv.setItem(i, this.inventory.getStackInSlot(i));
+        SimpleContainer inv = new SimpleContainer(inventory.size());
+        for (int i = 0; i < inventory.size(); i++) {
+            inv.setItem(i, getStack(i));
         }
-        Containers.dropContents(this.level, this.worldPosition, inv);
+        Containers.dropContents(level, worldPosition, inv);
     }
 
-    public IItemHandler getCapabilityHandler() {
-        return new IItemHandler() {
-            @Override
-            public int getSlots() {
-                return inventory.getSlots();
-            }
+    // -------------------------------------------------------------------------
+    // NBT — 26.1 uses ValueOutput/ValueInput, no CompoundTag or HolderLookup here
+    // -------------------------------------------------------------------------
 
-            @Override
-            public ItemStack getStackInSlot(int slot) {
-                return inventory.getStackInSlot(slot);
-            }
-
-            @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-                if (slot != 2) return stack;
-
-                String itemId = RegistryHelper.getItemId(stack);
-                if (!PlantablesConfig.isValidFertilizer(itemId)) return stack;
-
-                return inventory.insertItem(slot, stack, simulate);
-            }
-
-            @Override
-            public ItemStack extractItem(int slot, int amount, boolean simulate) {
-                return ItemStack.EMPTY;
-            }
-
-            @Override
-            public int getSlotLimit(int slot) {
-                return inventory.getSlotLimit(slot);
-            }
-
-            @Override
-            public boolean isItemValid(int slot, ItemStack stack) {
-                if (slot != 2) return false;
-                return PlantablesConfig.isValidFertilizer(RegistryHelper.getItemId(stack));
-            }
-        };
-    }
-
-    public IItemHandler getExtractHandler() {
-        return new IItemHandler() {
-            @Override
-            public int getSlots() {
-                return inventory.getSlots();
-            }
-
-            @Override
-            public ItemStack getStackInSlot(int slot) {
-                return inventory.getStackInSlot(slot);
-            }
-
-            @Override
-            public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-                return stack;
-            }
-
-            @Override
-            public ItemStack extractItem(int slot, int amount, boolean simulate) {
-                if (slot < 3) {
-                    return ItemStack.EMPTY;
-                }
-                return inventory.extractItem(slot, amount, simulate);
-            }
-
-            @Override
-            public int getSlotLimit(int slot) {
-                return inventory.getSlotLimit(slot);
-            }
-
-            @Override
-            public boolean isItemValid(int slot, ItemStack stack) {
-                return false;
-            }
-        };
+    @Override
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        // serialize writes under the "stacks" key itself internally — pass the parent output directly
+        inventory.serialize(output);
+        output.putInt("growthProgress", growthProgress);
+        output.putInt("growthTicks", growthTicks);
+        output.putBoolean("readyToHarvest", readyToHarvest);
+        output.putInt("lastGrowthStage", lastGrowthStage);
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.put("inventory", this.inventory.serializeNBT(registries));
-        tag.putInt("growthProgress", this.growthProgress);
-        tag.putInt("growthTicks", this.growthTicks);
-        tag.putBoolean("readyToHarvest", this.readyToHarvest);
-        tag.putInt("lastGrowthStage", this.lastGrowthStage);
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        // deserialize reads the "stacks" key itself internally — pass the parent input directly
+        inventory.deserialize(input);
+        growthProgress  = input.getIntOr("growthProgress", 0);
+        growthTicks     = input.getIntOr("growthTicks", 0);
+        readyToHarvest  = input.getBooleanOr("readyToHarvest", false);
+        lastGrowthStage = input.getIntOr("lastGrowthStage", -1);
     }
 
-    @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        this.inventory.deserializeNBT(registries, tag.getCompound("inventory"));
-        this.growthProgress = tag.getInt("growthProgress");
-        this.growthTicks = tag.getInt("growthTicks");
-        this.readyToHarvest = tag.getBoolean("readyToHarvest");
-        this.lastGrowthStage = tag.getInt("lastGrowthStage");
-    }
-
-    @Override
-    public Component getDisplayName() {
-        return Component.translatable("container.agritechtwo.planter");
-    }
-
-    @Nullable
-    @Override
-    public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return new PlanterBlockMenu(i, inventory, this);
-    }
+    // -------------------------------------------------------------------------
+    // Network — getUpdateTag still uses CompoundTag + HolderLookup in 26.1
+    // -------------------------------------------------------------------------
 
     @Nullable
     @Override
@@ -485,6 +515,21 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
-        return this.saveWithoutMetadata(registries);
+        return saveWithoutMetadata(registries);
+    }
+
+    // -------------------------------------------------------------------------
+    // Menu
+    // -------------------------------------------------------------------------
+
+    @Override
+    public Component getDisplayName() {
+        return Component.translatable("container.agritechtwo.planter");
+    }
+
+    @Nullable
+    @Override
+    public AbstractContainerMenu createMenu(int id, Inventory playerInv, Player player) {
+        return new PlanterBlockMenu(id, playerInv, this);
     }
 }

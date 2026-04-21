@@ -10,6 +10,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.ResourceHandler;
 
 import java.util.function.Supplier;
 
@@ -18,7 +20,7 @@ public class ATBlockEntities {
             DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, AgritechTwo.MODID);
 
     public static final Supplier<BlockEntityType<PlanterBlockEntity>> PLANTER_BLOCK_BE =
-            BLOCK_ENTITIES.register("planter_block_be", () -> BlockEntityType.Builder.of(
+            BLOCK_ENTITIES.register("planter_block_be", () -> new BlockEntityType<>(
                     PlanterBlockEntity::new,
                     ATBlocks.ACACIA_PLANTER.get(),
                     ATBlocks.BAMBOO_PLANTER.get(),
@@ -31,17 +33,20 @@ public class ATBlockEntities {
                     ATBlocks.OAK_PLANTER.get(),
                     ATBlocks.SPRUCE_PLANTER.get(),
                     ATBlocks.WARPED_PLANTER.get()
-            ).build(null));
+            ));
 
     private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, PLANTER_BLOCK_BE.get(),
+        // Capabilities.Item.BLOCK is the new key returning ResourceHandler<ItemResource>
+        event.registerBlockEntity(Capabilities.Item.BLOCK, PLANTER_BLOCK_BE.get(),
                 (blockEntity, direction) -> {
-                    if (!(blockEntity instanceof PlanterBlockEntity planter) || direction == null) {
-                        return null;
-                    }
+                    if (!(blockEntity instanceof PlanterBlockEntity planter)) return null;
+
+                    // direction is Direction here — explicit type from the lambda parameter
+                    if (direction == null) return null;
 
                     if (direction.getAxis().isHorizontal()) {
-                        return planter.getCapabilityHandler();
+                        // renamed from getCapabilityHandler() in the updated BE
+                        return planter.getInsertHandler();
                     }
 
                     if (direction == Direction.DOWN) {

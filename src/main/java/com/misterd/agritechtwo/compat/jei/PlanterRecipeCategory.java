@@ -4,6 +4,7 @@ import com.misterd.agritechtwo.block.ATBlocks;
 import com.misterd.agritechtwo.config.PlantablesConfig;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -11,17 +12,21 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
 public class PlanterRecipeCategory implements IRecipeCategory<PlanterRecipe> {
-    public static final ResourceLocation UID = ResourceLocation.fromNamespaceAndPath("agritechtwo", "planter");
-    public static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath("agritechtwo", "textures/gui/jei/jei_planters_gui.png");
+    public static final Identifier UID = Identifier.fromNamespaceAndPath("agritechtwo", "planter");
+    public static final Identifier TEXTURE = Identifier.fromNamespaceAndPath("agritechtwo", "textures/gui/jei/jei_planters_gui.png");
+
+    // RecipeType implements IRecipeType — keep as concrete type for construction,
+    // but getRecipeType() returns IRecipeType<T> as required by the interface.
     public static final RecipeType<PlanterRecipe> PLANTER_RECIPE_TYPE = new RecipeType<>(UID, PlanterRecipe.class);
 
     private final IDrawable background;
@@ -32,19 +37,28 @@ public class PlanterRecipeCategory implements IRecipeCategory<PlanterRecipe> {
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ATBlocks.OAK_PLANTER.get()));
     }
 
-    @Override public RecipeType<PlanterRecipe> getRecipeType() { return PLANTER_RECIPE_TYPE; }
-    @Override public Component getTitle()      { return Component.translatable("jei.agritechtwo.planter.tooltip"); }
-    @Override public IDrawable getBackground() { return background; }
-    @Override public IDrawable getIcon()       { return icon; }
-    @Override public int getWidth()            { return 134; }
-    @Override public int getHeight()           { return 72; }
+    // getRecipeType() returns IRecipeType<T> — RecipeType implements IRecipeType so this is fine
+    @Override public IRecipeType<PlanterRecipe> getRecipeType() { return PLANTER_RECIPE_TYPE; }
+    @Override public Component getTitle()   { return Component.translatable("jei.agritechtwo.planter.tooltip"); }
+    @Override public IDrawable getIcon()    { return icon; }
+    @Override public int getWidth()         { return 134; }
+    @Override public int getHeight()        { return 72; }
+
+    // getBackground() was removed from IRecipeCategory in 27.0.0 — deleted.
+    // The background is now drawn exclusively in draw().
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, PlanterRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 10, 10)
-                .addIngredients(VanillaTypes.ITEM_STACK, List.of(recipe.getSeedIngredient().getItems()));
-        builder.addSlot(RecipeIngredientRole.INPUT, 10, 46)
-                .addIngredients(recipe.getSoilIngredient());
+        // items() returns Stream<Holder<Item>> — map each holder to an ItemStack and add all to one slot so they cycle
+        IRecipeSlotBuilder seedSlot = builder.addSlot(RecipeIngredientRole.INPUT, 10, 10);
+        recipe.getSeedIngredient().items()
+                .map(h -> new ItemStack(h.value()))
+                .forEach(seedSlot::add);
+
+        IRecipeSlotBuilder soilSlot = builder.addSlot(RecipeIngredientRole.INPUT, 10, 46);
+        recipe.getSoilIngredient().items()
+                .map(h -> new ItemStack(h.value()))
+                .forEach(soilSlot::add);
 
         List<PlantablesConfig.DropInfo> dropInfos = recipe.getDropInfos();
         int outputIndex = 0;
@@ -53,12 +67,17 @@ public class PlanterRecipeCategory implements IRecipeCategory<PlanterRecipe> {
             int x = 52 + outputIndex % 4 * 18;
             int y = 10 + outputIndex / 4 * 18;
 
-            final PlantablesConfig.DropInfo info = outputIndex < dropInfos.size() ? dropInfos.get(outputIndex) : null;
+            final PlantablesConfig.DropInfo info = outputIndex < dropInfos.size()
+                    ? dropInfos.get(outputIndex) : null;
 
-            var slot = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).addItemStack(output);
+            // add(ItemStack) replaces deprecated addItemStack()
+            var slot = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).add(output);
 
             if (info != null) {
-                slot.addTooltipCallback((recipeSlotView, tooltip) -> {
+                // addRichTooltipCallback replaces removed addTooltipCallback.
+                // Lambda is (IRecipeSlotView slotView, ITooltipBuilder tooltip).
+                // ITooltipBuilder.add(Component) is the correct method.
+                slot.addRichTooltipCallback((slotView, tooltip) -> {
                     String countStr = info.minCount == info.maxCount
                             ? String.valueOf(info.minCount)
                             : info.minCount + "–" + info.maxCount;
@@ -75,8 +94,10 @@ public class PlanterRecipeCategory implements IRecipeCategory<PlanterRecipe> {
         }
     }
 
+    // draw() now takes GuiGraphicsExtractor instead of GuiGraphics
     @Override
-    public void draw(PlanterRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+    public void draw(PlanterRecipe recipe, IRecipeSlotsView recipeSlotsView,
+                     GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
         background.draw(guiGraphics);
     }
 }

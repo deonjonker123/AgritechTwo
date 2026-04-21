@@ -2,18 +2,10 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "D": {
-      "item": "minecraft:cherry_slab"
-    },
-    "H": {
-      "item": "minecraft:hopper"
-    },
-    "L": {
-      "item": "minecraft:cherry_log"
-    },
-    "P": {
-      "item": "minecraft:cherry_planks"
-    }
+    "D": "minecraft:cherry_slab",
+    "H": "minecraft:hopper",
+    "L": "minecraft:cherry_log",
+    "P": "minecraft:cherry_planks"
   },
   "pattern": [
     "P P",
@@ -21,7 +13,6 @@
     "LHL"
   ],
   "result": {
-    "count": 1,
     "id": "agritechtwo:cherry_planter"
   }
 }
