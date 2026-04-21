@@ -4,16 +4,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.QuadInstance;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.color.block.BlockTintSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.client.resources.model.ModelDebugName;
@@ -42,9 +40,6 @@ import com.misterd.agritechtwo.util.RegistryHelper;
 public class PlanterBlockEntityRenderer
         implements BlockEntityRenderer<PlanterBlockEntity, PlanterBlockEntityRenderer.RenderState> {
 
-    // -------------------------------------------------------------------------
-    // Standalone model key for the cloche dome
-    // -------------------------------------------------------------------------
     public static final StandaloneModelKey<QuadCollection> CLOCHE_DOME_KEY = new StandaloneModelKey<>(
             new ModelDebugName() {
                 @Override
@@ -61,12 +56,13 @@ public class PlanterBlockEntityRenderer
     // Render State
     // -------------------------------------------------------------------------
     public static class RenderState extends BlockEntityRenderState {
-        public boolean    cloched       = false;
-        public ItemStack  soilStack     = ItemStack.EMPTY;
-        public ItemStack  plantStack    = ItemStack.EMPTY;
-        public float      growthProgress = 0f;
-        public int        growthStage   = 0;
-        public boolean    soilIsWater   = false;
+        public boolean   cloched        = false;
+        public ItemStack soilStack      = ItemStack.EMPTY;
+        public ItemStack plantStack     = ItemStack.EMPTY;
+        public float     growthProgress = 0f;
+        public int       growthStage    = 0;
+        public boolean   soilIsWater    = false;
+
     }
 
     @Override
@@ -78,15 +74,16 @@ public class PlanterBlockEntityRenderer
     public void extractRenderState(PlanterBlockEntity be, RenderState state, float partialTick,
                                    Vec3 cameraPos,
                                    ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
-        BlockEntityRenderState.extractBase(be, state, crumblingOverlay);
+        BlockEntityRenderer.super.extractRenderState(be, state, partialTick, cameraPos, crumblingOverlay);
 
         state.cloched        = be.getBlockState().getValue(PlanterBlock.CLOCHED);
-        state.soilStack  = be.getStack(1).copy();
-        state.plantStack = be.getStack(0).copy();
+        state.soilStack      = be.getStack(1).copy();
+        state.plantStack     = be.getStack(0).copy();
         state.growthProgress = be.getGrowthProgress();
         state.growthStage    = be.getGrowthStage();
         state.soilIsWater    = !state.soilStack.isEmpty()
                 && RegistryHelper.getItemId(state.soilStack).equals("minecraft:water_bucket");
+
     }
 
     // -------------------------------------------------------------------------
@@ -96,19 +93,19 @@ public class PlanterBlockEntityRenderer
     public void submit(RenderState state, PoseStack poseStack,
                        SubmitNodeCollector collector, CameraRenderState cameraState) {
 
-        final int light = state.lightCoords;
+        int light = state.lightCoords;
 
-        // --- Cloche dome model ---
+        // --- Cloche dome ---
         if (state.cloched) {
             QuadCollection dome = Minecraft.getInstance()
                     .getModelManager().getStandaloneModel(CLOCHE_DOME_KEY);
             if (dome != null) {
-                // Use entity cutout render type with the blocks atlas texture
                 collector.submitCustomGeometry(poseStack,
                         RenderTypes.entityCutout(TextureAtlas.LOCATION_BLOCKS),
                         (pose, consumer) -> {
                             QuadInstance qi = new QuadInstance();
                             qi.setLightCoords(light);
+                            qi.setOverlayCoords(OverlayTexture.NO_OVERLAY);
                             for (BakedQuad quad : dome.getAll()) {
                                 consumer.putBakedQuad(pose, quad, qi);
                             }
@@ -121,11 +118,10 @@ public class PlanterBlockEntityRenderer
             if (state.soilIsWater) {
                 submitWater(poseStack, collector, light);
             } else if (state.soilStack.getItem() instanceof BlockItem soilBlockItem) {
-                BlockState soilState = soilBlockItem.getBlock().defaultBlockState();
                 poseStack.pushPose();
-                poseStack.translate(0.175, 0.4, 0.175);
+                poseStack.translate(0.175, 0.401, 0.175);
                 poseStack.scale(0.65f, 0.05f, 0.65f);
-                submitBlockState(soilState, poseStack, collector, light, false);
+                submitBlockQuads(soilBlockItem.getBlock().defaultBlockState(), poseStack, collector, light);
                 poseStack.popPose();
             }
         }
@@ -134,7 +130,7 @@ public class PlanterBlockEntityRenderer
         if (!state.plantStack.isEmpty() && !state.soilStack.isEmpty()
                 && state.plantStack.getItem() instanceof BlockItem plantBlockItem) {
 
-            String plantId  = RegistryHelper.getItemId(state.plantStack);
+            String  plantId = RegistryHelper.getItemId(state.plantStack);
             boolean isTree  = PlantablesConfig.isValidSapling(plantId);
             boolean isCrop  = PlantablesConfig.isValidSeed(plantId);
 
@@ -155,7 +151,7 @@ public class PlanterBlockEntityRenderer
                 }
 
                 if (plantState != null) {
-                    submitBlockState(plantState, poseStack, collector, light, false);
+                    submitBlockQuads(plantState, poseStack, collector, light);
                 }
                 poseStack.popPose();
             }
@@ -163,7 +159,7 @@ public class PlanterBlockEntityRenderer
     }
 
     // -------------------------------------------------------------------------
-    // Model registration — call from ClientModEvents
+    // Model registration
     // -------------------------------------------------------------------------
     public static void onRegisterStandaloneModels(ModelEvent.RegisterStandalone event) {
         event.register(
@@ -179,36 +175,37 @@ public class PlanterBlockEntityRenderer
     // -------------------------------------------------------------------------
 
     /**
-     * Render a BlockState by fetching its BlockStateModel from the ModelManager
-     * and submitting its quads via submitCustomGeometry.
+     * Renders a BlockState by pulling its QuadCollection directly from the
+     * BlockModelSet and emitting quads via submitCustomGeometry — same
+     * approach as the cloche dome, avoids the broken submitBlockModel path.
      */
-    private static void submitBlockState(BlockState blockState, PoseStack poseStack,
-                                         SubmitNodeCollector collector, int light, boolean cutout) {
+    private static void submitBlockQuads(BlockState blockState, PoseStack poseStack,
+                                         SubmitNodeCollector collector, int light) {
         var modelSet = Minecraft.getInstance().getModelManager().getBlockStateModelSet();
         var model    = modelSet.get(blockState);
         if (model == null) return;
 
-        var parts = new java.util.ArrayList<BlockStateModelPart>();
+        var parts = new java.util.ArrayList<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart>();
         model.collectParts(net.minecraft.util.RandomSource.create(), parts);
+        if (parts.isEmpty()) return;
 
-        var blockColors = Minecraft.getInstance().getBlockColors();
-        int[] tints = new int[4];
-        for (int i = 0; i < 4; i++) {
-            BlockTintSource source = blockColors.getTintSource(blockState, i);
-            tints[i] = source != null ? source.color(blockState) : -1;
-        }
-
-        RenderType renderType = cutout
-                ? RenderTypes.entityCutout(TextureAtlas.LOCATION_BLOCKS, true)
-                : RenderTypes.entitySolid(TextureAtlas.LOCATION_BLOCKS);
-
-        collector.submitBlockModel(poseStack,
-                renderType,
-                parts,
-                tints,
-                light,
-                net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY,
-                -1);
+        collector.submitCustomGeometry(poseStack,
+                RenderTypes.entityCutout(TextureAtlas.LOCATION_BLOCKS),
+                (pose, consumer) -> {
+                    QuadInstance qi = new QuadInstance();
+                    qi.setLightCoords(light);
+                    qi.setOverlayCoords(OverlayTexture.NO_OVERLAY);
+                    for (var part : parts) {
+                        for (BakedQuad quad : part.getQuads(null)) {
+                            consumer.putBakedQuad(pose, quad, qi);
+                        }
+                        for (net.minecraft.core.Direction dir : net.minecraft.core.Direction.values()) {
+                            for (BakedQuad quad : part.getQuads(dir)) {
+                                consumer.putBakedQuad(pose, quad, qi);
+                            }
+                        }
+                    }
+                });
     }
 
     private void submitWater(PoseStack poseStack, SubmitNodeCollector collector, int light) {
