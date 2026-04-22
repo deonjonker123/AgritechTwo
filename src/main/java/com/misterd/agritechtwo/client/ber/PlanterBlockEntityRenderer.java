@@ -141,8 +141,7 @@ public class PlanterBlockEntityRenderer
             }
         }
 
-        if (!state.plantStack.isEmpty() && !state.soilStack.isEmpty()
-                && state.plantStack.getItem() instanceof BlockItem plantBlockItem) {
+        if (!state.plantStack.isEmpty() && !state.soilStack.isEmpty() && state.plantStack.getItem() instanceof BlockItem plantBlockItem) {
 
             String  plantId = RegistryHelper.getItemId(state.plantStack);
             boolean isTree  = PlantablesConfig.isValidSapling(plantId);

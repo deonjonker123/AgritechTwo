@@ -351,19 +351,33 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
 
     public ResourceHandler<ItemResource> getInsertHandler() {
         return new ResourceHandler<>() {
-            @Override public int size() { return inventory.size(); }
-            @Override public ItemResource getResource(int index) { return inventory.getResource(index); }
-            @Override public long getAmountAsLong(int index) { return inventory.getAmountAsLong(index); }
-            @Override public long getCapacityAsLong(int index, ItemResource resource) { return inventory.getCapacityAsLong(index, resource); }
+            @Override public int size() {
+                return inventory.size();
+            }
+
+            @Override public ItemResource getResource(int index) {
+                return inventory.getResource(index);
+            }
+
+            @Override public long getAmountAsLong(int index) {
+                return inventory.getAmountAsLong(index);
+            }
+
+            @Override public long getCapacityAsLong(int index, ItemResource resource) {
+                return inventory.getCapacityAsLong(index, resource);
+            }
+
             @Override public boolean isValid(int index, ItemResource resource) {
                 return index == 2 && PlantablesConfig.isValidFertilizer(RegistryHelper.getItemId(resource.toStack()));
             }
+
             @Override
             public int insert(int index, ItemResource resource, int amount, TransactionContext tx) {
                 if (index != 2) return 0;
                 if (!PlantablesConfig.isValidFertilizer(RegistryHelper.getItemId(resource.toStack()))) return 0;
                 return inventory.insert(index, resource, amount, tx);
             }
+
             @Override
             public int extract(int index, ItemResource resource, int amount, TransactionContext tx) {
                 return 0;
@@ -373,15 +387,31 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
 
     public ResourceHandler<ItemResource> getExtractHandler() {
         return new ResourceHandler<>() {
-            @Override public int size() { return inventory.size(); }
-            @Override public ItemResource getResource(int index) { return inventory.getResource(index); }
-            @Override public long getAmountAsLong(int index) { return inventory.getAmountAsLong(index); }
-            @Override public long getCapacityAsLong(int index, ItemResource resource) { return inventory.getCapacityAsLong(index, resource); }
-            @Override public boolean isValid(int index, ItemResource resource) { return false; }
+            @Override public int size() {
+                return inventory.size();
+            }
+
+            @Override public ItemResource getResource(int index) {
+                return inventory.getResource(index);
+            }
+
+            @Override public long getAmountAsLong(int index) {
+                return inventory.getAmountAsLong(index);
+            }
+
+            @Override public long getCapacityAsLong(int index, ItemResource resource) {
+                return inventory.getCapacityAsLong(index, resource);
+            }
+
+            @Override public boolean isValid(int index, ItemResource resource) {
+                return false;
+            }
+
             @Override
             public int insert(int index, ItemResource resource, int amount, TransactionContext tx) {
                 return 0;
             }
+
             @Override
             public int extract(int index, ItemResource resource, int amount, TransactionContext tx) {
                 if (index < 3) return 0;

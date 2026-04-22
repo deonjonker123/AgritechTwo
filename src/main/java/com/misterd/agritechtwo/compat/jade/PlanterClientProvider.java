@@ -22,25 +22,20 @@ public enum PlanterClientProvider implements IBlockComponentProvider {
         CompoundTag data = accessor.getServerData();
         if (!data.getBooleanOr("hasCrop", false)) return;
 
-        String cropName       = data.getStringOr("cropName", "");
-        int currentStage      = data.getIntOr("currentStage", 0);
-        int maxStage          = data.getIntOr("maxStage", 0);
+        String cropName = data.getStringOr("cropName", "");
+        int currentStage = data.getIntOr("currentStage", 0);
+        int maxStage = data.getIntOr("maxStage", 0);
         float progressPercent = data.getFloatOr("progressPercent", 0f);
-        String soilName       = data.getStringOr("soilName", "");
-        float growthModifier  = data.getFloatOr("growthModifier", 1f);
+        String soilName = data.getStringOr("soilName", "");
+        float growthModifier = data.getFloatOr("growthModifier", 1f);
 
         if (progressPercent >= 100.0F) {
-            tooltip.add(Component.translatable("jade.agritechtwo.crop_ready", cropName)
-                    .withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD));
+            tooltip.add(Component.translatable("jade.agritechtwo.crop_ready", cropName).withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD));
         } else {
-            tooltip.add(Component.translatable("jade.agritechtwo.crop_progress",
-                            cropName, currentStage, maxStage, Math.round(progressPercent))
-                    .withStyle(ChatFormatting.DARK_GREEN));
+            tooltip.add(Component.translatable("jade.agritechtwo.crop_progress", cropName, currentStage, maxStage, Math.round(progressPercent)).withStyle(ChatFormatting.DARK_GREEN));
         }
 
-        tooltip.add(Component.translatable("jade.agritechtwo.soil_info",
-                        soilName, String.format("%.2fx", growthModifier))
-                .withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("jade.agritechtwo.soil_info", soilName, String.format("%.2fx", growthModifier)).withStyle(ChatFormatting.GRAY));
 
         if (data.getBooleanOr("hasFertilizer", false)) {
             float fertSpeed = data.getFloatOr("fertilizerSpeedModifier", 1f);

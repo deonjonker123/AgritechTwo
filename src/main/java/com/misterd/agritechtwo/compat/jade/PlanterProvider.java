@@ -41,21 +41,21 @@ public enum PlanterProvider implements IServerDataProvider<BlockAccessor> {
             return;
         }
 
-        data.putBoolean("hasCrop", true);
-        data.putString("cropName",        seedStack.getDisplayName().getString());
-        data.putInt("currentStage",       planter.getGrowthStage());
-        data.putInt("maxStage",           getMaxStage(seedStack));
-        data.putFloat("progressPercent",  planter.getGrowthProgress() * 100.0F);
-        data.putString("soilName",        soilStack.getDisplayName().getString());
-        data.putFloat("growthModifier",   planter.getSoilGrowthModifier(soilStack));
+        data.putBoolean("hasCrop",true);
+        data.putString("cropName", seedStack.getDisplayName().getString());
+        data.putInt("currentStage", planter.getGrowthStage());
+        data.putInt("maxStage", getMaxStage(seedStack));
+        data.putFloat("progressPercent", planter.getGrowthProgress() * 100.0F);
+        data.putString("soilName", soilStack.getDisplayName().getString());
+        data.putFloat("growthModifier", planter.getSoilGrowthModifier(soilStack));
 
         ItemStack fertStack = planter.getStack(2);
         if (!fertStack.isEmpty()) {
             String fertId = RegistryHelper.getItemId(fertStack);
-            data.putBoolean("hasFertilizer", true);
-            data.putString("fertilizerName",          fertStack.getDisplayName().getString());
-            data.putFloat("fertilizerSpeedModifier",  getFertilizerSpeedModifier(fertId));
-            data.putFloat("fertilizerYieldModifier",  getFertilizerYieldModifier(fertId));
+            data.putBoolean("hasFertilizer",true);
+            data.putString("fertilizerName", fertStack.getDisplayName().getString());
+            data.putFloat("fertilizerSpeedModifier", getFertilizerSpeedModifier(fertId));
+            data.putFloat("fertilizerYieldModifier", getFertilizerYieldModifier(fertId));
         } else {
             data.putBoolean("hasFertilizer", false);
         }

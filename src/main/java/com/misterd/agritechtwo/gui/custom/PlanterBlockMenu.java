@@ -1,6 +1,5 @@
 package com.misterd.agritechtwo.gui.custom;
 
-import com.misterd.agritechtwo.block.custom.PlanterBlock;
 import com.misterd.agritechtwo.blockentity.custom.PlanterBlockEntity;
 import com.misterd.agritechtwo.config.PlantablesConfig;
 import com.misterd.agritechtwo.gui.ATMenuTypes;
@@ -46,10 +45,6 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
     }
 
-    // ------------------------------------------------------------------------
-    // Shift-click
-    // ------------------------------------------------------------------------
-
     @Override
     public ItemStack quickMoveStack(Player player, int index) {
         Slot source = slots.get(index);
@@ -59,10 +54,8 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
         ItemStack copy = stack.copy();
 
         if (index < 15) {
-            // From TE → player
             if (!moveItemStackTo(stack, 15, 51, true)) return ItemStack.EMPTY;
         } else {
-            // From player → TE
             if (!moveToSpecialSlots(stack)) {
                 if (!moveItemStackTo(stack, 0, 15, false)) return ItemStack.EMPTY;
             }
@@ -110,10 +103,6 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
         stack.shrink(1);
     }
 
-    // ------------------------------------------------------------------------
-    // Validity
-    // ------------------------------------------------------------------------
-
     @Override
     public boolean stillValid(Player player) {
         return stillValid(
@@ -122,10 +111,6 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
                 blockEntity.getBlockState().getBlock()
         );
     }
-
-    // ------------------------------------------------------------------------
-    // Player inventory
-    // ------------------------------------------------------------------------
 
     private void addPlayerInventory(Inventory inv) {
         for (int row = 0; row < 3; row++) {
@@ -140,10 +125,6 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
             addSlot(new Slot(inv, i, 8 + i * 18, 147));
         }
     }
-
-    // ------------------------------------------------------------------------
-    // Custom Slots
-    // ------------------------------------------------------------------------
 
     private static class PlanterSlot extends Slot {
         protected final PlanterBlockEntity be;

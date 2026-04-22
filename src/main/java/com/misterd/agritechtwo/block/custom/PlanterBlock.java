@@ -193,9 +193,7 @@ public class PlanterBlock extends BaseEntityBlock {
             ItemStack soilStack = planter.getStack(1);
             if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
                 BlockState soilState = soilBlockItem.getBlock().defaultBlockState();
-                BlockState result = soilState.getToolModifiedState(
-                        new UseOnContext(level, player, hand, heldItem, hitResult), ItemAbilities.HOE_TILL,false
-                );
+                BlockState result = soilState.getToolModifiedState(new UseOnContext(level, player, hand, heldItem, hitResult), ItemAbilities.HOE_TILL,false);
                 if (result != null) {
                     try (Transaction tx = Transaction.openRoot()) {
                         planter.inventory.extract(1, ItemResource.of(soilStack), 1, tx);

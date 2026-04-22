@@ -21,7 +21,6 @@ public class PlanterBlockScreen extends AbstractContainerScreen<PlanterBlockMenu
     private static final int GUI_HEIGHT = 171;
 
     public PlanterBlockScreen(PlanterBlockMenu menu, Inventory playerInventory, Component title) {
-        // imageWidth/imageHeight are final — pass them to the super constructor
         super(menu, playerInventory, title, 176, GUI_HEIGHT);
         this.inventoryLabelY = GUI_HEIGHT - 96;
     }
@@ -32,18 +31,12 @@ public class PlanterBlockScreen extends AbstractContainerScreen<PlanterBlockMenu
         this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
     }
 
-    // -------------------------------------------------------------------------
-    // Rendering
-    // -------------------------------------------------------------------------
-
     @Override
     public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
-        // Background texture — blit(RenderPipeline, Identifier, x, y, u, v, w, h, texW, texH)
         graphics.blit(RenderPipelines.GUI_TEXTURED, GUI_TEXTURE,
                 this.leftPos, this.topPos, 0.0F, 0.0F,
                 this.imageWidth, this.imageHeight, 256, 256);
 
-        // Growth progress bar
         float growthProgress = this.menu.blockEntity.getGrowthProgress();
         if (growthProgress > 0.0F) {
             int barHeight = (int) (52.0F * growthProgress);
@@ -53,18 +46,14 @@ public class PlanterBlockScreen extends AbstractContainerScreen<PlanterBlockMenu
                     176.0F, (float) (52 - barHeight),
                     6, barHeight, 256, 256);
         }
-
-        // Labels + slots
         super.extractContents(graphics, mouseX, mouseY, partialTick);
     }
 
     @Override
     protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
-        // Progress bar hover tooltip
         if (mouseX >= this.leftPos + 40 && mouseX <= this.leftPos + 46
                 && mouseY >= this.topPos + 18 && mouseY <= this.topPos + 71) {
             float progress = this.menu.blockEntity.getGrowthProgress();
-            // setComponentTooltipForNextFrame takes Font + List<Component>
             graphics.setComponentTooltipForNextFrame(this.font, List.of(
                     Component.translatable("tooltip.agritechtwo.growth_progress"),
                     Component.literal(String.format("%.1f%%", progress * 100.0F))
@@ -77,10 +66,6 @@ public class PlanterBlockScreen extends AbstractContainerScreen<PlanterBlockMenu
 
         super.extractTooltip(graphics, mouseX, mouseY);
     }
-
-    // -------------------------------------------------------------------------
-    // Mouse input
-    // -------------------------------------------------------------------------
 
     @Override
     public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {

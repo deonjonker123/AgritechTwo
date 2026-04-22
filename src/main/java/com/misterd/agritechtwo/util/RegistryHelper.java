@@ -26,7 +26,6 @@ public class RegistryHelper {
     public static Item getItem(String id) {
         try {
             Identifier identifier = Identifier.parse(id);
-            // get() returns Optional<Holder.Reference<T>> — map to the value
             return BuiltInRegistries.ITEM.get(identifier)
                     .map(ref -> ref.value())
                     .orElse(null);
