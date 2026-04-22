@@ -319,14 +319,17 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
             int available = be.inventory.getAmountAsInt(slot);
             if (available <= 0) continue;
 
-            final int s = slot;
-            final ItemResource slotRes = res;
             try (Transaction tx = Transaction.openRoot()) {
-                int moved = ResourceHandlerUtil.move(be.inventory, target, slotRes::equals, available, tx);
-                if (moved > 0) {
-                    tx.commit();
-                    changed = true;
-                }
+                // Simulate how much the target can accept
+                int insertable = target.insert(res, available, tx);
+                if (insertable <= 0) continue;
+
+                // Now actually extract that exact amount from this specific slot only
+                int extracted = be.inventory.extract(slot, res, insertable, tx);
+                if (extracted != insertable) continue; // safety: rollback if amounts don't match
+
+                tx.commit();
+                changed = true;
             }
         }
 
@@ -378,24 +381,36 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
 
     public ResourceHandler<ItemResource> getInsertHandler() {
         return new ResourceHandler<>() {
-            @Override public int size() {
+            @Override
+            public int size() {
                 return inventory.size();
             }
 
-            @Override public ItemResource getResource(int index) {
+            @Override
+            public ItemResource getResource(int index) {
                 return inventory.getResource(index);
             }
 
-            @Override public long getAmountAsLong(int index) {
+            @Override
+            public long getAmountAsLong(int index) {
                 return inventory.getAmountAsLong(index);
             }
 
-            @Override public long getCapacityAsLong(int index, ItemResource resource) {
+            @Override
+            public long getCapacityAsLong(int index, ItemResource resource) {
                 return inventory.getCapacityAsLong(index, resource);
             }
 
-            @Override public boolean isValid(int index, ItemResource resource) {
-                return index == 2 && PlantablesConfig.isValidFertilizer(RegistryHelper.getItemId(resource.toStack()));
+            @Override
+            public boolean isValid(int index, ItemResource resource) {
+                if (resource.isEmpty()) return false;
+                String itemId = RegistryHelper.getItemId(resource.toStack());
+                return switch (index) {
+                    case 0 -> PlantablesConfig.isValidSeed(itemId) || PlantablesConfig.isValidSapling(itemId);
+                    case 1 -> PlantablesConfig.isValidSoil(itemId);
+                    case 2 -> PlantablesConfig.isValidFertilizer(itemId);
+                    default -> false;
+                };
             }
 
             @Override
@@ -414,23 +429,28 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
 
     public ResourceHandler<ItemResource> getExtractHandler() {
         return new ResourceHandler<>() {
-            @Override public int size() {
+            @Override
+            public int size() {
                 return inventory.size();
             }
 
-            @Override public ItemResource getResource(int index) {
+            @Override
+            public ItemResource getResource(int index) {
                 return inventory.getResource(index);
             }
 
-            @Override public long getAmountAsLong(int index) {
+            @Override
+            public long getAmountAsLong(int index) {
                 return inventory.getAmountAsLong(index);
             }
 
-            @Override public long getCapacityAsLong(int index, ItemResource resource) {
+            @Override
+            public long getCapacityAsLong(int index, ItemResource resource) {
                 return inventory.getCapacityAsLong(index, resource);
             }
 
-            @Override public boolean isValid(int index, ItemResource resource) {
+            @Override
+            public boolean isValid(int index, ItemResource resource) {
                 return false;
             }
 

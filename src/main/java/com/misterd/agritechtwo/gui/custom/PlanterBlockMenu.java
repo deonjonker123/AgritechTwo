@@ -29,7 +29,6 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
         this.blockEntity = (PlanterBlockEntity) be;
         this.level = inv.player.level();
 
-        // TE slots
         addSlot(new PlanterSlot(blockEntity, 0, 8, 18));   // plant
         addSlot(new PlanterSlot(blockEntity, 1, 8, 54));   // soil
         addSlot(new FertilizerSlot(blockEntity, 2, 152, 18));
@@ -53,12 +52,12 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
         ItemStack stack = source.getItem();
         ItemStack copy = stack.copy();
 
-        if (index < 15) {
+        if (index < 3) {
+            if (!moveItemStackTo(stack, 15, 51, true)) return ItemStack.EMPTY;
+        } else if (index < 15) {
             if (!moveItemStackTo(stack, 15, 51, true)) return ItemStack.EMPTY;
         } else {
-            if (!moveToSpecialSlots(stack)) {
-                if (!moveItemStackTo(stack, 0, 15, false)) return ItemStack.EMPTY;
-            }
+            if (!moveToSpecialSlots(stack)) return ItemStack.EMPTY;
         }
 
         if (stack.isEmpty()) {
