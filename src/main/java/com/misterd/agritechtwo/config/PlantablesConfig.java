@@ -361,7 +361,9 @@ public class PlantablesConfig {
 
     private static final List<String> STANDARD_TREE_SOILS = List.of(
             "minecraft:dirt", "minecraft:grass_block", "minecraft:podzol",
-            "minecraft:coarse_dirt", "minecraft:mycelium"
+            "minecraft:coarse_dirt", "minecraft:mycelium", "minecraft:rooted_dirt",
+            "minecraft:moss_block", "minecraft:pale_moss_block", "minecraft:farmland",
+            "minecraft:mud", "minecraft:muddy_mangrove_roots"
     );
 
     private static TreeEntry makeTree(String sapling, List<String> validSoils, DropEntry... drops) {
@@ -1729,6 +1731,7 @@ public class PlantablesConfig {
                 new S("minecraft:muddy_mangrove_roots",   0.5F),
                 new S("minecraft:rooted_dirt",            0.475F),
                 new S("minecraft:moss_block",             0.475F),
+                new S("minecraft:pale_moss_block",        0.475F),
                 new S("minecraft:farmland",               0.5F),
                 new S("minecraft:sand",                   0.5F),
                 new S("minecraft:red_sand",               0.5F),
