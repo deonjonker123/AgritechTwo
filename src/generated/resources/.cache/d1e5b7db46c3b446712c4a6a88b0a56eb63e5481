@@ -1,4 +1,4 @@
-// 26.1.2	2026-04-21T23:49:05.522942	My Recipes
+// 26.1.2	2026-04-22T14:45:48.6345256	My Recipes
 5b48028c5e95efae261c994a09955797563e46d3 data/agritechtwo/advancement/recipes/misc/acacia_planter.json
 db7df9d53094f1ea05d170689e258e9b449b53c7 data/agritechtwo/advancement/recipes/misc/bamboo_planter.json
 b3cd91748e7e1f10934a7400e34bde14c5253ee2 data/agritechtwo/advancement/recipes/misc/birch_planter.json
@@ -10,6 +10,7 @@ eb7500df6ac02e584fa015d8a87296ad47f4b417 data/agritechtwo/advancement/recipes/mi
 f452d2e1ac92481abba7da535c07b946ed2d1dc4 data/agritechtwo/advancement/recipes/misc/mangrove_planter.json
 50f4c9ba8824d0579b50bf32befba67d66b7e0bf data/agritechtwo/advancement/recipes/misc/oak_planter.json
 580699e7b72627adde79753f67d2bb52611e57ab data/agritechtwo/advancement/recipes/misc/oak_planter_from_any_wood.json
+1ada6f272d03d0818104ea52b2867ba5ef68a0da data/agritechtwo/advancement/recipes/misc/pale_oak_planter.json
 6efd930388f04d38824c017df715c81b73df048e data/agritechtwo/advancement/recipes/misc/spruce_planter.json
 768a7960b6281ddbf603f73686d38d48b9a7371f data/agritechtwo/advancement/recipes/misc/warped_planter.json
 f48ef1d677b658087e2e96f0e191f100d6ef7af6 data/agritechtwo/recipe/acacia_planter.json
@@ -23,5 +24,6 @@ ed7e901f5431ef58fb6adb4651d013037a6b0c3b data/agritechtwo/recipe/cherry_planter.
 1595539c46825bedf203c124c44cc1cbfd20bdba data/agritechtwo/recipe/mangrove_planter.json
 3621b4f86f07ba595dee9417d37ddbff5c66850d data/agritechtwo/recipe/oak_planter.json
 d9b84c04fd00e50e0df501c5a6609516ea00c98f data/agritechtwo/recipe/oak_planter_from_any_wood.json
+3dc184fe056e163ed8c2096a4284200174dfeeb6 data/agritechtwo/recipe/pale_oak_planter.json
 4c6333c528bf10b1b02a3b2c718278a40785e101 data/agritechtwo/recipe/spruce_planter.json
 809383f22eed33f071b29f26c5336a3b78fdf11f data/agritechtwo/recipe/warped_planter.json

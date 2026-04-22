@@ -28,6 +28,7 @@ public class ATBlockTagProvider extends BlockTagsProvider {
                 .add(ATBlocks.MANGROVE_PLANTER.get())
                 .add(ATBlocks.OAK_PLANTER.get())
                 .add(ATBlocks.SPRUCE_PLANTER.get())
-                .add(ATBlocks.WARPED_PLANTER.get());
+                .add(ATBlocks.WARPED_PLANTER.get())
+                .add(ATBlocks.PALE_OAK_PLANTER.get());
     }
 }

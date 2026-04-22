@@ -32,7 +32,8 @@ public class ATBlockEntities {
                     ATBlocks.MANGROVE_PLANTER.get(),
                     ATBlocks.OAK_PLANTER.get(),
                     ATBlocks.SPRUCE_PLANTER.get(),
-                    ATBlocks.WARPED_PLANTER.get()
+                    ATBlocks.WARPED_PLANTER.get(),
+                    ATBlocks.PALE_OAK_PLANTER.get()
             ));
 
     private static void registerCapabilities(RegisterCapabilitiesEvent event) {

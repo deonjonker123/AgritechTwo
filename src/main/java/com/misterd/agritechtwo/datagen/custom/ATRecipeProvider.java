@@ -166,6 +166,17 @@ public class ATRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_warped_stem", has(Items.WARPED_STEM))
                 .save(output);
 
+        shaped(RecipeCategory.MISC, ATBlocks.PALE_OAK_PLANTER.get())
+                .pattern("P P")
+                .pattern("PDP")
+                .pattern("LHL")
+                .define('P', Items.PALE_OAK_PLANKS)
+                .define('L', Items.PALE_OAK_LOG)
+                .define('H', Items.HOPPER)
+                .define('D', Items.PALE_OAK_SLAB)
+                .unlockedBy("has_pale_oak_log", has(Items.PALE_OAK_LOG))
+                .save(output);
+
         shaped(RecipeCategory.MISC, ATItems.CLOCHE.get(), 4)
                 .pattern("III")
                 .pattern("IPI")

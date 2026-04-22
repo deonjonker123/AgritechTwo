@@ -98,6 +98,13 @@ public class ATBlocks {
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
+    public static final DeferredBlock<Block> PALE_OAK_PLANTER = registerBlock("pale_oak_planter",
+            regName -> new PaleOakPlanterBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Function<Identifier, T> factory) {
         DeferredBlock<T> toReturn = BLOCKS.register(name, factory);
         registerBlockItem(name, toReturn);

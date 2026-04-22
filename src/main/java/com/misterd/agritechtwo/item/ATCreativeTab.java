@@ -27,6 +27,7 @@ public class ATCreativeTab {
                         output.accept(ATBlocks.JUNGLE_PLANTER);
                         output.accept(ATBlocks.MANGROVE_PLANTER);
                         output.accept(ATBlocks.OAK_PLANTER);
+                        output.accept(ATBlocks.PALE_OAK_PLANTER);
                         output.accept(ATBlocks.SPRUCE_PLANTER);
                         output.accept(ATBlocks.WARPED_PLANTER);
                         output.accept(ATItems.CLOCHE.get());

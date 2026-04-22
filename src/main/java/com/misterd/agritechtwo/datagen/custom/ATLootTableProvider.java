@@ -28,6 +28,7 @@ public class ATLootTableProvider extends BlockLootSubProvider {
         dropSelf(ATBlocks.OAK_PLANTER.get());
         dropSelf(ATBlocks.SPRUCE_PLANTER.get());
         dropSelf(ATBlocks.WARPED_PLANTER.get());
+        dropSelf(ATBlocks.PALE_OAK_PLANTER.get());
     }
 
     @Override
