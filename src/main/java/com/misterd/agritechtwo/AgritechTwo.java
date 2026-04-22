@@ -8,9 +8,6 @@ import com.misterd.agritechtwo.gui.ATMenuTypes;
 import com.misterd.agritechtwo.gui.custom.PlanterBlockScreen;
 import com.misterd.agritechtwo.item.ATCreativeTab;
 import com.misterd.agritechtwo.item.ATItems;
-import net.minecraft.client.resources.model.ModelDebugName;
-import net.minecraft.client.resources.model.geometry.QuadCollection;
-import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -18,8 +15,6 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
-import net.neoforged.neoforge.client.model.standalone.SimpleUnbakedStandaloneModel;
-import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import org.slf4j.Logger;
 
@@ -66,15 +61,6 @@ public class AgritechTwo {
 
     @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)
     public static class ClientModEvents {
-        // QuadCollection is the baked type — matches StandaloneModelKey<QuadCollection>
-        public static final StandaloneModelKey<QuadCollection> CLOCHE_DOME_KEY = new StandaloneModelKey<>(
-                new ModelDebugName() {
-                    @Override
-                    public String debugName() {
-                        return "agritechtwo: cloche_dome";
-                    }
-                }
-        );
 
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
@@ -98,13 +84,8 @@ public class AgritechTwo {
 
         @SubscribeEvent
         public static void onRegisterStandaloneModels(ModelEvent.RegisterStandalone event) {
-            // SimpleUnbakedStandaloneModel.quadCollection() is the correct factory for QuadCollection models
-            event.register(
-                    CLOCHE_DOME_KEY,
-                    SimpleUnbakedStandaloneModel.quadCollection(
-                            Identifier.fromNamespaceAndPath(MODID, "block/cloche_dome")
-                    )
-            );
+            // Key lives in the renderer — one source of truth
+            PlanterBlockEntityRenderer.onRegisterStandaloneModels(event);
         }
     }
 }

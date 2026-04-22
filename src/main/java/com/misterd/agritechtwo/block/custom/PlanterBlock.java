@@ -39,6 +39,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
@@ -92,44 +93,30 @@ public class PlanterBlock extends BaseEntityBlock {
         return new PlanterBlockEntity(pos, state);
     }
 
-    // -------------------------------------------------------------------------
-    // Block removal
-    // -------------------------------------------------------------------------
-
-    // Neighbour signal update lives on the block
     @Override
     protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
         Containers.updateNeighboursAfterDestroy(state, level, pos);
     }
 
-    // -------------------------------------------------------------------------
-    // Interaction
-    // -------------------------------------------------------------------------
-
     @Override
-    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
-                                          Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!(level.getBlockEntity(pos) instanceof PlanterBlockEntity planter)) {
             return InteractionResult.FAIL;
         }
 
         ItemStack heldItem = player.getItemInHand(hand);
 
-        // Shift + empty hand + cloched → remove cloche
         if (player.isCrouching() && heldItem.isEmpty() && state.getValue(CLOCHED)) {
             if (!level.isClientSide()) {
                 level.setBlock(pos, state.setValue(CLOCHED, false), 3);
                 level.addFreshEntity(new ItemEntity(
-                        level,
-                        pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5,
-                        new ItemStack(ATItems.CLOCHE.get())
+                        level,pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, new ItemStack(ATItems.CLOCHE.get())
                 ));
                 level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 0.5F, 1.2F);
             }
             return InteractionResult.SUCCESS;
         }
 
-        // Shift + any hand → open GUI
         if (player.isCrouching()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return InteractionResult.SUCCESS;
@@ -137,7 +124,6 @@ public class PlanterBlock extends BaseEntityBlock {
 
         String heldItemId = RegistryHelper.getItemId(heldItem);
 
-        // Place cloche
         if (heldItem.getItem() instanceof ClocheItem) {
             if (state.getValue(CLOCHED)) return InteractionResult.FAIL;
             if (!level.isClientSide()) {
@@ -147,8 +133,6 @@ public class PlanterBlock extends BaseEntityBlock {
             }
             return InteractionResult.SUCCESS;
         }
-
-        // Place seed / sapling into slot 0
         if (PlantablesConfig.isValidSeed(heldItemId) || PlantablesConfig.isValidSapling(heldItemId)) {
             if (!planter.getStack(0).isEmpty()) {
                 if (!level.isClientSide()) openGui(player, planter, pos);
@@ -163,9 +147,7 @@ public class PlanterBlock extends BaseEntityBlock {
                         ? PlantablesConfig.isSoilValidForSeed(soilId, heldItemId)
                         : PlantablesConfig.isSoilValidForSapling(soilId, heldItemId);
                 if (!valid) {
-                    // sendSystemMessage(component, true) → overlay=true sends to action bar
-                    player.sendSystemMessage(
-                            Component.translatable("message.agritechtwo.invalid_seed_soil_combination"));
+                    player.sendSystemMessage(Component.translatable("message.agritechtwo.invalid_seed_soil_combination"));
                     return InteractionResult.SUCCESS;
                 }
             }
@@ -179,8 +161,6 @@ public class PlanterBlock extends BaseEntityBlock {
             level.sendBlockUpdated(pos, state, state, 2);
             planter.setChanged();
             return InteractionResult.SUCCESS;
-
-            // Place soil into slot 1
         } else if (PlantablesConfig.isValidSoil(heldItemId)) {
             if (!planter.getStack(1).isEmpty()) {
                 if (!level.isClientSide()) openGui(player, planter, pos);
@@ -195,8 +175,7 @@ public class PlanterBlock extends BaseEntityBlock {
                         ? PlantablesConfig.isSoilValidForSeed(heldItemId, plantId)
                         : PlantablesConfig.isSoilValidForSapling(heldItemId, plantId);
                 if (!valid) {
-                    player.sendSystemMessage(
-                            Component.translatable("message.agritechtwo.invalid_seed_soil_combination"));
+                    player.sendSystemMessage(Component.translatable("message.agritechtwo.invalid_seed_soil_combination"));
                     return InteractionResult.SUCCESS;
                 }
             }
@@ -210,16 +189,12 @@ public class PlanterBlock extends BaseEntityBlock {
             level.sendBlockUpdated(pos, state, state, 2);
             planter.setChanged();
             return InteractionResult.SUCCESS;
-
-            // Hoe → till the soil in slot 1
         } else if (heldItem.getItem() instanceof HoeItem) {
             ItemStack soilStack = planter.getStack(1);
             if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
                 BlockState soilState = soilBlockItem.getBlock().defaultBlockState();
                 BlockState result = soilState.getToolModifiedState(
-                        new UseOnContext(level, player, hand, heldItem, hitResult),
-                        net.neoforged.neoforge.common.ItemAbilities.HOE_TILL,
-                        false
+                        new UseOnContext(level, player, hand, heldItem, hitResult), ItemAbilities.HOE_TILL,false
                 );
                 if (result != null) {
                     try (Transaction tx = Transaction.openRoot()) {
@@ -229,7 +204,6 @@ public class PlanterBlock extends BaseEntityBlock {
                     }
                     level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
                     if (!player.getAbilities().instabuild) {
-                        // InteractionHand maps directly to EquipmentSlot
                         EquipmentSlot slot = hand == InteractionHand.MAIN_HAND
                                 ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
                         heldItem.hurtAndBreak(1, player, slot);
@@ -237,16 +211,14 @@ public class PlanterBlock extends BaseEntityBlock {
                     return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
                 }
             }
-
-            // Mystical Agriculture essence → upgrade farmland in slot 1
         } else {
             Map<String, String> essenceToFarmland = new HashMap<>();
-            essenceToFarmland.put("mysticalagriculture:inferium_essence",   "mysticalagriculture:inferium_farmland");
+            essenceToFarmland.put("mysticalagriculture:inferium_essence", "mysticalagriculture:inferium_farmland");
             essenceToFarmland.put("mysticalagriculture:prudentium_essence", "mysticalagriculture:prudentium_farmland");
-            essenceToFarmland.put("mysticalagriculture:tertium_essence",    "mysticalagriculture:tertium_farmland");
-            essenceToFarmland.put("mysticalagriculture:imperium_essence",   "mysticalagriculture:imperium_farmland");
-            essenceToFarmland.put("mysticalagriculture:supremium_essence",  "mysticalagriculture:supremium_farmland");
-            essenceToFarmland.put("mysticalagradditions:insanium_essence",  "mysticalagradditions:insanium_farmland");
+            essenceToFarmland.put("mysticalagriculture:tertium_essence", "mysticalagriculture:tertium_farmland");
+            essenceToFarmland.put("mysticalagriculture:imperium_essence", "mysticalagriculture:imperium_farmland");
+            essenceToFarmland.put("mysticalagriculture:supremium_essence", "mysticalagriculture:supremium_farmland");
+            essenceToFarmland.put("mysticalagradditions:insanium_essence", "mysticalagradditions:insanium_farmland");
 
             if (essenceToFarmland.containsKey(heldItemId)) {
                 ItemStack soilStack = planter.getStack(1);
@@ -262,8 +234,7 @@ public class PlanterBlock extends BaseEntityBlock {
                         if (resultBlock != null) {
                             if (soilId.equals(farmlandId)) {
                                 if (!level.isClientSide()) {
-                                    player.sendSystemMessage(
-                                            Component.translatable("message.agritech.same_farmland"));
+                                    player.sendSystemMessage(Component.translatable("message.agritech.same_farmland"));
                                 }
                                 return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
                             }
@@ -282,7 +253,6 @@ public class PlanterBlock extends BaseEntityBlock {
             }
         }
 
-        // Fallback → open GUI
         if (!level.isClientSide()) openGui(player, planter, pos);
         return InteractionResult.SUCCESS;
     }

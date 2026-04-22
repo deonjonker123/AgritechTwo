@@ -4,7 +4,10 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.QuadInstance;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.color.block.BlockTintSource;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.BlockAndTintGetter;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModelPart;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
@@ -14,11 +17,13 @@ import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.ModelDebugName;
 import net.minecraft.client.resources.model.geometry.BakedQuad;
 import net.minecraft.client.resources.model.geometry.QuadCollection;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.data.AtlasIds;
 import net.minecraft.resources.Identifier;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,28 +46,24 @@ public class PlanterBlockEntityRenderer
         implements BlockEntityRenderer<PlanterBlockEntity, PlanterBlockEntityRenderer.RenderState> {
 
     public static final StandaloneModelKey<QuadCollection> CLOCHE_DOME_KEY = new StandaloneModelKey<>(
-            new ModelDebugName() {
-                @Override
-                public String debugName() { return "agritechtwo: cloche_dome"; }
-            }
+            () -> "agritechtwo: cloche_dome"
     );
 
-    private static final Identifier WATER_STILL =
-            Identifier.fromNamespaceAndPath("minecraft", "block/water_still");
+    private static final Identifier WATER_STILL = Identifier.fromNamespaceAndPath("minecraft", "block/water_still");
 
     public PlanterBlockEntityRenderer(BlockEntityRendererProvider.Context context) {}
 
-    // -------------------------------------------------------------------------
-    // Render State
-    // -------------------------------------------------------------------------
     public static class RenderState extends BlockEntityRenderState {
-        public boolean   cloched        = false;
-        public ItemStack soilStack      = ItemStack.EMPTY;
-        public ItemStack plantStack     = ItemStack.EMPTY;
-        public float     growthProgress = 0f;
-        public int       growthStage    = 0;
-        public boolean   soilIsWater    = false;
-
+        public boolean cloched = false;
+        public ItemStack soilStack = ItemStack.EMPTY;
+        public ItemStack plantStack = ItemStack.EMPTY;
+        public float growthProgress = 0f;
+        public int growthStage = 0;
+        public boolean soilIsWater = false;
+        public long posSeed = 0L;
+        public double distanceSq = 0.0;
+        public int[] soilTints = new int[0];
+        public int[] plantTints = new int[0];
     }
 
     @Override
@@ -71,32 +72,46 @@ public class PlanterBlockEntityRenderer
     }
 
     @Override
-    public void extractRenderState(PlanterBlockEntity be, RenderState state, float partialTick,
-                                   Vec3 cameraPos,
-                                   ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
+    public void extractRenderState(PlanterBlockEntity be, RenderState state, float partialTick, Vec3 cameraPos, ModelFeatureRenderer.@Nullable CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(be, state, partialTick, cameraPos, crumblingOverlay);
 
-        state.cloched        = be.getBlockState().getValue(PlanterBlock.CLOCHED);
-        state.soilStack      = be.getStack(1).copy();
-        state.plantStack     = be.getStack(0).copy();
+        state.cloched = be.getBlockState().getValue(PlanterBlock.CLOCHED);
+        state.soilStack = be.getStack(1).copy();
+        state.plantStack = be.getStack(0).copy();
         state.growthProgress = be.getGrowthProgress();
-        state.growthStage    = be.getGrowthStage();
-        state.soilIsWater    = !state.soilStack.isEmpty()
-                && RegistryHelper.getItemId(state.soilStack).equals("minecraft:water_bucket");
+        state.growthStage = be.getGrowthStage();
+        state.posSeed = be.getBlockPos().asLong();
+        var center = Vec3.atCenterOf(be.getBlockPos());
+        state.distanceSq = cameraPos.distanceToSqr(center);
+        state.soilIsWater = !state.soilStack.isEmpty() && RegistryHelper.getItemId(state.soilStack).equals("minecraft:water_bucket");
 
+        var level = (BlockAndTintGetter) be.getLevel();
+        var pos = be.getBlockPos();
+
+        state.soilTints = sampleTints(state.soilStack,  level, pos);
+        state.plantTints = sampleTints(state.plantStack, level, pos);
     }
 
-    // -------------------------------------------------------------------------
-    // Submit
-    // -------------------------------------------------------------------------
+    private static int[] sampleTints(ItemStack stack, BlockAndTintGetter level, BlockPos pos) {
+        if (stack.isEmpty() || !(stack.getItem() instanceof BlockItem bi)) return new int[0];
+        BlockState blockState = bi.getBlock().defaultBlockState();
+        var blockColors = Minecraft.getInstance().getBlockColors();
+        var sources = blockColors.getTintSources(blockState);
+        if (sources.isEmpty()) return new int[0];
+        int[] tints = new int[sources.size()];
+        for (int i = 0; i < sources.size(); i++) {
+            BlockTintSource src = sources.get(i);
+            tints[i] = src != null ? src.colorInWorld(blockState, level, pos) : -1;
+        }
+        return tints;
+    }
+
     @Override
-    public void submit(RenderState state, PoseStack poseStack,
-                       SubmitNodeCollector collector, CameraRenderState cameraState) {
+    public void submit(RenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState cameraState) {
 
         int light = state.lightCoords;
 
-        // --- Cloche dome ---
-        if (state.cloched) {
+        if (state.cloched && state.distanceSq <= 256.0) {
             QuadCollection dome = Minecraft.getInstance()
                     .getModelManager().getStandaloneModel(CLOCHE_DOME_KEY);
             if (dome != null) {
@@ -113,20 +128,19 @@ public class PlanterBlockEntityRenderer
             }
         }
 
-        // --- Soil ---
         if (!state.soilStack.isEmpty()) {
             if (state.soilIsWater) {
                 submitWater(poseStack, collector, light);
             } else if (state.soilStack.getItem() instanceof BlockItem soilBlockItem) {
+                BlockState soilState = soilBlockItem.getBlock().defaultBlockState();
                 poseStack.pushPose();
                 poseStack.translate(0.175, 0.401, 0.175);
                 poseStack.scale(0.65f, 0.05f, 0.65f);
-                submitBlockQuads(soilBlockItem.getBlock().defaultBlockState(), poseStack, collector, light);
+                submitBlockQuads(soilState, state.posSeed, state.soilTints, poseStack, collector, light);
                 poseStack.popPose();
             }
         }
 
-        // --- Plant ---
         if (!state.plantStack.isEmpty() && !state.soilStack.isEmpty()
                 && state.plantStack.getItem() instanceof BlockItem plantBlockItem) {
 
@@ -135,32 +149,29 @@ public class PlanterBlockEntityRenderer
             boolean isCrop  = PlantablesConfig.isValidSeed(plantId);
 
             if (isTree || isCrop) {
-                BlockState plantState = plantBlockItem.getBlock().defaultBlockState();
-                poseStack.pushPose();
-
-                if (isTree) {
-                    float scale = 0.3f + state.growthProgress * 0.4f;
-                    poseStack.translate(0.5, 0.45, 0.5);
-                    poseStack.scale(scale, scale, scale);
-                    poseStack.translate(-0.5, 0.0, -0.5);
-                } else {
-                    plantState = getCropBlockState(state.plantStack, state.growthStage);
-                    float gs = 0.2f + Math.min(1f, state.growthProgress) * 0.5f;
-                    poseStack.translate(0.1725, 0.45, 0.1725);
-                    poseStack.scale(0.65f, gs, 0.65f);
-                }
+                BlockState plantState = isTree
+                        ? plantBlockItem.getBlock().defaultBlockState()
+                        : getCropBlockState(state.plantStack, state.growthStage);
 
                 if (plantState != null) {
-                    submitBlockQuads(plantState, poseStack, collector, light);
+                    poseStack.pushPose();
+                    if (isTree) {
+                        float scale = 0.3f + state.growthProgress * 0.4f;
+                        poseStack.translate(0.5, 0.45, 0.5);
+                        poseStack.scale(scale, scale, scale);
+                        poseStack.translate(-0.5, 0.0, -0.5);
+                    } else {
+                        float gs = 0.2f + Math.min(1f, state.growthProgress) * 0.5f;
+                        poseStack.translate(0.1725, 0.45, 0.1725);
+                        poseStack.scale(0.65f, gs, 0.65f);
+                    }
+                    submitBlockQuads(plantState, state.posSeed ^ 1L, state.plantTints, poseStack, collector, light);
+                    poseStack.popPose();
                 }
-                poseStack.popPose();
             }
         }
     }
 
-    // -------------------------------------------------------------------------
-    // Model registration
-    // -------------------------------------------------------------------------
     public static void onRegisterStandaloneModels(ModelEvent.RegisterStandalone event) {
         event.register(
                 CLOCHE_DOME_KEY,
@@ -170,51 +181,53 @@ public class PlanterBlockEntityRenderer
         );
     }
 
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
-
-    /**
-     * Renders a BlockState by pulling its QuadCollection directly from the
-     * BlockModelSet and emitting quads via submitCustomGeometry — same
-     * approach as the cloche dome, avoids the broken submitBlockModel path.
-     */
-    private static void submitBlockQuads(BlockState blockState, PoseStack poseStack,
-                                         SubmitNodeCollector collector, int light) {
+    private static void submitBlockQuads(BlockState blockState, long seed, int[] tints, PoseStack poseStack, SubmitNodeCollector collector, int light) {
         var modelSet = Minecraft.getInstance().getModelManager().getBlockStateModelSet();
-        var model    = modelSet.get(blockState);
+        var model = modelSet.get(blockState);
         if (model == null) return;
 
-        var parts = new java.util.ArrayList<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart>();
-        model.collectParts(net.minecraft.util.RandomSource.create(), parts);
+        var parts = new java.util.ArrayList<BlockStateModelPart>();
+        model.collectParts(RandomSource.create(seed), parts);
         if (parts.isEmpty()) return;
 
-        collector.submitCustomGeometry(poseStack,
-                RenderTypes.entityCutout(TextureAtlas.LOCATION_BLOCKS),
+        var renderType = blockState.canOcclude()
+                ? RenderTypes.entitySolid(TextureAtlas.LOCATION_BLOCKS)
+                : RenderTypes.entityCutout(TextureAtlas.LOCATION_BLOCKS);
+
+        collector.submitCustomGeometry(poseStack, renderType,
                 (pose, consumer) -> {
                     QuadInstance qi = new QuadInstance();
                     qi.setLightCoords(light);
                     qi.setOverlayCoords(OverlayTexture.NO_OVERLAY);
                     for (var part : parts) {
-                        for (BakedQuad quad : part.getQuads(null)) {
-                            consumer.putBakedQuad(pose, quad, qi);
-                        }
-                        for (net.minecraft.core.Direction dir : net.minecraft.core.Direction.values()) {
-                            for (BakedQuad quad : part.getQuads(dir)) {
-                                consumer.putBakedQuad(pose, quad, qi);
-                            }
+                        emitQuads(part.getQuads(null), qi, tints, pose, consumer);
+                        for (Direction dir : Direction.values()) {
+                            emitQuads(part.getQuads(dir), qi, tints, pose, consumer);
                         }
                     }
                 });
     }
 
-    private void submitWater(PoseStack poseStack, SubmitNodeCollector collector, int light) {
+    private static void emitQuads(Iterable<BakedQuad> quads, QuadInstance qi, int[] tints, PoseStack.Pose pose, VertexConsumer consumer) {
+        for (BakedQuad quad : quads) {
+            qi.setColor(-1);
+            if (quad.materialInfo().isTinted()) {
+                int layer = quad.materialInfo().tintIndex();
+                if (layer >= 0 && layer < tints.length) {
+                    qi.multiplyColor(tints[layer]);
+                }
+            }
+            consumer.putBakedQuad(pose, quad, qi);
+        }
+    }
+
+    private static void submitWater(PoseStack poseStack, SubmitNodeCollector collector, int light) {
         TextureAtlasSprite sprite = Minecraft.getInstance()
                 .getAtlasManager()
                 .getAtlasOrThrow(AtlasIds.BLOCKS)
                 .getSprite(WATER_STILL);
 
-        float y    = 0.41f;
+        float y = 0.41f;
         float xMin = 0.175f, xMax = 0.825f;
         float zMin = 0.175f, zMax = 0.825f;
         float u0 = sprite.getU0(), u1 = sprite.getU1();
@@ -230,12 +243,11 @@ public class PlanterBlockEntityRenderer
                 });
     }
 
-    private static void addWaterVertex(VertexConsumer c, PoseStack.Pose pose,
-                                       float x, float y, float z,
-                                       float u, float v, int light) {
+    private static void addWaterVertex(VertexConsumer c, PoseStack.Pose pose, float x, float y, float z, float u, float v, int light) {
         c.addVertex(pose, x, y, z)
                 .setColor(0x3F, 0x76, 0xE4, 0xA0)
                 .setUv(u, v)
+                .setOverlay(OverlayTexture.NO_OVERLAY)
                 .setLight(light)
                 .setNormal(pose, 0f, 1f, 0f);
     }
