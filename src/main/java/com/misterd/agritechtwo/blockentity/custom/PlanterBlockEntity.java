@@ -31,7 +31,6 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.transfer.ResourceHandler;
-import net.neoforged.neoforge.transfer.ResourceHandlerUtil;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
@@ -320,13 +319,11 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
             if (available <= 0) continue;
 
             try (Transaction tx = Transaction.openRoot()) {
-                // Simulate how much the target can accept
                 int insertable = target.insert(res, available, tx);
                 if (insertable <= 0) continue;
 
-                // Now actually extract that exact amount from this specific slot only
                 int extracted = be.inventory.extract(slot, res, insertable, tx);
-                if (extracted != insertable) continue; // safety: rollback if amounts don't match
+                if (extracted != insertable) continue;
 
                 tx.commit();
                 changed = true;
