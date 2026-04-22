@@ -173,8 +173,7 @@ public class PlanterBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    private InteractionResult handlePlantInsert(BlockState state, Level level, BlockPos pos, Player player,
-                                                PlanterBlockEntity planter, ItemStack heldItem, String heldItemId) {
+    private InteractionResult handlePlantInsert(BlockState state, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem, String heldItemId) {
         if (!planter.getStack(0).isEmpty()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return InteractionResult.SUCCESS;
@@ -204,8 +203,7 @@ public class PlanterBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    private InteractionResult handleSoilInsert(BlockState state, Level level, BlockPos pos, Player player,
-                                               PlanterBlockEntity planter, ItemStack heldItem, String heldItemId) {
+    private InteractionResult handleSoilInsert(BlockState state, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem, String heldItemId) {
         if (!planter.getStack(1).isEmpty()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return InteractionResult.SUCCESS;
@@ -235,8 +233,7 @@ public class PlanterBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    private InteractionResult handleFertilizer(BlockState state, Level level, BlockPos pos, Player player,
-                                               PlanterBlockEntity planter, ItemStack heldItem, String heldItemId) {
+    private InteractionResult handleFertilizer(BlockState state, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem, String heldItemId) {
         if (planter.getStack(0).isEmpty() || planter.getStack(1).isEmpty() || planter.isReadyToHarvest()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return InteractionResult.SUCCESS;
@@ -258,9 +255,7 @@ public class PlanterBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    private InteractionResult handleHoeTill(Level level, BlockPos pos, Player player,
-                                            PlanterBlockEntity planter, ItemStack heldItem,
-                                            InteractionHand hand, BlockHitResult hitResult) {
+    private InteractionResult handleHoeTill(Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem, InteractionHand hand, BlockHitResult hitResult) {
         ItemStack soilStack = planter.getStack(1);
         if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
             BlockState soilState = soilBlockItem.getBlock().defaultBlockState();
@@ -285,9 +280,7 @@ public class PlanterBlock extends BaseEntityBlock {
         return InteractionResult.PASS;
     }
 
-    /** Mystical Agriculture essence in hand → upgrade the farmland in slot 1. */
-    private InteractionResult handleEssenceUpgrade(ItemStack stack, Level level, BlockPos pos, Player player,
-                                                   PlanterBlockEntity planter, String heldItemId) {
+    private InteractionResult handleEssenceUpgrade(ItemStack stack, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, String heldItemId) {
         ItemStack soilStack = planter.getStack(1);
         if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
             String soilId = RegistryHelper.getBlockId(soilBlockItem.getBlock());
@@ -319,10 +312,6 @@ public class PlanterBlock extends BaseEntityBlock {
         }
         return InteractionResult.PASS;
     }
-
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
 
     private void openGui(Player player, PlanterBlockEntity planter, BlockPos pos) {
         player.openMenu(new SimpleMenuProvider(
