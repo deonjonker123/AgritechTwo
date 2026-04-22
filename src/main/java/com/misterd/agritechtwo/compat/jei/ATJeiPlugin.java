@@ -29,9 +29,7 @@ public class ATJeiPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
-        registration.addRecipeCategories(
-                new PlanterRecipeCategory(registration.getJeiHelpers().getGuiHelper())
-        );
+        registration.addRecipeCategories(new PlanterRecipeCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override

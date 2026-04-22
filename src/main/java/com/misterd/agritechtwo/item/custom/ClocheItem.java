@@ -6,17 +6,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 
+import java.util.function.Consumer;
+
 public class ClocheItem extends Item {
     public ClocheItem(Properties properties) {
         super(properties);
     }
 
     @Override
-    public void appendHoverText(ItemStack stack,
-                                TooltipContext context,
-                                TooltipDisplay display,
-                                java.util.function.Consumer<Component> consumer,
-                                TooltipFlag flag) {
+    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> consumer, TooltipFlag flag) {
 
         consumer.accept(Component.translatable("item.agritechtwo.cloche.tooltip.line1"));
         consumer.accept(Component.translatable("item.agritechtwo.cloche.tooltip.line2"));

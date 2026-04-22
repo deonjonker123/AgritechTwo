@@ -49,15 +49,15 @@ import java.util.Map;
 
 public class PlanterBlock extends BaseEntityBlock {
     public static final VoxelShape SHAPE = Shapes.or(
-            Block.box(1,  0,  1,  3, 11,  3),
-            Block.box(13, 0,  1, 15, 11,  3),
-            Block.box(1,  0, 13,  3, 11, 15),
+            Block.box(1, 0, 1, 3, 11, 3),
+            Block.box(13, 0, 1, 15, 11, 3),
+            Block.box(1, 0, 13, 3, 11, 15),
             Block.box(13, 0, 13, 15, 11, 15),
-            Block.box(2,  2,  2, 14, 10,  3),
-            Block.box(2,  2, 13, 14, 10, 14),
-            Block.box(2,  2,  3,  3, 10, 13),
-            Block.box(13, 2,  3, 14, 10, 13),
-            Block.box(3,  2,  3, 13,  3, 13)
+            Block.box(2, 2, 2, 14, 10, 3),
+            Block.box(2, 2, 13, 14, 10, 14),
+            Block.box(2, 2, 3, 3, 10, 13),
+            Block.box(13, 2, 3, 14, 10, 13),
+            Block.box(3, 2, 3, 13, 3, 13)
     );
 
     public static final MapCodec<PlanterBlock> CODEC = simpleCodec(PlanterBlock::new);
@@ -245,9 +245,7 @@ public class PlanterBlock extends BaseEntityBlock {
                 if (!player.getAbilities().instabuild) heldItem.shrink(1);
                 level.playSound(null, pos, SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
                 if (level instanceof ServerLevel serverLevel) {
-                    serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER,
-                            pos.getX() + 0.5, pos.getY() + 0.8, pos.getZ() + 0.5,
-                            6, 0.3, 0.2, 0.3, 0.0);
+                    serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 0.8, pos.getZ() + 0.5, 6, 0.3, 0.2, 0.3, 0.0);
                 }
                 level.sendBlockUpdated(pos, state, state, 3);
             }

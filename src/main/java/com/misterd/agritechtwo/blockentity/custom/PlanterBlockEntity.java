@@ -87,7 +87,7 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         if (level.isClientSide()) return;
 
         ItemStack plantStack = be.getStack(0);
-        ItemStack soilStack  = be.getStack(1);
+        ItemStack soilStack = be.getStack(1);
 
         if (plantStack.isEmpty() || soilStack.isEmpty()) {
             be.resetGrowth();
@@ -95,7 +95,7 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         }
 
         String plantId = RegistryHelper.getItemId(plantStack);
-        String soilId  = RegistryHelper.getItemId(soilStack);
+        String soilId = RegistryHelper.getItemId(soilStack);
 
         if (!be.isValidPlantSoilCombination(plantId, soilId)) {
             be.resetGrowth();
