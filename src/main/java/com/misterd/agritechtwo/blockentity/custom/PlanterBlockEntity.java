@@ -198,6 +198,10 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         this.setChanged();
     }
 
+    public boolean isReadyToHarvest() {
+        return readyToHarvest;
+    }
+
     public void harvestPlant(BlockState state) {
         if (!this.readyToHarvest) return;
 
@@ -232,6 +236,29 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
 
         this.consumeFertilizer();
         this.resetGrowth();
+    }
+
+    public void applyManualFertilizer(float speedMultiplier) {
+        if (readyToHarvest) return;
+        ItemStack plantStack = inventory.getStackInSlot(0);
+        ItemStack soilStack = inventory.getStackInSlot(1);
+        if (plantStack.isEmpty() || soilStack.isEmpty()) return;
+
+        float soilMod = getSoilGrowthModifier(soilStack);
+        float clocheMod = getClocheGrowthModifier(getBlockState());
+        int adjustedTime = Math.max(1, Math.round(getBaseGrowthTime(plantStack) / (soilMod * clocheMod)));
+
+        int boost = Math.max(1, Math.round(adjustedTime * 0.25F * speedMultiplier));
+        growthTicks = Math.min(adjustedTime, growthTicks + boost);
+        growthProgress = (int) ((float) growthTicks / adjustedTime * 100.0F);
+
+        if (growthTicks >= adjustedTime) {
+            readyToHarvest = true;
+            growthProgress = 100;
+        }
+
+        lastGrowthStage = getGrowthStage();
+        setChanged();
     }
 
     private void consumeFertilizer() {
