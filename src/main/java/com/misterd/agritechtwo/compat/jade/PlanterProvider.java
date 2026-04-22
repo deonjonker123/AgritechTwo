@@ -32,8 +32,7 @@ public enum PlanterProvider implements IServerDataProvider<BlockAccessor> {
         }
     }
 
-    private void appendBasicPlanterData(CompoundTag data, PlanterBlockEntity planter,
-                                        BlockState state) {
+    private void appendBasicPlanterData(CompoundTag data, PlanterBlockEntity planter, BlockState state) {
         ItemStack seedStack = planter.getStack(0);
         ItemStack soilStack = planter.getStack(1);
         if (seedStack.isEmpty() || soilStack.isEmpty()) {

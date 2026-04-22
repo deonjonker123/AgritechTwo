@@ -37,16 +37,13 @@ public class ATBlockEntities {
             ));
 
     private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        // Capabilities.Item.BLOCK is the new key returning ResourceHandler<ItemResource>
         event.registerBlockEntity(Capabilities.Item.BLOCK, PLANTER_BLOCK_BE.get(),
                 (blockEntity, direction) -> {
                     if (!(blockEntity instanceof PlanterBlockEntity planter)) return null;
 
-                    // direction is Direction here — explicit type from the lambda parameter
                     if (direction == null) return null;
 
                     if (direction.getAxis().isHorizontal()) {
-                        // renamed from getCapabilityHandler() in the updated BE
                         return planter.getInsertHandler();
                     }
 

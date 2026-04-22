@@ -84,7 +84,6 @@ public class AgritechTwo {
 
         @SubscribeEvent
         public static void onRegisterStandaloneModels(ModelEvent.RegisterStandalone event) {
-            // Key lives in the renderer — one source of truth
             PlanterBlockEntityRenderer.onRegisterStandaloneModels(event);
         }
     }
