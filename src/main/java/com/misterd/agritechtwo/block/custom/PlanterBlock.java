@@ -9,6 +9,7 @@ import com.misterd.agritechtwo.item.custom.ClocheItem;
 import com.misterd.agritechtwo.util.RegistryHelper;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -44,7 +45,6 @@ import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
 import java.util.Map;
 
 public class PlanterBlock extends BaseEntityBlock {
@@ -59,8 +59,18 @@ public class PlanterBlock extends BaseEntityBlock {
             Block.box(13, 2,  3, 14, 10, 13),
             Block.box(3,  2,  3, 13,  3, 13)
     );
+
     public static final MapCodec<PlanterBlock> CODEC = simpleCodec(PlanterBlock::new);
     public static final BooleanProperty CLOCHED = BooleanProperty.create("cloched");
+
+    private static final Map<String, String> ESSENCE_TO_FARMLAND = Map.of(
+            "mysticalagriculture:inferium_essence", "mysticalagriculture:inferium_farmland",
+            "mysticalagriculture:prudentium_essence", "mysticalagriculture:prudentium_farmland",
+            "mysticalagriculture:tertium_essence", "mysticalagriculture:tertium_farmland",
+            "mysticalagriculture:imperium_essence", "mysticalagriculture:imperium_farmland",
+            "mysticalagriculture:supremium_essence", "mysticalagriculture:supremium_farmland",
+            "mysticalagradditions:insanium_essence", "mysticalagradditions:insanium_farmland"
+    );
 
     public PlanterBlock(Properties properties) {
         super(properties);
@@ -189,6 +199,27 @@ public class PlanterBlock extends BaseEntityBlock {
             level.sendBlockUpdated(pos, state, state, 2);
             planter.setChanged();
             return InteractionResult.SUCCESS;
+        } else if (PlantablesConfig.isValidFertilizer(heldItemId)) {
+            if (planter.getStack(0).isEmpty() || planter.getStack(1).isEmpty() || planter.isReadyToHarvest()) {
+                if (!level.isClientSide()) openGui(player, planter, pos);
+                return InteractionResult.SUCCESS;
+            }
+            if (!level.isClientSide()) {
+                PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(heldItemId);
+                if (info != null) {
+                    planter.applyManualFertilizer(info.speedMultiplier);
+                    if (!player.getAbilities().instabuild) heldItem.shrink(1);
+                    level.playSound(null, pos, SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
+                    if (level instanceof ServerLevel serverLevel) {
+                        serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER,
+                                pos.getX() + 0.5, pos.getY() + 0.8, pos.getZ() + 0.5,
+                                6, 0.3, 0.2, 0.3, 0.0);
+                    }
+                    level.sendBlockUpdated(pos, state, state, 3);
+                }
+            }
+            return InteractionResult.SUCCESS;
+
         } else if (heldItem.getItem() instanceof HoeItem) {
             ItemStack soilStack = planter.getStack(1);
             if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
@@ -210,15 +241,7 @@ public class PlanterBlock extends BaseEntityBlock {
                 }
             }
         } else {
-            Map<String, String> essenceToFarmland = new HashMap<>();
-            essenceToFarmland.put("mysticalagriculture:inferium_essence", "mysticalagriculture:inferium_farmland");
-            essenceToFarmland.put("mysticalagriculture:prudentium_essence", "mysticalagriculture:prudentium_farmland");
-            essenceToFarmland.put("mysticalagriculture:tertium_essence", "mysticalagriculture:tertium_farmland");
-            essenceToFarmland.put("mysticalagriculture:imperium_essence", "mysticalagriculture:imperium_farmland");
-            essenceToFarmland.put("mysticalagriculture:supremium_essence", "mysticalagriculture:supremium_farmland");
-            essenceToFarmland.put("mysticalagradditions:insanium_essence", "mysticalagradditions:insanium_farmland");
-
-            if (essenceToFarmland.containsKey(heldItemId)) {
+            if (ESSENCE_TO_FARMLAND.containsKey(heldItemId)) {
                 ItemStack soilStack = planter.getStack(1);
                 if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
                     String soilId = RegistryHelper.getBlockId(soilBlockItem.getBlock());
@@ -227,7 +250,7 @@ public class PlanterBlock extends BaseEntityBlock {
                             || (soilId.startsWith("mysticalagradditions:") && soilId.endsWith("_farmland"));
 
                     if (isValidFarmland) {
-                        String farmlandId = essenceToFarmland.get(heldItemId);
+                        String farmlandId = ESSENCE_TO_FARMLAND.get(heldItemId);
                         Block resultBlock = RegistryHelper.getBlock(farmlandId);
                         if (resultBlock != null) {
                             if (soilId.equals(farmlandId)) {
