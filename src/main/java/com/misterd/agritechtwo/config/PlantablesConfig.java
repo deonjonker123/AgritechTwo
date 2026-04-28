@@ -269,7 +269,7 @@ public class PlantablesConfig {
         crops.add(makeCrop("minecraft:cactus",
                 List.of("minecraft:sand", "minecraft:red_sand", "snad:snad", "snad:red_snad"),
                 makeDrop("minecraft:cactus", 1, 3),
-                makeDrop("minecraft:cactus_flower", 1, 3, 0.25F)));
+                makeDrop("minecraft:cactus_flower", 1, 1, 0.25F)));
 
         crops.add(makeCrop("minecraft:bamboo",
                 List.of("minecraft:dirt", "minecraft:grass_block", "minecraft:rooted_dirt", "minecraft:coarse_dirt",
