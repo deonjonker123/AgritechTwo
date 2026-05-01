@@ -4,6 +4,7 @@ import com.misterd.agritechtwo.config.PlantablesConfig;
 import com.misterd.agritechtwo.util.RegistryHelper;
 import com.mojang.logging.LogUtils;
 import mezz.jei.api.recipe.category.extensions.IRecipeCategoryExtension;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -53,14 +54,19 @@ public class PlanterRecipe implements IRecipeCategoryExtension {
             throw new IllegalArgumentException(plantableLabel + " item not found for ID: " + plantableId);
         }
 
-        Block soilBlock = RegistryHelper.getBlock(soilId);
-        if (soilBlock == null) {
-            LogUtils.getLogger().error("Failed to create planter recipe: Soil block not found for ID: {}", soilId);
-            throw new IllegalArgumentException("Soil block not found for ID: " + soilId);
-        }
-
         Ingredient plantableIngredient = Ingredient.of(plantableItem);
-        Ingredient soilIngredient = Ingredient.of(soilBlock.asItem());
+        Ingredient soilIngredient;
+
+        if (soilId.equals("minecraft:water_bucket")) {
+            soilIngredient = Ingredient.of(Items.WATER_BUCKET);
+        } else {
+            Block soilBlock = RegistryHelper.getBlock(soilId);
+            if (soilBlock == null) {
+                LogUtils.getLogger().error("Failed to create planter recipe: Soil block not found for ID: {}", soilId);
+                throw new IllegalArgumentException("Soil block not found for ID: " + soilId);
+            }
+            soilIngredient = Ingredient.of(soilBlock.asItem());
+        }
 
         List<PlantablesConfig.DropInfo> drops = type == PlantableType.CROP
                 ? PlantablesConfig.getCropDrops(plantableId)

@@ -185,5 +185,226 @@ public class ATRecipeProvider extends RecipeProvider {
                 .define('I', Items.IRON_INGOT)
                 .unlockedBy("has_iron_ingot", has(Items.IRON_INGOT))
                 .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.ACACIA_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', Items.ACACIA_PLANKS)
+                .define('D', Items.ACACIA_SLAB)
+                .unlockedBy("has_acacia_planks", has(Items.ACACIA_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.BAMBOO_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', Items.BAMBOO_PLANKS)
+                .define('D', Items.BAMBOO_SLAB)
+                .unlockedBy("has_bamboo_planks", has(Items.BAMBOO_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.BIRCH_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', Items.BIRCH_PLANKS)
+                .define('D', Items.BIRCH_SLAB)
+                .unlockedBy("has_birch_planks", has(Items.BIRCH_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.CHERRY_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', Items.CHERRY_PLANKS)
+                .define('D', Items.CHERRY_SLAB)
+                .unlockedBy("has_cherry_planks", has(Items.CHERRY_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.CRIMSON_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', Items.CRIMSON_PLANKS)
+                .define('D', Items.CRIMSON_SLAB)
+                .unlockedBy("has_crimson_planks", has(Items.CRIMSON_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.DARK_OAK_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', Items.DARK_OAK_PLANKS)
+                .define('D', Items.DARK_OAK_SLAB)
+                .unlockedBy("has_dark_oak_planks", has(Items.DARK_OAK_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.JUNGLE_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', Items.JUNGLE_PLANKS)
+                .define('D', Items.JUNGLE_SLAB)
+                .unlockedBy("has_jungle_planks", has(Items.JUNGLE_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.MANGROVE_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', Items.MANGROVE_PLANKS)
+                .define('D', Items.MANGROVE_SLAB)
+                .unlockedBy("has_mangrove_planks", has(Items.MANGROVE_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.OAK_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', Items.OAK_PLANKS)
+                .define('D', Items.OAK_SLAB)
+                .unlockedBy("has_oak_planks", has(Items.OAK_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.OAK_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', ItemTags.PLANKS)
+                .define('D', ItemTags.WOODEN_SLABS)
+                .unlockedBy("has_oak_log", has(Items.OAK_LOG))
+                .save(output, "agritechtwo:oak_raised_bed_from_any_wood");
+
+        shaped(RecipeCategory.MISC, ATBlocks.PALE_OAK_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', Items.PALE_OAK_PLANKS)
+                .define('D', Items.PALE_OAK_SLAB)
+                .unlockedBy("has_pale_oak_planks", has(Items.PALE_OAK_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.SPRUCE_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', Items.SPRUCE_PLANKS)
+                .define('D', Items.SPRUCE_SLAB)
+                .unlockedBy("has_spruce_planks", has(Items.SPRUCE_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.WARPED_RAISED_BED.get())
+                .pattern("PDP")
+                .define('P', Items.WARPED_PLANKS)
+                .define('D', Items.WARPED_SLAB)
+                .unlockedBy("has_warped_planks", has(Items.WARPED_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.ACACIA_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', Items.ACACIA_PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', Items.ACACIA_SLAB)
+                .unlockedBy("has_acacia_planks", has(Items.ACACIA_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.BAMBOO_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', Items.BAMBOO_PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', Items.BAMBOO_SLAB)
+                .unlockedBy("has_bamboo_planks", has(Items.BAMBOO_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.BIRCH_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', Items.BIRCH_PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', Items.BIRCH_SLAB)
+                .unlockedBy("has_birch_planks", has(Items.BIRCH_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.CHERRY_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', Items.CHERRY_PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', Items.CHERRY_SLAB)
+                .unlockedBy("has_cherry_planks", has(Items.CHERRY_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.CRIMSON_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', Items.CRIMSON_PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', Items.CRIMSON_SLAB)
+                .unlockedBy("has_crimson_planks", has(Items.CRIMSON_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.DARK_OAK_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', Items.DARK_OAK_PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', Items.DARK_OAK_SLAB)
+                .unlockedBy("has_dark_oak_planks", has(Items.DARK_OAK_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.JUNGLE_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', Items.JUNGLE_PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', Items.JUNGLE_SLAB)
+                .unlockedBy("has_jungle_planks", has(Items.JUNGLE_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.MANGROVE_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', Items.MANGROVE_PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', Items.MANGROVE_SLAB)
+                .unlockedBy("has_mangrove_planks", has(Items.MANGROVE_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.OAK_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', Items.OAK_PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', Items.OAK_SLAB)
+                .unlockedBy("has_oak_planks", has(Items.OAK_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.OAK_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', ItemTags.PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', ItemTags.WOODEN_SLABS)
+                .unlockedBy("has_oak_log", has(Items.OAK_LOG))
+                .save(output, "agritechtwo:oak_crate_from_any_wood");
+
+        shaped(RecipeCategory.MISC, ATBlocks.PALE_OAK_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', Items.PALE_OAK_PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', Items.PALE_OAK_SLAB)
+                .unlockedBy("has_pale_oak_planks", has(Items.PALE_OAK_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.SPRUCE_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', Items.SPRUCE_PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', Items.SPRUCE_SLAB)
+                .unlockedBy("has_spruce_planks", has(Items.SPRUCE_PLANKS))
+                .save(output);
+
+        shaped(RecipeCategory.MISC, ATBlocks.WARPED_CRATE.get())
+                .pattern("P P")
+                .pattern("PCP")
+                .pattern("PSP")
+                .define('P', Items.WARPED_PLANKS)
+                .define('C', Items.CHEST)
+                .define('S', Items.WARPED_SLAB)
+                .unlockedBy("has_warped_planks", has(Items.WARPED_PLANKS))
+                .save(output);
     }
 }

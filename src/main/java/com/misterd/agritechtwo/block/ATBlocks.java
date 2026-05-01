@@ -16,7 +16,6 @@ import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Function;
-import java.util.function.Supplier;
 
 public class ATBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(AgritechTwo.MODID);
@@ -100,6 +99,174 @@ public class ATBlocks {
 
     public static final DeferredBlock<Block> PALE_OAK_PLANTER = registerBlock("pale_oak_planter",
             regName -> new PaleOakPlanterBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> ACACIA_RAISED_BED = registerBlock("acacia_raised_bed",
+            regName -> new AcaciaRaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> BAMBOO_RAISED_BED = registerBlock("bamboo_raised_bed",
+            regName -> new BambooRaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> BIRCH_RAISED_BED = registerBlock("birch_raised_bed",
+            regName -> new BirchRaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> CHERRY_RAISED_BED = registerBlock("cherry_raised_bed",
+            regName -> new CherryRaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> CRIMSON_RAISED_BED = registerBlock("crimson_raised_bed",
+            regName -> new CrimsonRaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> DARK_OAK_RAISED_BED = registerBlock("darkoak_raised_bed",
+            regName -> new DarkOakRaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> JUNGLE_RAISED_BED = registerBlock("jungle_raised_bed",
+            regName -> new JungleRaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> MANGROVE_RAISED_BED = registerBlock("mangrove_raised_bed",
+            regName -> new MangroveRaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> OAK_RAISED_BED = registerBlock("oak_raised_bed",
+            regName -> new OakRaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> SPRUCE_RAISED_BED = registerBlock("spruce_raised_bed",
+            regName -> new SpruceRaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> WARPED_RAISED_BED = registerBlock("warped_raised_bed",
+            regName -> new WarpedRaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> PALE_OAK_RAISED_BED = registerBlock("paleoak_raised_bed",
+            regName -> new PaleOakRaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> ACACIA_CRATE = registerBlock("acacia_crate",
+            regName -> new AcaciaCrateBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> BAMBOO_CRATE = registerBlock("bamboo_crate",
+            regName -> new BambooCrateBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> BIRCH_CRATE = registerBlock("birch_crate",
+            regName -> new BirchCrateBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> CHERRY_CRATE = registerBlock("cherry_crate",
+            regName -> new CherryCrateBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> CRIMSON_CRATE = registerBlock("crimson_crate",
+            regName -> new CrimsonCrateBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> DARK_OAK_CRATE = registerBlock("darkoak_crate",
+            regName -> new DarkOakCrateBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> JUNGLE_CRATE = registerBlock("jungle_crate",
+            regName -> new JungleCrateBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> MANGROVE_CRATE = registerBlock("mangrove_crate",
+            regName -> new MangroveCrateBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> OAK_CRATE = registerBlock("oak_crate",
+            regName -> new OakCrateBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> PALE_OAK_CRATE = registerBlock("paleoak_crate",
+            regName -> new PaleOakCrateBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> SPRUCE_CRATE = registerBlock("spruce_crate",
+            regName -> new SpruceCrateBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> WARPED_CRATE = registerBlock("warped_crate",
+            regName -> new WarpedCrateBlock(BlockBehaviour.Properties.of()
                     .setId(ResourceKey.create(Registries.BLOCK, regName))
                     .strength(2.0F, 3.0F)
                     .sound(SoundType.WOOD)

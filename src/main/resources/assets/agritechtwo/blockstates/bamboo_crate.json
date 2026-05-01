@@ -1,0 +1,8 @@
+{
+	"variants": {
+		"facing=north": { "model": "agritechtwo:block/bamboo_crate"},
+		"facing=south": {"model": "agritechtwo:block/bamboo_crate", "y": 180},
+		"facing=east": {"model": "agritechtwo:block/bamboo_crate", "y": 90},
+		"facing=west": {"model": "agritechtwo:block/bamboo_crate", "y": 270}
+	}
+}

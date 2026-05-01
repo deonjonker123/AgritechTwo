@@ -14,13 +14,43 @@
   "block.agritechtwo.warped_planter": "Warped Planter",
   "block.agritechtwo.pale_oak_planter": "Pale Oak Planter",
 
+  "block.agritechtwo.acacia_raised_bed": "Acacia Raised Bed",
+  "block.agritechtwo.bamboo_raised_bed": "Bamboo Raised Bed",
+  "block.agritechtwo.birch_raised_bed": "Birch Raised Bed",
+  "block.agritechtwo.cherry_raised_bed": "Cherry Raised Bed",
+  "block.agritechtwo.crimson_raised_bed": "Crimson Raised Bed",
+  "block.agritechtwo.darkoak_raised_bed": "Dark Oak Raised Bed",
+  "block.agritechtwo.jungle_raised_bed": "Jungle Raised Bed",
+  "block.agritechtwo.mangrove_raised_bed": "Mangrove Raised Bed",
+  "block.agritechtwo.oak_raised_bed": "Oak Raised Bed",
+  "block.agritechtwo.spruce_raised_bed": "Spruce Raised Bed",
+  "block.agritechtwo.warped_raised_bed": "Warped Raised Bed",
+  "block.agritechtwo.paleoak_raised_bed": "Pale Oak Raised Bed",
+
+  "block.agritechtwo.acacia_crate": "Acacia Crate",
+  "block.agritechtwo.bamboo_crate": "Bamboo Crate",
+  "block.agritechtwo.birch_crate": "Birch Crate",
+  "block.agritechtwo.cherry_crate": "Cherry Crate",
+  "block.agritechtwo.crimson_crate": "Crimson Crate",
+  "block.agritechtwo.darkoak_crate": "Dark Oak Crate",
+  "block.agritechtwo.jungle_crate": "Jungle Crate",
+  "block.agritechtwo.mangrove_crate": "Mangrove Crate",
+  "block.agritechtwo.oak_crate": "Oak Crate",
+  "block.agritechtwo.paleoak_crate": "Pale Oak Crate",
+  "block.agritechtwo.spruce_crate": "Spruce Crate",
+  "block.agritechtwo.warped_crate": "Warped Crate",
+
   "item.agritechtwo.cloche_dome": "Cloche Dome",
 
   "blockentity.agritechtwo.name": "Planter",
 
   "container.agritechtwo.planter": "Agritech Planter",
+  "container.agritechtwo.raised_bed": "Agritech Raised Bed",
+  "container.agritechtwo.crate": "Agritech Crate",
 
   "jei.agritechtwo.planter.tooltip": "Agritech Planters",
+  "jei.agritechtwo.raised_bed.tooltip": "Agritech Raised Beds",
+  "jei.agritechtwo.raised_bed.drops_on_ground": "Dropped in world",
 
   "message.agritechtwo.invalid_seed_soil_combination": "This seed cannot grow in this soil!",
   "message.agritechtwo.invalid_soil": "This block cannot be used as soil!",
@@ -38,5 +68,9 @@
   "jade.agritechtwo.crop_ready": "%s (Ready to Harvest)",
   "jade.agritechtwo.soil_info": "Soil: %s (%s speed)",
   "jade.agritechtwo.fertilizer_info": "Fertilizer: %s (Speed: %s, Yield: %s)",
-  "jade.agritechtwo.cloche_installed": "Cloche: Installed (Speed: %s, Yield: %s)"
+  "jade.agritechtwo.cloche_installed": "Cloche: Installed (Speed: %s, Yield: %s)",
+  "jade.agritechtwo.sky_boost": "Sunlight Bonus: %s",
+
+  "tooltip.agritechtwo.crate.collecting": "Turn off auto-collecting",
+  "tooltip.agritechtwo.crate.not_collecting": "Turn on auto-collecting"
 }

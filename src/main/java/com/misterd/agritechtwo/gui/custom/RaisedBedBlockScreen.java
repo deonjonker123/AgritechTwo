@@ -1,0 +1,90 @@
+package com.misterd.agritechtwo.gui.custom;
+
+import com.misterd.agritechtwo.compat.jei.ATJeiPlugin;
+import com.misterd.agritechtwo.compat.jei.PlanterRecipeCategory;
+import com.misterd.agritechtwo.compat.jei.RaisedBedRecipeCategory;
+import mezz.jei.api.runtime.IJeiRuntime;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.Inventory;
+
+import java.util.List;
+
+public class RaisedBedBlockScreen extends AbstractContainerScreen<RaisedBedBlockMenu> {
+    private static final Identifier GUI_TEXTURE =
+            Identifier.fromNamespaceAndPath("agritechtwo", "textures/gui/raised_bed_gui.png");
+
+    private static final int GUI_HEIGHT = 135;
+
+    public RaisedBedBlockScreen(RaisedBedBlockMenu menu, Inventory playerInventory, Component title) {
+        super(menu, playerInventory, title, 176, GUI_HEIGHT);
+        this.inventoryLabelY = GUI_HEIGHT - 96;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        this.titleLabelX = (this.imageWidth - this.font.width(this.title)) / 2;
+    }
+
+    @Override
+    public void extractContents(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
+        graphics.blit(RenderPipelines.GUI_TEXTURED, GUI_TEXTURE,
+                this.leftPos, this.topPos, 0.0F, 0.0F,
+                this.imageWidth, this.imageHeight, 256, 256);
+
+        float growthProgress = this.menu.blockEntity.getGrowthProgress();
+        if (growthProgress > 0.0F) {
+            int barHeight = (int) (18 * growthProgress);
+            int barY = this.topPos + 18 + 18 - barHeight;
+            graphics.blit(RenderPipelines.GUI_TEXTURED, GUI_TEXTURE,
+                    this.leftPos + 122, barY,
+                    176.0F, (float) (18 - barHeight),
+                    6, barHeight, 256, 256);
+        }
+
+        super.extractContents(graphics, mouseX, mouseY, partialTick);
+    }
+
+    @Override
+    protected void extractTooltip(GuiGraphicsExtractor graphics, int mouseX, int mouseY) {
+        if (mouseX >= this.leftPos + 122 && mouseX <= this.leftPos + 128
+                && mouseY >= this.topPos + 18 && mouseY <= this.topPos + 37) {
+            float progress = this.menu.blockEntity.getGrowthProgress();
+            graphics.setComponentTooltipForNextFrame(this.font, List.of(
+                    Component.translatable("tooltip.agritechtwo.growth_progress"),
+                    Component.literal(String.format("%.1f%%", progress * 100.0F))
+                            .withStyle(ChatFormatting.GREEN),
+                    Component.translatable("tooltip.agritechtwo.view_recipes")
+                            .withStyle(ChatFormatting.GRAY, ChatFormatting.ITALIC)
+            ), mouseX, mouseY);
+            return;
+        }
+
+        super.extractTooltip(graphics, mouseX, mouseY);
+    }
+
+    @Override
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
+        if (event.button() == 0) {
+            double mx = event.x();
+            double my = event.y();
+            if (mx >= this.leftPos + 122 && mx <= this.leftPos + 128
+                    && my >= this.topPos + 18 && my <= this.topPos + 37) {
+                if (this.minecraft != null && this.minecraft.player != null) {
+                    IJeiRuntime runtime = ATJeiPlugin.getJeiRuntime();
+                    if (runtime != null) {
+                        runtime.getRecipesGui().showTypes(List.of(RaisedBedRecipeCategory.RAISED_BED_RECIPE_TYPE));
+                    }
+                }
+                return true;
+            }
+        }
+        return super.mouseClicked(event, doubleClick);
+    }
+}

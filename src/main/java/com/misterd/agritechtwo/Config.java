@@ -52,7 +52,12 @@ public class Config {
     public static ModConfigSpec.DoubleValue CLOCHE_SPEED_MULTIPLIER;
     public static ModConfigSpec.DoubleValue CLOCHE_YIELD_MULTIPLIER;
 
+    // Planter
     public static ModConfigSpec.IntValue PLANTER_BASE_PROCESSING_TIME;
+
+    // Raised Bed
+    public static ModConfigSpec.DoubleValue RAISED_BED_SKY_DAY_SPEED_MULTIPLIER;
+    public static ModConfigSpec.IntValue BASKET_PICKUP_INTERVAL_TICKS;
 
     // Booleans populated on load
     public static boolean enableMysticalAgriculture;
@@ -120,8 +125,10 @@ public class Config {
     }
 
     private static void machineConfig() {
-        COMMON_BUILDER.comment("Planter Settings").push("machines");
+        COMMON_BUILDER.comment("Machine Settings").push("machines");
         planterConfig();
+        raisedBedConfig();
+        basketConfig();
         COMMON_BUILDER.pop();
     }
 
@@ -133,23 +140,41 @@ public class Config {
         COMMON_BUILDER.pop();
     }
 
+    private static void raisedBedConfig() {
+        COMMON_BUILDER.comment("Raised Bed Configuration").push("raised_bed");
+        RAISED_BED_SKY_DAY_SPEED_MULTIPLIER = COMMON_BUILDER.comment("Speed multiplier applied when the raised bed has sky access and it is daytime").defineInRange("sky_day_speed_multiplier", 1.25D, 0.1D, 10.0D);
+        COMMON_BUILDER.pop();
+    }
+
+    private static void basketConfig() {
+        COMMON_BUILDER.comment("Basket Configuration").push("basket");
+        BASKET_PICKUP_INTERVAL_TICKS = COMMON_BUILDER.comment("How often (in ticks) the basket scans for nearby item entities").defineInRange("pickup_interval_ticks", 20, 1, 1200);
+        COMMON_BUILDER.pop();
+    }
+
     // --- Fertilizer getters ---
-    public static double getFertilizerBoneMealSpeedMultiplier()            { return FERTILIZER_BONE_MEAL_SPEED_MULTIPLIER.get(); }
-    public static double getFertilizerBoneMealYieldMultiplier()            { return FERTILIZER_BONE_MEAL_YIELD_MULTIPLIER.get(); }
-    public static double getFertilizerFertilizedEssenceSpeedMultiplier()   { return FERTILIZER_FERTILIZED_ESSENCE_SPEED_MULTIPLIER.get(); }
-    public static double getFertilizerFertilizedEssenceYieldMultiplier()   { return FERTILIZER_FERTILIZED_ESSENCE_YIELD_MULTIPLIER.get(); }
-    public static double getFertilizerMysticalFertilizerSpeedMultiplier()  { return FERTILIZER_MYSTICAL_FERTILIZER_SPEED_MULTIPLIER.get(); }
-    public static double getFertilizerMysticalFertilizerYieldMultiplier()  { return FERTILIZER_MYSTICAL_FERTILIZER_YIELD_MULTIPLIER.get(); }
+    public static double getFertilizerBoneMealSpeedMultiplier() { return FERTILIZER_BONE_MEAL_SPEED_MULTIPLIER.get(); }
+    public static double getFertilizerBoneMealYieldMultiplier() { return FERTILIZER_BONE_MEAL_YIELD_MULTIPLIER.get(); }
+    public static double getFertilizerFertilizedEssenceSpeedMultiplier() { return FERTILIZER_FERTILIZED_ESSENCE_SPEED_MULTIPLIER.get(); }
+    public static double getFertilizerFertilizedEssenceYieldMultiplier() { return FERTILIZER_FERTILIZED_ESSENCE_YIELD_MULTIPLIER.get(); }
+    public static double getFertilizerMysticalFertilizerSpeedMultiplier() { return FERTILIZER_MYSTICAL_FERTILIZER_SPEED_MULTIPLIER.get(); }
+    public static double getFertilizerMysticalFertilizerYieldMultiplier() { return FERTILIZER_MYSTICAL_FERTILIZER_YIELD_MULTIPLIER.get(); }
     public static double getFertilizerImmersiveFertilizerSpeedMultiplier() { return FERTILIZER_IMMERSIVE_FERTILIZER_SPEED_MULTIPLIER.get(); }
     public static double getFertilizerImmersiveFertilizerYieldMultiplier() { return FERTILIZER_IMMERSIVE_FERTILIZER_YIELD_MULTIPLIER.get(); }
-    public static double getFertilizerArcaneBoneMealSpeedMultiplier()      { return FERTILIZER_ARCANE_BONE_MEAL_SPEED_MULTIPLIER.get(); }
-    public static double getFertilizerArcaneBoneMealYieldMultiplier()      { return FERTILIZER_ARCANE_BONE_MEAL_YIELD_MULTIPLIER.get(); }
+    public static double getFertilizerArcaneBoneMealSpeedMultiplier() { return FERTILIZER_ARCANE_BONE_MEAL_SPEED_MULTIPLIER.get(); }
+    public static double getFertilizerArcaneBoneMealYieldMultiplier() { return FERTILIZER_ARCANE_BONE_MEAL_YIELD_MULTIPLIER.get(); }
 
     // --- Cloche getters ---
     public static double getClocheSpeedMultiplier() { return CLOCHE_SPEED_MULTIPLIER.get(); }
     public static double getClocheYieldMultiplier() { return CLOCHE_YIELD_MULTIPLIER.get(); }
 
+    // --- Planter getters ---
     public static int getPlanterBaseProcessingTime() { return PLANTER_BASE_PROCESSING_TIME.get(); }
+
+    // --- Raised Bed getters ---
+    public static double getRaisedBedSkyDaySpeedMultiplier() { return RAISED_BED_SKY_DAY_SPEED_MULTIPLIER.get(); }
+
+    public static int getBasketPickupIntervalTicks() { return BASKET_PICKUP_INTERVAL_TICKS.get(); }
 
     public static void loadConfig() {
         PlantablesConfig.loadConfig();
@@ -184,23 +209,23 @@ public class Config {
         record Mod(boolean enabled, String modId, String label) {}
         LOGGER.info("Mod Compatibility Status:");
         for (Mod m : new Mod[]{
-                new Mod(enableMysticalAgriculture,  "mysticalagriculture",  "Mystical Agriculture"),
+                new Mod(enableMysticalAgriculture, "mysticalagriculture", "Mystical Agriculture"),
                 new Mod(enableMysticalAgradditions, "mysticalagradditions", "Mystical Agradditions"),
-                new Mod(enableFarmersDelight,       "farmersdelight",       "Farmer's Delight"),
-                new Mod(enableArsNouveau,           "ars_nouveau",          "Ars Nouveau"),
-                new Mod(enableArsElemental,         "ars_elemental",        "Ars Elemental"),
-                new Mod(enableSilentGear,           "silentgear",           "Silent Gear"),
-                new Mod(enableJustDireThings,       "justdirethings",       "Just Dire Things"),
+                new Mod(enableFarmersDelight, "farmersdelight", "Farmer's Delight"),
+                new Mod(enableArsNouveau, "ars_nouveau", "Ars Nouveau"),
+                new Mod(enableArsElemental, "ars_elemental", "Ars Elemental"),
+                new Mod(enableSilentGear, "silentgear", "Silent Gear"),
+                new Mod(enableJustDireThings, "justdirethings", "Just Dire Things"),
                 new Mod(enableImmersiveEngineering, "immersiveengineering", "Immersive Engineering"),
-                new Mod(enableEvilCraft,            "evilcraft",            "EvilCraft"),
-                new Mod(enableForbiddenArcanus,     "forbidden_arcanus",    "Forbidden and Arcanus"),
-                new Mod(enableIntegratedDynamics,   "integrateddynamics",   "Integrated Dynamics"),
-                new Mod(enableOccultism,            "occultism",            "Occultism"),
-                new Mod(enablePamsCrops,            "pamhc2crops",          "Pam's HarvestCraft - Crops"),
-                new Mod(enablePamsTrees,            "pamhc2trees",          "Pam's HarvestCraft - Trees"),
-                new Mod(enableCroptopia,            "croptopia",            "Croptopia"),
-                new Mod(enableCobblemon,            "cobblemon",            "Cobblemon"),
-                new Mod(enableActuallyAdditions,    "actuallyadditions",    "Actually Additions")
+                new Mod(enableEvilCraft, "evilcraft", "EvilCraft"),
+                new Mod(enableForbiddenArcanus, "forbidden_arcanus", "Forbidden and Arcanus"),
+                new Mod(enableIntegratedDynamics, "integrateddynamics", "Integrated Dynamics"),
+                new Mod(enableOccultism, "occultism", "Occultism"),
+                new Mod(enablePamsCrops, "pamhc2crops", "Pam's HarvestCraft - Crops"),
+                new Mod(enablePamsTrees, "pamhc2trees", "Pam's HarvestCraft - Trees"),
+                new Mod(enableCroptopia, "croptopia", "Croptopia"),
+                new Mod(enableCobblemon, "cobblemon", "Cobblemon"),
+                new Mod(enableActuallyAdditions, "actuallyadditions", "Actually Additions")
         }) {
             if (m.enabled() && ModList.get().isLoaded(m.modId())) {
                 LOGGER.info("  - {}: ENABLED", m.label());

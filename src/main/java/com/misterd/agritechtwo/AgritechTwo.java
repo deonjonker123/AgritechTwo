@@ -3,11 +3,15 @@ package com.misterd.agritechtwo;
 import com.misterd.agritechtwo.block.ATBlocks;
 import com.misterd.agritechtwo.blockentity.ATBlockEntities;
 import com.misterd.agritechtwo.client.ber.PlanterBlockEntityRenderer;
+import com.misterd.agritechtwo.client.ber.RaisedBedBlockEntityRenderer;
 import com.misterd.agritechtwo.command.ATCommands;
 import com.misterd.agritechtwo.gui.ATMenuTypes;
+import com.misterd.agritechtwo.gui.custom.CrateBlockScreen;
 import com.misterd.agritechtwo.gui.custom.PlanterBlockScreen;
+import com.misterd.agritechtwo.gui.custom.RaisedBedBlockScreen;
 import com.misterd.agritechtwo.item.ATCreativeTab;
 import com.misterd.agritechtwo.item.ATItems;
+import com.misterd.agritechtwo.network.ATNetwork;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -16,9 +20,6 @@ import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
-import org.slf4j.Logger;
-
-import com.mojang.logging.LogUtils;
 
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -41,6 +42,7 @@ public class AgritechTwo {
         ATCreativeTab.register(modEventBus);
         ATBlockEntities.register(modEventBus);
         ATMenuTypes.register(modEventBus);
+        ATNetwork.register(modEventBus);
         Config.register(modContainer);
         modEventBus.register(Config.class);
     }
@@ -75,11 +77,14 @@ public class AgritechTwo {
         @SubscribeEvent
         public static void registerBER(EntityRenderersEvent.RegisterRenderers event) {
             event.registerBlockEntityRenderer(ATBlockEntities.PLANTER_BLOCK_BE.get(), PlanterBlockEntityRenderer::new);
+            event.registerBlockEntityRenderer(ATBlockEntities.RAISED_BED_BLOCK_BE.get(), RaisedBedBlockEntityRenderer::new);
         }
 
         @SubscribeEvent
         public static void registerScreens(RegisterMenuScreensEvent event) {
             event.register(ATMenuTypes.PLANTER_BLOCK_MENU.get(), PlanterBlockScreen::new);
+            event.register(ATMenuTypes.RAISED_BED_BLOCK_MENU.get(), RaisedBedBlockScreen::new);
+            event.register(ATMenuTypes.CRATE_BLOCK_MENU.get(), CrateBlockScreen::new);
         }
 
         @SubscribeEvent

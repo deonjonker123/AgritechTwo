@@ -1,0 +1,114 @@
+package com.misterd.agritechtwo.compat.jei;
+
+import com.misterd.agritechtwo.block.ATBlocks;
+import com.misterd.agritechtwo.config.PlantablesConfig;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.drawable.IDrawable;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
+import mezz.jei.api.helpers.IGuiHelper;
+import mezz.jei.api.recipe.IFocusGroup;
+import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
+import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.types.IRecipeType;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
+
+public class RaisedBedRecipeCategory implements IRecipeCategory<RaisedBedRecipe> {
+    public static final Identifier UID = Identifier.fromNamespaceAndPath("agritechtwo", "raised_bed");
+    public static final Identifier TEXTURE = Identifier.fromNamespaceAndPath("agritechtwo", "textures/gui/jei/jei_raised_be_gui.png");
+    public static final RecipeType<RaisedBedRecipe> RAISED_BED_RECIPE_TYPE = new RecipeType<>(UID, RaisedBedRecipe.class);
+    private final IDrawable background;
+    private final IDrawable icon;
+
+    public RaisedBedRecipeCategory(IGuiHelper guiHelper) {
+        this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 162, 45);
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ATBlocks.OAK_RAISED_BED.get()));
+    }
+
+    @Override
+    public IRecipeType<RaisedBedRecipe> getRecipeType() {
+        return RAISED_BED_RECIPE_TYPE;
+    }
+
+    @Override
+    public Component getTitle() {
+        return Component.translatable("jei.agritechtwo.raised_bed.tooltip");
+    }
+
+    @Override
+    public IDrawable getIcon() {
+        return icon;
+    }
+
+    @Override
+    public int getWidth() {
+        return 162;
+    }
+
+    @Override
+    public int getHeight() {
+        return 45;
+    }
+
+    @Override
+    public void setRecipe(IRecipeLayoutBuilder builder, RaisedBedRecipe recipe, IFocusGroup focuses) {
+        var seedSlot = builder.addSlot(RecipeIngredientRole.INPUT, 10, 19);
+        recipe.getSeedIngredient().items().map(h -> new ItemStack(h.value())).forEach(seedSlot::add);
+
+        var soilSlot = builder.addSlot(RecipeIngredientRole.INPUT, 46, 19);
+        recipe.getSoilIngredient().items().map(h -> new ItemStack(h.value())).forEach(soilSlot::add);
+
+        List<PlantablesConfig.DropInfo> dropInfos = recipe.getDropInfos();
+        int outputIndex = 0;
+        for (ItemStack output : recipe.getOutputs()) {
+            if (outputIndex >= 4) break;
+            int x = 82 + outputIndex % 4 * 18;
+            int y = 19 + outputIndex / 4 * 18;
+
+            final PlantablesConfig.DropInfo info = outputIndex < dropInfos.size() ? dropInfos.get(outputIndex) : null;
+
+            var slot = builder.addSlot(RecipeIngredientRole.OUTPUT, x, y).add(output);
+
+            if (info != null) {
+                slot.addRichTooltipCallback((slotView, tooltip) -> {
+                    String countStr = info.minCount == info.maxCount
+                            ? String.valueOf(info.minCount)
+                            : info.minCount + "–" + info.maxCount;
+                    tooltip.add(Component.literal("Count: " + countStr).withStyle(ChatFormatting.GRAY));
+
+                    if (info.chance < 1.0F) {
+                        tooltip.add(Component.literal(String.format("%.0f%% chance", info.chance * 100))
+                                .withStyle(ChatFormatting.GOLD));
+                    }
+                });
+            }
+
+            outputIndex++;
+        }
+    }
+
+    @Override
+    public void draw(RaisedBedRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphicsExtractor guiGraphics, double mouseX, double mouseY) {
+        background.draw(guiGraphics);
+
+        Font font = Minecraft.getInstance().font;
+        List<PlantablesConfig.DropInfo> drops = recipe.getDropInfos();
+
+        guiGraphics.pose().pushMatrix();
+        guiGraphics.pose().translate(81, 8);
+        guiGraphics.pose().scale(0.8f, 0.8f);
+        guiGraphics.text(font,
+                Component.translatable("jei.agritechtwo.raised_bed.drops_on_ground").withStyle(ChatFormatting.DARK_GRAY),
+                0, 0, 0xFF323232, false);
+        guiGraphics.pose().popMatrix();
+    }
+}

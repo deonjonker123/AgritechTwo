@@ -206,7 +206,6 @@ public class PlantablesConfig {
             "minecraft:mud",
             "minecraft:moss_block",
             "minecraft:muddy_mangrove_roots",
-            "minecraft:water_bucket",
             "mysticalagriculture:inferium_farmland",
             "mysticalagriculture:prudentium_farmland",
             "mysticalagriculture:tertium_farmland",
