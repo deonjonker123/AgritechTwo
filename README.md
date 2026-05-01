@@ -1,7 +1,9 @@
 
-# AgriTech: Two
+![AT](https://raw.githubusercontent.com/deonjonker123/AgritechTwo/refs/heads/26.1.2/banner.png)
 
-AgriTech: Two is a new and improved take on the original Agritech: Crops and Agritech: Trees mods, now combined into a single, more intuitive package. It brings expanded mod compatibility, a reworked configuration system, and a brand new fertilizer system for enhanced automation — all under one roof.
+# AgriTech
+
+AgriTech is a new and improved take on the original Agritech: Crops and Agritech: Trees mods, now combined into a single, more intuitive package. It brings expanded mod compatibility, a reworked configuration system, and a brand new fertilizer system for enhanced automation — all under one roof.
 
 ## Core Features
 
@@ -102,3 +104,38 @@ Failed reloads report errors directly in chat rather than silently failing.
 -   Shows active soil type and its growth modifier
 -   Shows active fertilizer when one is slotted
 - Shows cloche status with speed and yield modifiers
+
+## Minecraft 26.1.2 Exclusive
+
+The following features are available exclusively on the 26.1.2 version of AgriTech.
+
+### **Raised Beds**
+
+A manual, early-game alternative to the planter. Available in all 12 vanilla wood types.
+
+- Grows crops and saplings automatically, dropping harvests on the ground rather than storing them
+- Receives a configurable speed bonus when placed outdoors with sky access during daytime
+- Supports manual fertilizer application via right-clicking with a supported fertilizer item
+- No cloche, no fertilizer slot, no pipe automation — designed for hands-on farming
+- Full JEI and Jade integration
+
+### **Crates**
+
+An open-top wooden storage block with a 54-slot inventory — double chest capacity in a single block footprint. Available in all 12 vanilla wood types.
+
+- Automatically collects item drops within a 5x5 area
+- Collection can be toggled on/off via a button in the GUI
+- Full item capability on all sides — pipes can insert and extract freely
+- Works as a standalone decorative storage block independent of the farming system
+- Configurable collection interval
+
+### **JEI Integration (Raised Beds)**
+
+- Compatible crop/soil combinations for raised beds, showing drops as text with count ranges and chance percentages
+
+### **Jade Integration (Raised Beds)**
+
+- Displays current crop or sapling name
+- Shows growth stage and progress percentage
+- Shows active soil type and its growth modifier
+- Shows sunlight boost status when active
