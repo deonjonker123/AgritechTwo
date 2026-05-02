@@ -29,8 +29,8 @@ public class RaisedBedBlockMenu extends AbstractContainerMenu {
         this.blockEntity = (RaisedBedBlockEntity) be;
         this.level = inv.player.level();
 
-        addSlot(new RaisedBedSlot(blockEntity, 0, 62, 19));  // seed/sapling
-        addSlot(new RaisedBedSlot(blockEntity, 1, 98, 19));  // soil
+        addSlot(new RaisedBedSlot(blockEntity, 0, 62, 19));
+        addSlot(new RaisedBedSlot(blockEntity, 1, 98, 19));
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
@@ -46,7 +46,6 @@ public class RaisedBedBlockMenu extends AbstractContainerMenu {
         String itemId = RegistryHelper.getItemId(stack);
 
         if (index >= 2) {
-            // Player inventory → try to place into seed or soil slot
             if (PlantablesConfig.isValidSeed(itemId) || PlantablesConfig.isValidSapling(itemId)) {
                 if (blockEntity.getStack(0).isEmpty()) {
                     ItemStack existingSoil = blockEntity.getStack(1);
@@ -76,8 +75,9 @@ public class RaisedBedBlockMenu extends AbstractContainerMenu {
                     return copy;
                 }
             }
+            // Item doesn't fit any BE slot — bail out
+            return ItemStack.EMPTY;
         } else {
-            // BE slot → move to player inventory
             if (!moveItemStackTo(stack, 2, slots.size(), true)) return ItemStack.EMPTY;
         }
 

@@ -8,6 +8,7 @@ import com.misterd.agritechtwo.item.ATItems;
 import com.misterd.agritechtwo.item.custom.ClocheItem;
 import com.misterd.agritechtwo.util.RegistryHelper;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -187,7 +188,7 @@ public class PlanterBlock extends BaseEntityBlock {
                     ? PlantablesConfig.isSoilValidForSeed(soilId, heldItemId)
                     : PlantablesConfig.isSoilValidForSapling(soilId, heldItemId);
             if (!valid) {
-                player.sendSystemMessage(Component.translatable("message.agritechtwo.invalid_seed_soil_combination"));
+                player.sendOverlayMessage(Component.translatable("message.agritechtwo.invalid_seed_soil_combination").withStyle(ChatFormatting.GOLD));
                 return InteractionResult.SUCCESS;
             }
         }
@@ -217,7 +218,7 @@ public class PlanterBlock extends BaseEntityBlock {
                     ? PlantablesConfig.isSoilValidForSeed(heldItemId, plantId)
                     : PlantablesConfig.isSoilValidForSapling(heldItemId, plantId);
             if (!valid) {
-                player.sendSystemMessage(Component.translatable("message.agritechtwo.invalid_seed_soil_combination"));
+                player.sendOverlayMessage(Component.translatable("message.agritechtwo.invalid_seed_soil_combination").withStyle(ChatFormatting.GOLD));
                 return InteractionResult.SUCCESS;
             }
         }
@@ -292,7 +293,7 @@ public class PlanterBlock extends BaseEntityBlock {
                 if (resultBlock != null) {
                     if (soilId.equals(farmlandId)) {
                         if (!level.isClientSide()) {
-                            player.sendSystemMessage(Component.translatable("message.agritech.same_farmland"));
+                            player.sendOverlayMessage(Component.translatable("message.agritechtwo.same_farmland").withStyle(ChatFormatting.GOLD));
                         }
                         return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
                     }
