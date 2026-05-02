@@ -41,8 +41,8 @@ public class ATJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ATBlocks.OAK_PLANTER.get()), PlanterRecipeCategory.PLANTER_RECIPE_TYPE);
-        registration.addRecipeCatalyst(new ItemStack(ATBlocks.OAK_RAISED_BED.get()), RaisedBedRecipeCategory.RAISED_BED_RECIPE_TYPE);
+        registration.addCraftingStation(PlanterRecipeCategory.PLANTER_RECIPE_TYPE, ATBlocks.OAK_PLANTER);
+        registration.addCraftingStation(RaisedBedRecipeCategory.RAISED_BED_RECIPE_TYPE, ATBlocks.OAK_RAISED_BED);
     }
 
     private List<PlanterRecipe> generatePlanterRecipes() {

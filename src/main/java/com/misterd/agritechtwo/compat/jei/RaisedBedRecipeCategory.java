@@ -9,7 +9,6 @@ import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.ChatFormatting;
@@ -25,7 +24,7 @@ import java.util.List;
 public class RaisedBedRecipeCategory implements IRecipeCategory<RaisedBedRecipe> {
     public static final Identifier UID = Identifier.fromNamespaceAndPath("agritechtwo", "raised_bed");
     public static final Identifier TEXTURE = Identifier.fromNamespaceAndPath("agritechtwo", "textures/gui/jei/jei_raised_be_gui.png");
-    public static final RecipeType<RaisedBedRecipe> RAISED_BED_RECIPE_TYPE = new RecipeType<>(UID, RaisedBedRecipe.class);
+    public static final IRecipeType<RaisedBedRecipe> RAISED_BED_RECIPE_TYPE = IRecipeType.create(UID, RaisedBedRecipe.class);
     private final IDrawable background;
     private final IDrawable icon;
 
