@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "cloched=false": { "model": "agritechtwo:block/pale_oak_planter" },
-    "cloched=true":  { "model": "agritechtwo:block/pale_oak_planter" }
-  }
-}

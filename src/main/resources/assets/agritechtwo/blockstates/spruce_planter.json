@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "cloched=false": { "model": "agritechtwo:block/spruce_planter" },
-    "cloched=true":  { "model": "agritechtwo:block/spruce_planter" }
-  }
-}

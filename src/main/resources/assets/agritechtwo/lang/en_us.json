@@ -1,5 +1,5 @@
 {
-  "creativetab.agritechtwo": "Agritech: Two",
+  "creativetab.agritechtwo": "Agritech",
 
   "block.agritechtwo.acacia_planter": "Acacia Planter",
   "block.agritechtwo.bamboo_planter": "Bamboo Planter",
@@ -19,24 +19,24 @@
   "block.agritechtwo.birch_raised_bed": "Birch Raised Bed",
   "block.agritechtwo.cherry_raised_bed": "Cherry Raised Bed",
   "block.agritechtwo.crimson_raised_bed": "Crimson Raised Bed",
-  "block.agritechtwo.darkoak_raised_bed": "Dark Oak Raised Bed",
+  "block.agritechtwo.dark_oak_raised_bed": "Dark Oak Raised Bed",
   "block.agritechtwo.jungle_raised_bed": "Jungle Raised Bed",
   "block.agritechtwo.mangrove_raised_bed": "Mangrove Raised Bed",
   "block.agritechtwo.oak_raised_bed": "Oak Raised Bed",
   "block.agritechtwo.spruce_raised_bed": "Spruce Raised Bed",
   "block.agritechtwo.warped_raised_bed": "Warped Raised Bed",
-  "block.agritechtwo.paleoak_raised_bed": "Pale Oak Raised Bed",
+  "block.agritechtwo.pale_oak_raised_bed": "Pale Oak Raised Bed",
 
   "block.agritechtwo.acacia_crate": "Acacia Crate",
   "block.agritechtwo.bamboo_crate": "Bamboo Crate",
   "block.agritechtwo.birch_crate": "Birch Crate",
   "block.agritechtwo.cherry_crate": "Cherry Crate",
   "block.agritechtwo.crimson_crate": "Crimson Crate",
-  "block.agritechtwo.darkoak_crate": "Dark Oak Crate",
+  "block.agritechtwo.dar_koak_crate": "Dark Oak Crate",
   "block.agritechtwo.jungle_crate": "Jungle Crate",
   "block.agritechtwo.mangrove_crate": "Mangrove Crate",
   "block.agritechtwo.oak_crate": "Oak Crate",
-  "block.agritechtwo.paleoak_crate": "Pale Oak Crate",
+  "block.agritechtwo.pale_oak_crate": "Pale Oak Crate",
   "block.agritechtwo.spruce_crate": "Spruce Crate",
   "block.agritechtwo.warped_crate": "Warped Crate",
 
@@ -44,9 +44,9 @@
 
   "blockentity.agritechtwo.name": "Planter",
 
-  "container.agritechtwo.planter": "Agritech Planter",
-  "container.agritechtwo.raised_bed": "Agritech Raised Bed",
-  "container.agritechtwo.crate": "Agritech Crate",
+  "container.agritechtwo.planter": "Planter",
+  "container.agritechtwo.raised_bed": "Raised Bed",
+  "container.agritechtwo.crate": "Crate",
 
   "jei.agritechtwo.planter.tooltip": "Agritech Planters",
   "jei.agritechtwo.raised_bed.tooltip": "Agritech Raised Beds",

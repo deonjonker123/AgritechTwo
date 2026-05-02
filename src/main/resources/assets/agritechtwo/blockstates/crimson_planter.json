@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "cloched=false": { "model": "agritechtwo:block/crimson_planter" },
-    "cloched=true":  { "model": "agritechtwo:block/crimson_planter" }
-  }
-}

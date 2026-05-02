@@ -1,4 +1,4 @@
-// 26.1.2	2026-05-01T22:29:42.7449611	Loot Tables
+// 26.1.2	2026-05-02T20:05:53.4252981	Loot Tables
 915cd7e2b2d3d38c6f44d17bcad12aa2b40b5a23 data/agritechtwo/loot_table/blocks/acacia_crate.json
 6c3e16d6fd752b705c8b8274762f631eb337fd90 data/agritechtwo/loot_table/blocks/acacia_planter.json
 36e79d5591d71b25acdb9d43790709d92c026040 data/agritechtwo/loot_table/blocks/acacia_raised_bed.json
@@ -14,9 +14,9 @@ e61a1525a50c5e55c7712bd920bae1811c025758 data/agritechtwo/loot_table/blocks/cher
 da02d769f808bac7fb0074de0d195c908f9664ec data/agritechtwo/loot_table/blocks/crimson_crate.json
 5584b3e854d57db29fbe0039c085bc1dc5cabfca data/agritechtwo/loot_table/blocks/crimson_planter.json
 c0040c3b958e294fa8b0143128d7a0767b59b6af data/agritechtwo/loot_table/blocks/crimson_raised_bed.json
-7cfa168c7bfb2b794d518b08ddbfb1023449773a data/agritechtwo/loot_table/blocks/darkoak_crate.json
-b02f0f3ef7025fdac59979254958a0953025516b data/agritechtwo/loot_table/blocks/darkoak_raised_bed.json
+d1701100b9a96ca8fd44ffc5c043eae2068b611a data/agritechtwo/loot_table/blocks/dark_oak_crate.json
 5f4f717aa06ac8e390cded90c0c69810e30718d3 data/agritechtwo/loot_table/blocks/dark_oak_planter.json
+49ac2f675f75626725f266042c8b6f3afc459268 data/agritechtwo/loot_table/blocks/dark_oak_raised_bed.json
 086652419d4cfbc1614b30b0ac42c993266b54a9 data/agritechtwo/loot_table/blocks/jungle_crate.json
 46dfd23efaa7775eda6d5ac5ebc1f5534297d75c data/agritechtwo/loot_table/blocks/jungle_planter.json
 f15b37bcb9fe268339f1f04433c1c094eba68670 data/agritechtwo/loot_table/blocks/jungle_raised_bed.json
@@ -26,9 +26,9 @@ e2189fd62f3b8b0d62f71103015db13c00efe681 data/agritechtwo/loot_table/blocks/mang
 5336228a23316ee2d6b6ca05a6de27a79ff98c3a data/agritechtwo/loot_table/blocks/oak_crate.json
 263fe97052b7ff90c834f577c86899ae20f9de8d data/agritechtwo/loot_table/blocks/oak_planter.json
 06137fa940d0a2b1828556dd89fe852977ceaf5d data/agritechtwo/loot_table/blocks/oak_raised_bed.json
-986d2ea970aebcd7e732c3bd7185843a63d59fed data/agritechtwo/loot_table/blocks/paleoak_crate.json
-8bc98d6ba91e85652fbd5d0420fd4aef498befcc data/agritechtwo/loot_table/blocks/paleoak_raised_bed.json
+b7162514a77a5945ef89d6d2de345675b1965986 data/agritechtwo/loot_table/blocks/pale_oak_crate.json
 7028771971d4dd451ce2d434a1643a458db0ce00 data/agritechtwo/loot_table/blocks/pale_oak_planter.json
+2e6b7087de40783983bdab4720318082f27a2769 data/agritechtwo/loot_table/blocks/pale_oak_raised_bed.json
 8a3c78c67e7696873bdbb4faf20bb9f6adf35544 data/agritechtwo/loot_table/blocks/spruce_crate.json
 ce46a402138874ced3cb02daa54b982a064865f3 data/agritechtwo/loot_table/blocks/spruce_planter.json
 be72898f6998af47f610bfcb9f9a07c9a9b48759 data/agritechtwo/loot_table/blocks/spruce_raised_bed.json

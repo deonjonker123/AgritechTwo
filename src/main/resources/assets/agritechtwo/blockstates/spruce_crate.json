@@ -1,8 +1,0 @@
-{
-	"variants": {
-		"facing=north": { "model": "agritechtwo:block/spruce_crate"},
-		"facing=south": {"model": "agritechtwo:block/spruce_crate", "y": 180},
-		"facing=east": {"model": "agritechtwo:block/spruce_crate", "y": 90},
-		"facing=west": {"model": "agritechtwo:block/spruce_crate", "y": 270}
-	}
-}

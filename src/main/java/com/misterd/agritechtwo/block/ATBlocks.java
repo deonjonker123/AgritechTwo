@@ -139,7 +139,7 @@ public class ATBlocks {
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
-    public static final DeferredBlock<Block> DARK_OAK_RAISED_BED = registerBlock("darkoak_raised_bed",
+    public static final DeferredBlock<Block> DARK_OAK_RAISED_BED = registerBlock("dark_oak_raised_bed",
             regName -> new RaisedBedBlock(BlockBehaviour.Properties.of()
                     .setId(ResourceKey.create(Registries.BLOCK, regName))
                     .strength(2.0F, 3.0F)
@@ -181,7 +181,7 @@ public class ATBlocks {
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
-    public static final DeferredBlock<Block> PALE_OAK_RAISED_BED = registerBlock("paleoak_raised_bed",
+    public static final DeferredBlock<Block> PALE_OAK_RAISED_BED = registerBlock("pale_oak_raised_bed",
             regName -> new RaisedBedBlock(BlockBehaviour.Properties.of()
                     .setId(ResourceKey.create(Registries.BLOCK, regName))
                     .strength(2.0F, 3.0F)
@@ -223,7 +223,7 @@ public class ATBlocks {
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
-    public static final DeferredBlock<Block> DARK_OAK_CRATE = registerBlock("darkoak_crate",
+    public static final DeferredBlock<Block> DARK_OAK_CRATE = registerBlock("dark_oak_crate",
             regName -> new CrateBlock(BlockBehaviour.Properties.of()
                     .setId(ResourceKey.create(Registries.BLOCK, regName))
                     .strength(2.0F, 3.0F)
@@ -251,7 +251,7 @@ public class ATBlocks {
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
-    public static final DeferredBlock<Block> PALE_OAK_CRATE = registerBlock("paleoak_crate",
+    public static final DeferredBlock<Block> PALE_OAK_CRATE = registerBlock("pale_oak_crate",
             regName -> new CrateBlock(BlockBehaviour.Properties.of()
                     .setId(ResourceKey.create(Registries.BLOCK, regName))
                     .strength(2.0F, 3.0F)

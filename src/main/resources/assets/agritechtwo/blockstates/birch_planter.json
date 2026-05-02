@@ -1,6 +1,0 @@
-{
-  "variants": {
-    "cloched=false": { "model": "agritechtwo:block/birch_planter" },
-    "cloched=true":  { "model": "agritechtwo:block/birch_planter" }
-  }
-}
