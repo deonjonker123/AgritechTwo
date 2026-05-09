@@ -60,9 +60,16 @@
   "tooltip.agritechtwo.growth_progress": "Growth Progress",
   "tooltip.agritechtwo.view_recipes": "Click to view recipes",
 
-  "item.agritechtwo.cloche.tooltip.line1": "Place on a planter to boost growth and yield.",
+  "item.agritechtwo.cloche.tooltip.line1": "Place on a planter to increase growth and yield.",
   "item.agritechtwo.cloche.tooltip.line2": "Stacks with fertilizer for maximum efficiency.",
   "item.agritechtwo.cloche.tooltip.line3": "Shift-right-click with empty hand to remove.",
+
+  "tooltip.agritechtwo.slot.plant": "Plant Slot",
+  "tooltip.agritechtwo.slot.soil": "Soil Slot",
+  "tooltip.agritechtwo.slot.fertilizer": "Fertilizer Slot",
+
+  "tooltip.agritechtwo.planter.till": "Right-click with a Hoe to till soil placed inside",
+  "tooltip.agritechtwo.planter.fertilize": "Right-click with Bone Meal or fertilizer to boost crop growth",
 
   "jade.agritechtwo.crop_progress": "%s (Stage %d/%d - %d%%)",
   "jade.agritechtwo.crop_ready": "%s (Ready to Harvest)",

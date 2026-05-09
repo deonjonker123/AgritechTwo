@@ -64,7 +64,18 @@ public class RaisedBedBlockScreen extends AbstractContainerScreen<RaisedBedBlock
             ), mouseX, mouseY);
             return;
         }
-
+        if (isHovering(62, 19, 16, 16, mouseX, mouseY) && menu.slots.get(0).getItem().isEmpty()) {
+            graphics.setComponentTooltipForNextFrame(this.font, List.of(
+                    Component.translatable("tooltip.agritechtwo.slot.plant")
+            ), mouseX, mouseY);
+            return;
+        }
+        if (isHovering(98, 19, 16, 16, mouseX, mouseY) && menu.slots.get(1).getItem().isEmpty()) {
+            graphics.setComponentTooltipForNextFrame(this.font, List.of(
+                    Component.translatable("tooltip.agritechtwo.slot.soil")
+            ), mouseX, mouseY);
+            return;
+        }
         super.extractTooltip(graphics, mouseX, mouseY);
     }
 

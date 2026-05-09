@@ -3,11 +3,16 @@ package com.misterd.agritechtwo.block;
 import com.misterd.agritechtwo.AgritechTwo;
 import com.misterd.agritechtwo.block.custom.*;
 import com.misterd.agritechtwo.item.ATItems;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -15,6 +20,7 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class ATBlocks {
@@ -273,16 +279,43 @@ public class ATBlocks {
                     .noOcclusion()));
 
     private static <T extends Block> DeferredBlock<T> registerBlock(String name, Function<Identifier, T> factory) {
-        DeferredBlock<T> toReturn = BLOCKS.register(name, factory);
+        DeferredBlock<T> toReturn = BLOCKS.register(name,
+                factory);
         registerBlockItem(name, toReturn);
         return toReturn;
     }
 
     private static <T extends Block> void registerBlockItem(String name, DeferredBlock<T> block) {
-        ATItems.ITEMS.register(name, regName -> new BlockItem(block.get(),
-                new Item.Properties()
-                        .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(AgritechTwo.MODID, name)))
-                        .useBlockDescriptionPrefix()));
+        ATItems.ITEMS.register(name, regName -> {
+            if (name.endsWith("_planter")) {
+                return new BlockItem(block.get(),
+                        new Item.Properties()
+                                .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(AgritechTwo.MODID, name)))
+                                .useBlockDescriptionPrefix()) {
+                    @Override
+                    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> adder, TooltipFlag flag) {
+                        adder.accept(Component.translatable("tooltip.agritechtwo.planter.till").withStyle(ChatFormatting.GRAY));
+                        adder.accept(Component.translatable("tooltip.agritechtwo.planter.fertilize").withStyle(ChatFormatting.GRAY));
+                    }
+                };
+            }
+            if (name.endsWith("_raised_bed")) {
+                return new BlockItem(block.get(),
+                        new Item.Properties()
+                                .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(AgritechTwo.MODID, name)))
+                                .useBlockDescriptionPrefix()) {
+                    @Override
+                    public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay display, Consumer<Component> adder, TooltipFlag flag) {
+                        adder.accept(Component.translatable("tooltip.agritechtwo.planter.till").withStyle(ChatFormatting.GRAY));
+                        adder.accept(Component.translatable("tooltip.agritechtwo.planter.fertilize").withStyle(ChatFormatting.GRAY));
+                    }
+                };
+            }
+            return new BlockItem(block.get(),
+                    new Item.Properties()
+                            .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(AgritechTwo.MODID, name)))
+                            .useBlockDescriptionPrefix());
+        });
     }
 
     public static void register(IEventBus eventBus) {
