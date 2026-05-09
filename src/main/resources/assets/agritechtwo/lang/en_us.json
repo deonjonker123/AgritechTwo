@@ -71,6 +71,8 @@
   "tooltip.agritechtwo.planter.till": "Right-click with a Hoe to till soil placed inside",
   "tooltip.agritechtwo.planter.fertilize": "Right-click with Bone Meal or fertilizer to boost crop growth",
 
+  "config.jade.plugin_agritechtwo.raised_bed_info": "Raised Bed Info",
+  "config.jade.plugin_agritechtwo.planter_info": "Planter Info",
   "jade.agritechtwo.crop_progress": "%s (Stage %d/%d - %d%%)",
   "jade.agritechtwo.crop_ready": "%s (Ready to Harvest)",
   "jade.agritechtwo.soil_info": "Soil: %s (%s speed)",
