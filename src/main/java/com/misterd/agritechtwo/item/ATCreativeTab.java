@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.function.Supplier;
@@ -18,18 +19,20 @@ public class ATCreativeTab {
             () -> CreativeModeTab.builder().icon(() -> new ItemStack(ATBlocks.OAK_PLANTER.get()))
                     .title(Component.translatable("creativetab.agritechtwo"))
                     .displayItems((itemDisplayParameters, output) -> {
-                        output.accept(ATBlocks.ACACIA_PLANTER);
-                        output.accept(ATBlocks.BAMBOO_PLANTER);
-                        output.accept(ATBlocks.BIRCH_PLANTER);
-                        output.accept(ATBlocks.CHERRY_PLANTER);
-                        output.accept(ATBlocks.CRIMSON_PLANTER);
-                        output.accept(ATBlocks.DARK_OAK_PLANTER);
-                        output.accept(ATBlocks.JUNGLE_PLANTER);
-                        output.accept(ATBlocks.MANGROVE_PLANTER);
-                        output.accept(ATBlocks.OAK_PLANTER);
-                        output.accept(ATBlocks.PALE_OAK_PLANTER);
-                        output.accept(ATBlocks.SPRUCE_PLANTER);
-                        output.accept(ATBlocks.WARPED_PLANTER);
+                        if (!ModList.get().isLoaded("agritechevolved")) {
+                            output.accept(ATBlocks.ACACIA_PLANTER);
+                            output.accept(ATBlocks.BAMBOO_PLANTER);
+                            output.accept(ATBlocks.BIRCH_PLANTER);
+                            output.accept(ATBlocks.CHERRY_PLANTER);
+                            output.accept(ATBlocks.CRIMSON_PLANTER);
+                            output.accept(ATBlocks.DARK_OAK_PLANTER);
+                            output.accept(ATBlocks.JUNGLE_PLANTER);
+                            output.accept(ATBlocks.MANGROVE_PLANTER);
+                            output.accept(ATBlocks.OAK_PLANTER);
+                            output.accept(ATBlocks.PALE_OAK_PLANTER);
+                            output.accept(ATBlocks.SPRUCE_PLANTER);
+                            output.accept(ATBlocks.WARPED_PLANTER);
+                        }
 
                         output.accept(ATBlocks.ACACIA_CRATE);
                         output.accept(ATBlocks.BAMBOO_CRATE);
@@ -57,7 +60,9 @@ public class ATCreativeTab {
                         output.accept(ATBlocks.SPRUCE_RAISED_BED);
                         output.accept(ATBlocks.WARPED_RAISED_BED);
 
-                        output.accept(ATItems.CLOCHE.get());
+                        if (!ModList.get().isLoaded("agritechevolved")) {
+                            output.accept(ATItems.CLOCHE.get());
+                        }
                     }).build());
 
     public static void register(IEventBus eventBus) {
