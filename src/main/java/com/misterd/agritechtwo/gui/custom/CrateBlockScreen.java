@@ -29,7 +29,7 @@ public class CrateBlockScreen extends AbstractContainerScreen<CrateBlockMenu> {
             Identifier.fromNamespaceAndPath("agritechtwo", "disable_collection_btn")
     );
 
-    private static final int GUI_HEIGHT = 207;
+    private static final int GUI_HEIGHT = 225;
     private boolean collecting;
 
     public CrateBlockScreen(CrateBlockMenu menu, Inventory playerInventory, Component title) {
