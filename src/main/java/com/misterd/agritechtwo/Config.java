@@ -35,6 +35,8 @@ public class Config {
     public static ModConfigSpec.BooleanValue ENABLE_CROPTOPIA;
     public static ModConfigSpec.BooleanValue ENABLE_COBBLEMON;
     public static ModConfigSpec.BooleanValue ENABLE_ACTUALLY_ADDITIONS;
+    public static ModConfigSpec.BooleanValue ENABLE_THE_AETHER_II;
+    public static ModConfigSpec.BooleanValue ENABLE_ATE;
 
     // Fertilizers
     public static ModConfigSpec.DoubleValue FERTILIZER_BONE_MEAL_SPEED_MULTIPLIER;
@@ -47,6 +49,12 @@ public class Config {
     public static ModConfigSpec.DoubleValue FERTILIZER_IMMERSIVE_FERTILIZER_YIELD_MULTIPLIER;
     public static ModConfigSpec.DoubleValue FERTILIZER_ARCANE_BONE_MEAL_SPEED_MULTIPLIER;
     public static ModConfigSpec.DoubleValue FERTILIZER_ARCANE_BONE_MEAL_YIELD_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue FERTILIZER_CRUDE_BIOMASS_SPEED_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue FERTILIZER_CRUDE_BIOMASS_YIELD_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue FERTILIZER_BIOMASS_SPEED_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue FERTILIZER_BIOMASS_YIELD_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue FERTILIZER_COMPACTED_BIOMASS_SPEED_MULTIPLIER;
+    public static ModConfigSpec.DoubleValue FERTILIZER_COMPACTED_BIOMASS_YIELD_MULTIPLIER;
 
     // Cloche
     public static ModConfigSpec.DoubleValue CLOCHE_SPEED_MULTIPLIER;
@@ -77,6 +85,8 @@ public class Config {
     public static boolean enableCroptopia;
     public static boolean enableCobblemon;
     public static boolean enableActuallyAdditions;
+    public static boolean enableTheAetherII;
+    public static boolean enableAgritechEvolved;
 
     public static void register(ModContainer container) {
         compatibilityConfig();
@@ -106,6 +116,8 @@ public class Config {
         ENABLE_CROPTOPIA = COMMON_BUILDER.comment("Enable Croptopia compatibility").define("enable_croptopia", true);
         ENABLE_COBBLEMON = COMMON_BUILDER.comment("Enable Cobblemon compatibility").define("enable_cobblemon", true);
         ENABLE_ACTUALLY_ADDITIONS = COMMON_BUILDER.comment("Enable Actually Additions compatibility").define("enable_actually_additions", true);
+        ENABLE_THE_AETHER_II = COMMON_BUILDER.comment("Enable The Aether II compatibility").define("enable_the_aether_ii", true);
+        ENABLE_ATE = COMMON_BUILDER.comment("Enable Agritech: Evolved compatibility").define("enable_ate", true);
         COMMON_BUILDER.pop();
     }
 
@@ -121,6 +133,12 @@ public class Config {
         FERTILIZER_IMMERSIVE_FERTILIZER_YIELD_MULTIPLIER = COMMON_BUILDER.comment("Yield multiplier for Immersive Engineering Fertilizer").defineInRange("immersive_fertilizer_yield_multiplier", 1.4D, 0.1D, 10.0D);
         FERTILIZER_ARCANE_BONE_MEAL_SPEED_MULTIPLIER = COMMON_BUILDER.comment("Speed multiplier for Arcane Bone Meal").defineInRange("arcane_bone_meal_speed_multiplier", 1.5D, 0.1D, 10.0D);
         FERTILIZER_ARCANE_BONE_MEAL_YIELD_MULTIPLIER = COMMON_BUILDER.comment("Yield multiplier for Arcane Bone Meal").defineInRange("arcane_bone_meal_yield_multiplier", 1.5D, 0.1D, 10.0D);
+        FERTILIZER_CRUDE_BIOMASS_SPEED_MULTIPLIER = COMMON_BUILDER.comment("Speed multiplier for Crude Biomass fertilizer").defineInRange("crude_biomass_speed_multiplier", 1.25D, 0.1D, 10.0D);
+        FERTILIZER_CRUDE_BIOMASS_YIELD_MULTIPLIER = COMMON_BUILDER.comment("Yield multiplier for Crude Biomass fertilizer").defineInRange("crude_biomass_yield_multiplier", 1.25D, 0.1D, 10.0D);
+        FERTILIZER_BIOMASS_SPEED_MULTIPLIER = COMMON_BUILDER.comment("Speed multiplier for Biomass fertilizer").defineInRange("biomass_speed_multiplier", 1.3D, 0.1D, 10.0D);
+        FERTILIZER_BIOMASS_YIELD_MULTIPLIER = COMMON_BUILDER.comment("Yield multiplier for Biomass fertilizer").defineInRange("biomass_yield_multiplier", 1.3D, 0.1D, 10.0D);
+        FERTILIZER_COMPACTED_BIOMASS_SPEED_MULTIPLIER = COMMON_BUILDER.comment("Speed multiplier for Compacted Biomass fertilizer").defineInRange("compacted_biomass_speed_multiplier", 1.8D, 0.1D, 10.0D);
+        FERTILIZER_COMPACTED_BIOMASS_YIELD_MULTIPLIER = COMMON_BUILDER.comment("Yield multiplier for Compacted Biomass fertilizer").defineInRange("compacted_biomass_yield_multiplier", 1.8D, 0.1D, 10.0D);
         COMMON_BUILDER.pop();
     }
 
@@ -163,6 +181,12 @@ public class Config {
     public static double getFertilizerImmersiveFertilizerYieldMultiplier() { return FERTILIZER_IMMERSIVE_FERTILIZER_YIELD_MULTIPLIER.get(); }
     public static double getFertilizerArcaneBoneMealSpeedMultiplier() { return FERTILIZER_ARCANE_BONE_MEAL_SPEED_MULTIPLIER.get(); }
     public static double getFertilizerArcaneBoneMealYieldMultiplier() { return FERTILIZER_ARCANE_BONE_MEAL_YIELD_MULTIPLIER.get(); }
+    public static double getFertilizerCrudeBiomassSpeedMultiplier() { return FERTILIZER_CRUDE_BIOMASS_SPEED_MULTIPLIER.get(); }
+    public static double getFertilizerCrudeBiomassYieldMultiplier() { return FERTILIZER_CRUDE_BIOMASS_YIELD_MULTIPLIER.get(); }
+    public static double getFertilizerBiomassSpeedMultiplier() { return FERTILIZER_BIOMASS_SPEED_MULTIPLIER.get(); }
+    public static double getFertilizerBiomassYieldMultiplier() { return FERTILIZER_BIOMASS_YIELD_MULTIPLIER.get(); }
+    public static double getFertilizerCompactedBiomassSpeedMultiplier() { return FERTILIZER_COMPACTED_BIOMASS_SPEED_MULTIPLIER.get(); }
+    public static double getFertilizerCompactedBiomassYieldMultiplier() { return FERTILIZER_COMPACTED_BIOMASS_YIELD_MULTIPLIER.get(); }
 
     // --- Cloche getters ---
     public static double getClocheSpeedMultiplier() { return CLOCHE_SPEED_MULTIPLIER.get(); }
@@ -200,6 +224,8 @@ public class Config {
         enableCroptopia = ENABLE_CROPTOPIA.get() && ModList.get().isLoaded("croptopia");
         enableCobblemon = ENABLE_COBBLEMON.get() && ModList.get().isLoaded("cobblemon");
         enableActuallyAdditions = ENABLE_ACTUALLY_ADDITIONS.get() && ModList.get().isLoaded("actuallyadditions");
+        enableTheAetherII = ENABLE_THE_AETHER_II.get() && ModList.get().isLoaded("aether_ii");
+        enableAgritechEvolved = ENABLE_ATE.get() && ModList.get().isLoaded("agritechevolved");
         LOGGER.info("AgriTech: Two configuration loaded");
         PlantablesConfig.loadConfig();
         logModCompatibility();
@@ -225,7 +251,9 @@ public class Config {
                 new Mod(enablePamsTrees, "pamhc2trees", "Pam's HarvestCraft - Trees"),
                 new Mod(enableCroptopia, "croptopia", "Croptopia"),
                 new Mod(enableCobblemon, "cobblemon", "Cobblemon"),
-                new Mod(enableActuallyAdditions, "actuallyadditions", "Actually Additions")
+                new Mod(enableActuallyAdditions, "actuallyadditions", "Actually Additions"),
+                new Mod(enableTheAetherII, "aether_ii", "The Aether II"),
+                new Mod(enableAgritechEvolved, "agritechevolved", "Agritech: Evolved")
         }) {
             if (m.enabled() && ModList.get().isLoaded(m.modId())) {
                 LOGGER.info("  - {}: ENABLED", m.label());

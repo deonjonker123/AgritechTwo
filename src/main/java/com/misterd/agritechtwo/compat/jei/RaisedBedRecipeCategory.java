@@ -29,7 +29,7 @@ public class RaisedBedRecipeCategory implements IRecipeCategory<RaisedBedRecipe>
     private final IDrawable icon;
 
     public RaisedBedRecipeCategory(IGuiHelper guiHelper) {
-        this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 162, 45);
+        this.background = guiHelper.createDrawable(TEXTURE, 0, 0, 162, 63);
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(ATBlocks.OAK_RAISED_BED.get()));
     }
 
@@ -55,21 +55,21 @@ public class RaisedBedRecipeCategory implements IRecipeCategory<RaisedBedRecipe>
 
     @Override
     public int getHeight() {
-        return 45;
+        return 63;
     }
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, RaisedBedRecipe recipe, IFocusGroup focuses) {
-        var seedSlot = builder.addSlot(RecipeIngredientRole.INPUT, 10, 19);
+        var seedSlot = builder.addSlot(RecipeIngredientRole.INPUT, 10, 28);
         recipe.getSeedIngredient().items().map(h -> new ItemStack(h.value())).forEach(seedSlot::add);
 
-        var soilSlot = builder.addSlot(RecipeIngredientRole.INPUT, 46, 19);
+        var soilSlot = builder.addSlot(RecipeIngredientRole.INPUT, 46, 28);
         recipe.getSoilIngredient().items().map(h -> new ItemStack(h.value())).forEach(soilSlot::add);
 
         List<PlantablesConfig.DropInfo> dropInfos = recipe.getDropInfos();
         int outputIndex = 0;
         for (ItemStack output : recipe.getOutputs()) {
-            if (outputIndex >= 4) break;
+            if (outputIndex >= 8) break;
             int x = 82 + outputIndex % 4 * 18;
             int y = 19 + outputIndex / 4 * 18;
 
