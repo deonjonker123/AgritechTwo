@@ -1,9 +1,5 @@
 
-![AT](https://raw.githubusercontent.com/deonjonker123/AgritechTwo/refs/heads/26.1.2/banner.png)
-
-# AgriTech
-
-AgriTech is a new and improved take on the original Agritech: Crops and Agritech: Trees mods, now combined into a single, more intuitive package. It brings expanded mod compatibility, a reworked configuration system, and a brand new fertilizer system for enhanced automation — all under one roof.
+![AT](https://raw.githubusercontent.com/deonjonker123/AgritechTwo/refs/heads/26.1.2/at_ban.png)
 
 ## Core Features
 
