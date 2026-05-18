@@ -100,7 +100,7 @@ public class RaisedBedBlockMenu extends AbstractContainerMenu {
 
     private void addPlayerHotbar(Inventory inv) {
         for (int col = 0; col < 9; col++)
-            addSlot(new Slot(inv, col, 8 + col * 18, 111));
+            addSlot(new Slot(inv, col, 8 + col * 18, 110));
     }
 
     private static class RaisedBedSlot extends Slot {
