@@ -1,0 +1,85 @@
+{
+  "creativetab.agritechtwo": "Agritech",
+
+  "block.agritechtwo.acacia_planter": "アカシアのプランター",
+  "block.agritechtwo.bamboo_planter": "竹のプランター",
+  "block.agritechtwo.birch_planter": "シラカバのプランター",
+  "block.agritechtwo.cherry_planter": "サクラのプランター",
+  "block.agritechtwo.crimson_planter": "真紅のプランター",
+  "block.agritechtwo.dark_oak_planter": "ダークオークのプランター",
+  "block.agritechtwo.jungle_planter": "ジャングルのプランター",
+  "block.agritechtwo.mangrove_planter": "マングローブのプランター",
+  "block.agritechtwo.oak_planter": "オークのプランター",
+  "block.agritechtwo.spruce_planter": "トウヒのプランター",
+  "block.agritechtwo.warped_planter": "歪んだプランター",
+  "block.agritechtwo.pale_oak_planter": "ペールオークのプランター",
+
+  "block.agritechtwo.acacia_raised_bed": "アカシアのレイズドベッド",
+  "block.agritechtwo.bamboo_raised_bed": "竹のレイズドベッド",
+  "block.agritechtwo.birch_raised_bed": "シラカバのレイズドベッド",
+  "block.agritechtwo.cherry_raised_bed": "サクラのレイズドベッド",
+  "block.agritechtwo.crimson_raised_bed": "真紅のレイズドベッド",
+  "block.agritechtwo.dark_oak_raised_bed": "ダークオークのレイズドベッド",
+  "block.agritechtwo.jungle_raised_bed": "ジャングルのレイズドベッド",
+  "block.agritechtwo.mangrove_raised_bed": "マングローブのレイズドベッド",
+  "block.agritechtwo.oak_raised_bed": "オークのレイズドベッド",
+  "block.agritechtwo.spruce_raised_bed": "トウヒのレイズドベッド",
+  "block.agritechtwo.warped_raised_bed": "歪んだレイズドベッド",
+  "block.agritechtwo.pale_oak_raised_bed": "ペールオークのレイズドベッド",
+
+  "block.agritechtwo.acacia_crate": "アカシアの木箱",
+  "block.agritechtwo.bamboo_crate": "竹の木箱",
+  "block.agritechtwo.birch_crate": "シラカバの木箱",
+  "block.agritechtwo.cherry_crate": "サクラの木箱",
+  "block.agritechtwo.crimson_crate": "真紅の木箱",
+  "block.agritechtwo.dark_oak_crate": "ダークオークの木箱",
+  "block.agritechtwo.jungle_crate": "ジャングルの木箱",
+  "block.agritechtwo.mangrove_crate": "マングローブの木箱",
+  "block.agritechtwo.oak_crate": "オークの木箱",
+  "block.agritechtwo.pale_oak_crate": "ペールオークの木箱",
+  "block.agritechtwo.spruce_crate": "トウヒの木箱",
+  "block.agritechtwo.warped_crate": "歪んだ木箱",
+
+  "item.agritechtwo.cloche_dome": "ガラスドーム",
+
+  "blockentity.agritechtwo.name": "プランター",
+
+  "container.agritechtwo.planter": "プランター",
+  "container.agritechtwo.raised_bed": "レイズドベッド",
+  "container.agritechtwo.crate": "木箱",
+
+  "jei.agritechtwo.planter.tooltip": "Agritechプランター",
+  "jei.agritechtwo.raised_bed.tooltip": "Agritechレイズドベッド",
+  "jei.agritechtwo.raised_bed.drops_on_ground": "ワールドにドロップされる",
+
+  "message.agritechtwo.invalid_seed_soil_combination": "この種はこの土では育ちません！",
+  "message.agritechtwo.invalid_soil": "このブロックは耕地として使用できません！",
+  "message.agritechtwo.slots_full": "プランターが満杯です！",
+  "message.agritechtwo.same_farmland": "この耕地はすでにこの種類です！",
+
+  "tooltip.agritechtwo.growth_progress": "成長度",
+  "tooltip.agritechtwo.view_recipes": "クリックでレシピを見る",
+
+  "item.agritechtwo.cloche.tooltip.line1": "プランターに設置すると、成長速度と収穫量が増加します",
+  "item.agritechtwo.cloche.tooltip.line2": "肥料と一緒に使うと最大効率を実現！",
+  "item.agritechtwo.cloche.tooltip.line3": "何も持っていない状態でShift+右クリックすると取り外せます",
+
+  "tooltip.agritechtwo.slot.plant": "植物スロット",
+  "tooltip.agritechtwo.slot.soil": "土スロット",
+  "tooltip.agritechtwo.slot.fertilizer": "肥料スロット",
+
+  "tooltip.agritechtwo.planter.till": "中の土はクワで右クリックすると耕せます",
+  "tooltip.agritechtwo.planter.fertilize": "骨粉または肥料を右クリックすると作物の成長を促進します",
+
+  "config.jade.plugin_agritechtwo.raised_bed_info": "レイズドベッドの情報",
+  "config.jade.plugin_agritechtwo.planter_info": "プランターの情報",
+  "jade.agritechtwo.crop_progress": "%s (成長段階 %d/%d - %d%%)",
+  "jade.agritechtwo.crop_ready": "%s (収穫可能)",
+  "jade.agritechtwo.soil_info": "土: %s (%s 成長率)",
+  "jade.agritechtwo.fertilizer_info": "肥料: %s (成長速度: %s, 収穫量: %s)",
+  "jade.agritechtwo.cloche_installed": "ドーム: 設置済み (成長速度: %s, 収穫量: %s)",
+  "jade.agritechtwo.sky_boost": "太陽光ボーナス: %s",
+
+  "tooltip.agritechtwo.crate.collecting": "自動回収をオフにする",
+  "tooltip.agritechtwo.crate.not_collecting": "自動回収をオンにする"
+}
