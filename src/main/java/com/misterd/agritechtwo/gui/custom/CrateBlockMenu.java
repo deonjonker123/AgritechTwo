@@ -61,19 +61,54 @@ public class CrateBlockMenu extends AbstractContainerMenu {
         Slot source = slots.get(index);
         if (source == null || !source.hasItem()) return ItemStack.EMPTY;
 
-        ItemStack stack = source.getItem();
-        ItemStack copy = stack.copy();
+        ItemStack stack = source.getItem().copy();
+        ItemStack remaining = stack.copy();
 
         if (index < 54) {
-            if (!moveItemStackTo(stack, 54, slots.size(), true)) return ItemStack.EMPTY;
+            if (!moveItemStackTo(remaining, 54, slots.size(), true)) return ItemStack.EMPTY;
         } else {
-            if (!moveItemStackTo(stack, 0, 54, false)) return ItemStack.EMPTY;
+            for (int slot = 0; slot < 54 && !remaining.isEmpty(); slot++) {
+                ItemStack existing = blockEntity.getStack(slot);
+                if (existing.isEmpty()) continue;
+                if (!ItemStack.isSameItemSameComponents(existing, remaining)) continue;
+
+                int space = existing.getMaxStackSize() - existing.getCount();
+                if (space <= 0) continue;
+
+                int toInsert = Math.min(space, remaining.getCount());
+                try (Transaction tx = Transaction.openRoot()) {
+                    int inserted = blockEntity.inventory.insert(slot, ItemResource.of(remaining), toInsert, tx);
+                    if (inserted > 0) {
+                        tx.commit();
+                        remaining.shrink(inserted);
+                    }
+                }
+            }
+            for (int slot = 0; slot < 54 && !remaining.isEmpty(); slot++) {
+                if (!blockEntity.getStack(slot).isEmpty()) continue;
+
+                int toInsert = remaining.getCount();
+                try (Transaction tx = Transaction.openRoot()) {
+                    int inserted = blockEntity.inventory.insert(slot, ItemResource.of(remaining), toInsert, tx);
+                    if (inserted > 0) {
+                        tx.commit();
+                        remaining.shrink(inserted);
+                    }
+                }
+            }
+
+            if (remaining.getCount() == stack.getCount()) return ItemStack.EMPTY; // nothing moved
         }
 
-        if (stack.isEmpty()) source.set(ItemStack.EMPTY);
-        else source.setChanged();
+        if (remaining.isEmpty()) {
+            source.set(ItemStack.EMPTY);
+        } else {
+            source.setChanged();
+            slots.get(index).set(remaining);
+        }
 
-        return copy;
+        blockEntity.setChanged();
+        return stack;
     }
 
     @Override
