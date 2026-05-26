@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritechtwo:oak_crate_from_any_wood"
+        "recipe": "agritechtwo:zzz_oak_crate_from_any_wood"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "agritechtwo:oak_crate_from_any_wood"
+      "agritechtwo:zzz_oak_crate_from_any_wood"
     ]
   }
 }

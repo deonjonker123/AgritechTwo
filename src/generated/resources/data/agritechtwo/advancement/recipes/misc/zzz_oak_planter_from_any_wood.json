@@ -1,4 +1,13 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "agritechevolved"
+      }
+    }
+  ],
   "parent": "minecraft:recipes/root",
   "criteria": {
     "has_oak_log": {
@@ -13,7 +22,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritechtwo:oak_raised_bed_from_any_wood"
+        "recipe": "agritechtwo:zzz_oak_planter_from_any_wood"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +35,7 @@
   ],
   "rewards": {
     "recipes": [
-      "agritechtwo:oak_raised_bed_from_any_wood"
+      "agritechtwo:zzz_oak_planter_from_any_wood"
     ]
   }
 }
