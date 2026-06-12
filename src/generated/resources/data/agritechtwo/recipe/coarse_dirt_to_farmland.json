@@ -1,4 +1,13 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "agritechtwo"
+      }
+    }
+  ],
   "type": "agritechtwo:durability_shapeless",
   "category": "misc",
   "durability_per_item": 1,

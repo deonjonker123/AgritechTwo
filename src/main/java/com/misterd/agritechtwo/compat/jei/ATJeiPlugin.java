@@ -3,6 +3,7 @@ package com.misterd.agritechtwo.compat.jei;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.misterd.agritechtwo.block.ATBlocks;
+import com.misterd.agritechtwo.recipe.ATRecipeTypes;
 import com.misterd.agritechtwo.recipe.CropRecipe;
 import com.misterd.agritechtwo.recipe.TreeRecipe;
 import com.mojang.logging.LogUtils;
@@ -140,7 +141,8 @@ public class ATJeiPlugin implements IModPlugin {
             LogUtils.getLogger().error("[AT2 JEI] Failed to walk planter recipe directory: {}", e.getMessage());
         }
 
-        walkDatapackRecipes(mc, ops, "agritechtwo", recipes, true, false);
+        walkDatapackRecipes(mc, ops, recipes, true, false);
+        injectServerRecipes(mc, recipes, true, false);
 
         LogUtils.getLogger().info("[AT2 JEI] Built {} planter recipes", recipes.size());
         return recipes;
@@ -180,13 +182,14 @@ public class ATJeiPlugin implements IModPlugin {
             LogUtils.getLogger().error("[AT2 JEI] Failed to walk raised bed recipe directory: {}", e.getMessage());
         }
 
-        walkDatapackRecipes(mc, ops, "agritechtwo", recipes, false, true);
+        walkDatapackRecipes(mc, ops, recipes, false, true);
+        injectServerRecipes(mc, recipes, false, true);
 
         LogUtils.getLogger().info("[AT2 JEI] Built {} raised bed recipes", recipes.size());
         return recipes;
     }
 
-    private static void walkDatapackRecipes(Minecraft mc, DynamicOps<JsonElement> ops, String namespace,
+    private static void walkDatapackRecipes(Minecraft mc, DynamicOps<JsonElement> ops,
                                             List<?> recipes, boolean planter, boolean raisedBed) {
         var server = mc.getSingleplayerServer();
         if (server == null) return;
@@ -197,14 +200,14 @@ public class ATJeiPlugin implements IModPlugin {
                 dpStream.forEach(dp -> {
                     try {
                         if (Files.isDirectory(dp)) {
-                            Path recipePath = dp.resolve("data").resolve(namespace).resolve("recipe");
+                            Path recipePath = dp.resolve("data").resolve("agritechtwo").resolve("recipe");
                             if (Files.exists(recipePath)) {
                                 if (planter) walkPlanterRecipes(recipePath, ops, castPlanterList(recipes));
                                 if (raisedBed) walkRaisedBedRecipes(recipePath, ops, castRaisedBedList(recipes));
                             }
                         } else if (dp.toString().endsWith(".zip")) {
                             try (FileSystem fs = FileSystems.newFileSystem(dp, Map.of())) {
-                                Path recipePath = fs.getPath("/data/" + namespace + "/recipe");
+                                Path recipePath = fs.getPath("/data/agritechtwo/recipe");
                                 if (Files.exists(recipePath)) {
                                     if (planter) walkPlanterRecipes(recipePath, ops, castPlanterList(recipes));
                                     if (raisedBed) walkRaisedBedRecipes(recipePath, ops, castRaisedBedList(recipes));
@@ -218,6 +221,41 @@ public class ATJeiPlugin implements IModPlugin {
             }
         } catch (Exception e) {
             LogUtils.getLogger().error("[AT2 JEI] Failed to access datapack dir: {}", e.getMessage());
+        }
+    }
+
+    private static void injectServerRecipes(Minecraft mc, List<?> recipes, boolean planter, boolean raisedBed) {
+        var server = mc.getSingleplayerServer();
+        if (server == null) return;
+        try {
+            server.getRecipeManager().getRecipes().forEach(holder -> {
+                try {
+                    if (planter) {
+                        List<PlanterRecipe> pl = castPlanterList(recipes);
+                        if (holder.value().getType() == ATRecipeTypes.CROP_TYPE.get()) {
+                            PlanterRecipe pr = PlanterRecipe.fromCrop((CropRecipe) holder.value());
+                            if (pl.stream().noneMatch(r -> r.getPlant().equals(pr.getPlant()))) pl.add(pr);
+                        } else if (holder.value().getType() == ATRecipeTypes.TREE_TYPE.get()) {
+                            PlanterRecipe pr = PlanterRecipe.fromTree((TreeRecipe) holder.value());
+                            if (pl.stream().noneMatch(r -> r.getPlant().equals(pr.getPlant()))) pl.add(pr);
+                        }
+                    }
+                    if (raisedBed) {
+                        List<RaisedBedRecipe> rb = castRaisedBedList(recipes);
+                        if (holder.value().getType() == ATRecipeTypes.CROP_TYPE.get()) {
+                            RaisedBedRecipe rr = RaisedBedRecipe.fromCrop((CropRecipe) holder.value());
+                            if (rb.stream().noneMatch(r -> r.getPlant().equals(rr.getPlant()))) rb.add(rr);
+                        } else if (holder.value().getType() == ATRecipeTypes.TREE_TYPE.get()) {
+                            RaisedBedRecipe rr = RaisedBedRecipe.fromTree((TreeRecipe) holder.value());
+                            if (rb.stream().noneMatch(r -> r.getPlant().equals(rr.getPlant()))) rb.add(rr);
+                        }
+                    }
+                } catch (Exception e) {
+                    LogUtils.getLogger().error("[AT2 JEI] Failed to process server recipe: {}", e.getMessage());
+                }
+            });
+        } catch (Exception e) {
+            LogUtils.getLogger().error("[AT2 JEI] Failed to read server RecipeManager: {}", e.getMessage());
         }
     }
 

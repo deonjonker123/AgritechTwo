@@ -276,11 +276,12 @@ public class ATRecipeProvider extends RecipeProvider {
                 .define('P', Items.WARPED_PLANKS).define('C', Tags.Items.CHESTS).define('S', Items.WARPED_SLAB)
                 .unlockedBy("has_warped_planks", has(Items.WARPED_PLANKS)).save(output);
 
-        saveTillingRecipe("dirt_to_farmland", Items.DIRT, Items.FARMLAND);
-        saveTillingRecipe("rooted_dirt_to_farmland", Items.ROOTED_DIRT, Items.FARMLAND);
-        saveTillingRecipe("coarse_dirt_to_farmland", Items.COARSE_DIRT, Items.FARMLAND);
-        saveTillingRecipe("grass_to_farmland", Items.GRASS_BLOCK, Items.FARMLAND);
-        saveTillingRecipeModded("rich_soil_to_rich_soil_farmland", "farmersdelight:rich_soil", "farmersdelight:rich_soil_farmland");
+        saveTillingRecipe("dirt_to_farmland", Items.DIRT, Items.FARMLAND, noEvolved);
+        saveTillingRecipe("rooted_dirt_to_farmland", Items.ROOTED_DIRT, Items.FARMLAND, noEvolved);
+        saveTillingRecipe("coarse_dirt_to_farmland", Items.COARSE_DIRT, Items.FARMLAND, noEvolved);
+        saveTillingRecipe("grass_to_farmland", Items.GRASS_BLOCK, Items.FARMLAND, noEvolved);
+        saveTillingRecipeModded("rich_soil_to_rich_soil_farmland", "farmersdelight:rich_soil", "farmersdelight:rich_soil_farmland", noEvolved);
+
 
         generateCropRecipes();
         generateTreeRecipes();
@@ -504,7 +505,7 @@ public class ATRecipeProvider extends RecipeProvider {
         output.accept(key, recipe, null);
     }
 
-    private void saveTillingRecipe(String name, Item input, Item result) {
+    private void saveTillingRecipe(String name, Item input, Item result, RecipeOutput out) {
         HolderSet<Item> hoeTag = registries
                 .lookupOrThrow(Registries.ITEM)
                 .getOrThrow(ItemTags.HOES);
@@ -524,14 +525,14 @@ public class ATRecipeProvider extends RecipeProvider {
                 Registries.RECIPE,
                 Identifier.fromNamespaceAndPath("agritechtwo", name)
         );
-        output.accept(key, recipe, null);
+        out.accept(key, recipe, null);
     }
 
-    private void saveTillingRecipeModded(String name, String inputId, String resultId) {
+    private void saveTillingRecipeModded(String name, String inputId, String resultId, RecipeOutput out) {
         Optional<Item> inputOpt = findItem(inputId);
         Optional<Item> resultOpt = findItem(resultId);
         if (inputOpt.isEmpty() || resultOpt.isEmpty()) return;
-        saveTillingRecipe(name, inputOpt.get(), resultOpt.get());
+        saveTillingRecipe(name, inputOpt.get(), resultOpt.get(), out);
     }
 
     private Optional<Item> findItem(String id) {
