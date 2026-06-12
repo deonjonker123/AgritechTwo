@@ -16,7 +16,7 @@ A glass bell jar that attaches to any planter, boosting both growth speed and ha
 
 ### **Fertilizer System**
 
-Fertilizer support with configurable speed and yield multipliers:
+Fertilizer support via data-maps:
 
 -   Vanilla bone meal
 -   Mystical Agriculture fertilizers (NeoForge only)
@@ -87,8 +87,6 @@ No server/client restart required. Changes to crops, soils, fertilizers via the 
 | Command | Effect |
 |--|--|
 | `/agritechtwo reload` | Reloads all configs |
-| `/agritechtwo reload plantables` | Reloads the crop/soil/sapling database only |
-| `/agritechtwo reload config` | Reloads the main TOML config only |
 
 Failed reloads report errors directly in chat rather than silently failing.
 
