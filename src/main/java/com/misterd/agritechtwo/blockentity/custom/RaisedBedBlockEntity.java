@@ -170,8 +170,6 @@ public class RaisedBedBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     private int getGrowthTime(ItemStack plant) {
-        Optional<CropRecipe> crop = findCropRecipe(plant);
-        if (crop.isPresent()) return crop.get().getGrowthTicks();
         return Config.getPlanterBaseProcessingTime();
     }
 

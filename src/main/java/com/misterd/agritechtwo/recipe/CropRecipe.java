@@ -16,19 +16,16 @@ public class CropRecipe implements Recipe<SingleRecipeInput> {
 
     private final Ingredient seed;
     private final List<Ingredient> soils;
-    private final int growthTicks;
     private final List<DropEntry> drops;
 
-    public CropRecipe(Ingredient seed, List<Ingredient> soils, int growthTicks, List<DropEntry> drops) {
+    public CropRecipe(Ingredient seed, List<Ingredient> soils, List<DropEntry> drops) {
         this.seed = seed;
         this.soils = soils;
-        this.growthTicks = growthTicks;
         this.drops = drops;
     }
 
     public Ingredient getSeed() { return seed; }
     public List<Ingredient> getSoils() { return soils; }
-    public int getGrowthTicks() { return growthTicks; }
     public List<DropEntry> getDrops() { return drops; }
 
     public boolean matchesSeed(ItemStack stack) {
@@ -85,14 +82,12 @@ public class CropRecipe implements Recipe<SingleRecipeInput> {
     public static final MapCodec<CropRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             Ingredient.CODEC.fieldOf("seed").forGetter(CropRecipe::getSeed),
             Ingredient.CODEC.listOf().fieldOf("soils").forGetter(CropRecipe::getSoils),
-            ExtraCodecs.POSITIVE_INT.fieldOf("growth_ticks").forGetter(CropRecipe::getGrowthTicks),
             DropEntry.CODEC.listOf().fieldOf("drops").forGetter(CropRecipe::getDrops)
     ).apply(instance, CropRecipe::new));
 
     public static final StreamCodec<RegistryFriendlyByteBuf, CropRecipe> STREAM_CODEC = StreamCodec.composite(
             Ingredient.CONTENTS_STREAM_CODEC, CropRecipe::getSeed,
             Ingredient.CONTENTS_STREAM_CODEC.apply(ByteBufCodecs.list()), CropRecipe::getSoils,
-            ByteBufCodecs.INT, CropRecipe::getGrowthTicks,
             DropEntry.STREAM_CODEC.apply(ByteBufCodecs.list()), CropRecipe::getDrops,
             CropRecipe::new
     );
