@@ -1,0 +1,16 @@
+{
+  "type": "agritechtwo:crop",
+  "seed": "ars_nouveau:sourceberry_bush",
+  "soils": [
+    "#agritechtwo:farmland_soils",
+    "#agritechtwo:dirt_soils"
+  ],
+  "drops": [
+    {
+      "item": "ars_nouveau:sourceberry_bush",
+      "min": 2,
+      "max": 4,
+      "chance": 1.0
+    }
+  ]
+}

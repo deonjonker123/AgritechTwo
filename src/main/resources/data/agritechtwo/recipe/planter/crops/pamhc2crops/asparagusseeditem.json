@@ -1,0 +1,15 @@
+{
+  "type": "agritechtwo:crop",
+  "seed": "pamhc2crops:asparagusseeditem",
+  "soils": [
+    "#agritechtwo:farmland_soils"
+  ],
+  "drops": [
+    {
+      "item": "pamhc2crops:asparagusitem",
+      "min": 2,
+      "max": 4,
+      "chance": 1.0
+    }
+  ]
+}

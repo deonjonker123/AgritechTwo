@@ -31,7 +31,6 @@ public class DataGenerators {
         generator.addProvider(true, blockTagsProvider);
 
         generator.addProvider(true, new ATModelProvider(packOutput));
-        generator.addProvider(true, new ATItemTagProvider(packOutput, lookupProvider));
     }
 
     @SubscribeEvent
@@ -47,6 +46,5 @@ public class DataGenerators {
         generator.addProvider(true, blockTagsProvider);
 
         generator.addProvider(true, new ATModelProvider(packOutput));
-        generator.addProvider(true, new ATItemTagProvider(packOutput, lookupProvider));
     }
 }

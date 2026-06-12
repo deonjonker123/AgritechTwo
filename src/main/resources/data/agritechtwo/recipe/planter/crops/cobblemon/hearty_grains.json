@@ -1,0 +1,15 @@
+{
+  "type": "agritechtwo:crop",
+  "seed": "cobblemon:hearty_grains",
+  "soils": [
+    "#agritechtwo:farmland_soils"
+  ],
+  "drops": [
+    {
+      "item": "cobblemon:hearty_grains",
+      "min": 1,
+      "max": 2,
+      "chance": 1.0
+    }
+  ]
+}

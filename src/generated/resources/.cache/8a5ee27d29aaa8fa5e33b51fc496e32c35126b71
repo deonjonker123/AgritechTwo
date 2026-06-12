@@ -1,13 +1,1 @@
-// 26.1.2	2026-06-12T13:39:32.7591686	Tags for minecraft:item mod id agritechtwo
-487ac67f3906c18bf1a70b9a041b19ac8f958626 data/agritechtwo/tags/item/dirt_soils.json
-e0738b858c37714e2cd0b28e1f43f36f0ddbc150 data/agritechtwo/tags/item/end_soils.json
-91298092263229c22ed59f780495f30405f23e44 data/agritechtwo/tags/item/farmland_soils.json
-a91a14b0d844c2e8beb882a51072178e0667620c data/agritechtwo/tags/item/jungle_soils.json
-d360d5c5c3d215bc124823b456d4dcfda62f4430 data/agritechtwo/tags/item/moss_soils.json
-190dcd5a6f0ceccc64a1223ebf8ceaf05f2fa789 data/agritechtwo/tags/item/mushroom_soils.json
-2bfdd47c936c1bc7e9948da6d2ad59e4cb9a11cb data/agritechtwo/tags/item/nether_soils.json
-e85d473045cf55c6f706798af73a74b69875c186 data/agritechtwo/tags/item/sand_soils.json
-d5aebde1fd1141df86b6ed4ace3f720504b32ab2 data/agritechtwo/tags/item/soul_sand_soils.json
-afed0b23ce4856edab3cc92f11149e5f4ef2c066 data/agritechtwo/tags/item/stone_soils.json
-06190432c3d853a5a693d50d24ceb9abaa358a04 data/agritechtwo/tags/item/tree_soils.json
-c62b9be8a52938b166add3c15cf8fe7b6021f08a data/agritechtwo/tags/item/water_soils.json
+// 26.1.2	2026-06-12T21:47:24.8451353	Tags for minecraft:item mod id agritechtwo

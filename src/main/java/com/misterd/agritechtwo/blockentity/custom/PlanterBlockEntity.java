@@ -6,6 +6,7 @@ import com.misterd.agritechtwo.blockentity.ATBlockEntities;
 import com.misterd.agritechtwo.datamap.ATDataMaps;
 import com.misterd.agritechtwo.gui.custom.PlanterBlockMenu;
 import com.misterd.agritechtwo.item.ATItems;
+import com.misterd.agritechtwo.recipe.ATRecipeTypes;
 import com.misterd.agritechtwo.recipe.CropRecipe;
 import com.misterd.agritechtwo.recipe.DropEntry;
 import com.misterd.agritechtwo.recipe.TreeRecipe;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -86,6 +88,12 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
 
     public PlanterBlockEntity(BlockPos pos, BlockState blockState) {
         super(ATBlockEntities.PLANTER_BLOCK_BE.get(), pos, blockState);
+    }
+
+    @Nullable
+    private RecipeManager getRecipes() {
+        if (level instanceof ServerLevel serverLevel) return serverLevel.recipeAccess();
+        return null;
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, PlanterBlockEntity be) {
@@ -167,24 +175,21 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
     }
 
     public boolean isValidPlant(ItemStack stack) {
-        if (stack.isEmpty()) return false;
+        if (level == null) return false;
         return findCropRecipe(stack).isPresent() || findTreeRecipe(stack).isPresent();
     }
 
     public boolean isValidSoilForAnyRecipe(ItemStack stack) {
-        if (stack.isEmpty()) return false;
-        return stack.is(ATTags.Items.FARMLAND_SOILS)
-                || stack.is(ATTags.Items.DIRT_SOILS)
-                || stack.is(ATTags.Items.TREE_SOILS)
-                || stack.is(ATTags.Items.SAND_SOILS)
-                || stack.is(ATTags.Items.SOUL_SAND_SOILS)
-                || stack.is(ATTags.Items.MOSS_SOILS)
-                || stack.is(ATTags.Items.WATER_SOILS)
-                || stack.is(ATTags.Items.MUSHROOM_SOILS)
-                || stack.is(ATTags.Items.NETHER_SOILS)
-                || stack.is(ATTags.Items.JUNGLE_SOILS)
-                || stack.is(ATTags.Items.STONE_SOILS)
-                || stack.is(ATTags.Items.END_SOILS);
+        RecipeManager recipes = getRecipes();
+        if (recipes == null) return false;
+        for (RecipeHolder<?> holder : recipes.getRecipes()) {
+            if (holder.value().getType() == ATRecipeTypes.CROP_TYPE.get()) {
+                if (((CropRecipe) holder.value()).matchesSoil(stack)) return true;
+            } else if (holder.value().getType() == ATRecipeTypes.TREE_TYPE.get()) {
+                if (((TreeRecipe) holder.value()).matchesSoil(stack)) return true;
+            }
+        }
+        return false;
     }
 
     public boolean isValidPlantSoilCombination(ItemStack plant, ItemStack soil) {
@@ -199,24 +204,30 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
         return Config.getPlanterBaseProcessingTime();
     }
 
-    private Optional<CropRecipe> findCropRecipe(ItemStack plant) {
-        if (level == null || !(level instanceof ServerLevel sl)) return Optional.empty();
-        RecipeManager rm = sl.recipeAccess();
-        return rm.getRecipes().stream()
-                .filter(h -> h.value() instanceof CropRecipe)
-                .map(h -> (CropRecipe) h.value())
-                .filter(r -> r.matchesSeed(plant))
-                .findFirst();
+    private Optional<CropRecipe> findCropRecipe(ItemStack seed) {
+        if (seed.isEmpty()) return Optional.empty();
+        RecipeManager recipes = getRecipes();
+        if (recipes == null) return Optional.empty();
+        for (RecipeHolder<?> holder : recipes.getRecipes()) {
+            if (holder.value().getType() == ATRecipeTypes.CROP_TYPE.get()) {
+                CropRecipe crop = (CropRecipe) holder.value();
+                if (crop.matchesSeed(seed)) return Optional.of(crop);
+            }
+        }
+        return Optional.empty();
     }
 
-    private Optional<TreeRecipe> findTreeRecipe(ItemStack plant) {
-        if (level == null || !(level instanceof ServerLevel sl)) return Optional.empty();
-        RecipeManager rm = sl.recipeAccess();
-        return rm.getRecipes().stream()
-                .filter(h -> h.value() instanceof TreeRecipe)
-                .map(h -> (TreeRecipe) h.value())
-                .filter(r -> r.matchesSapling(plant))
-                .findFirst();
+    private Optional<TreeRecipe> findTreeRecipe(ItemStack sapling) {
+        if (sapling.isEmpty()) return Optional.empty();
+        RecipeManager recipes = getRecipes();
+        if (recipes == null) return Optional.empty();
+        for (RecipeHolder<?> holder : recipes.getRecipes()) {
+            if (holder.value().getType() == ATRecipeTypes.TREE_TYPE.get()) {
+                TreeRecipe tree = (TreeRecipe) holder.value();
+                if (tree.matchesSapling(sapling)) return Optional.of(tree);
+            }
+        }
+        return Optional.empty();
     }
 
     public float getSoilGrowthModifier(ItemStack soilStack) {
