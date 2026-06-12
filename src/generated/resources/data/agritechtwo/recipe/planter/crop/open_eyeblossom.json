@@ -1,0 +1,16 @@
+{
+  "type": "agritechtwo:crop",
+  "drops": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:open_eyeblossom",
+      "max": 1,
+      "min": 1
+    }
+  ],
+  "growth_ticks": 1200,
+  "seed": "minecraft:open_eyeblossom",
+  "soils": [
+    "#agritechtwo:dirt_soils"
+  ]
+}

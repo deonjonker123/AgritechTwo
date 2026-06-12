@@ -2,15 +2,12 @@ package com.misterd.agritechtwo.compat.jade;
 
 import com.misterd.agritechtwo.Config;
 import com.misterd.agritechtwo.blockentity.custom.RaisedBedBlockEntity;
-import com.misterd.agritechtwo.config.PlantablesConfig;
-import com.misterd.agritechtwo.util.RegistryHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import snownee.jade.api.BlockAccessor;
 import snownee.jade.api.IServerDataProvider;
 
@@ -45,7 +42,7 @@ public enum RaisedBedProvider implements IServerDataProvider<BlockAccessor> {
         data.putBoolean("hasCrop", true);
         data.putString("cropName", seedStack.getDisplayName().getString());
         data.putInt("currentStage", bed.getGrowthStage());
-        data.putInt("maxStage", PlantablesConfig.isValidSapling(RegistryHelper.getItemId(seedStack)) ? 1 : 8);
+        data.putInt("maxStage", bed.isTree() ? 1 : 8);
         data.putFloat("progressPercent", bed.getGrowthProgress() * 100.0F);
         data.putString("soilName", soilStack.getDisplayName().getString());
         data.putFloat("growthModifier", bed.getSoilGrowthModifier(soilStack));

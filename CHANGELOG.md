@@ -17,3 +17,9 @@ All notable changes to this project will be documented here.
 ## [1.1.5.5+neoforge-mc-26.1.2] - 2026-06-04
 ### Maint
 - Version bump
+
+## [1.2.0+neoforge-mc26.1.2] - 2026-06-12
+### Changed
+- Compatibility layer is now fully data-driven. Seeds, saplings, soils, fertilizers and their values are defined via recipes and NeoForge datamaps — fully packdev-accessible via datapacks.
+### Added
+- Tooltip injection on all valid soil blocks and fertilizers showing their planter growth modifiers

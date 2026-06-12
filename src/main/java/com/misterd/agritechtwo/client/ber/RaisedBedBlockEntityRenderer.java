@@ -31,7 +31,6 @@ import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.Nullable;
 
 import com.misterd.agritechtwo.blockentity.custom.RaisedBedBlockEntity;
-import com.misterd.agritechtwo.config.PlantablesConfig;
 import com.misterd.agritechtwo.util.RegistryHelper;
 
 public class RaisedBedBlockEntityRenderer
@@ -49,6 +48,7 @@ public class RaisedBedBlockEntityRenderer
     }
 
     public static class RenderState extends BlockEntityRenderState {
+        public boolean isTree = false;
         public ItemStack soilStack = ItemStack.EMPTY;
         public ItemStack plantStack = ItemStack.EMPTY;
         public float growthProgress = 0f;
@@ -71,6 +71,7 @@ public class RaisedBedBlockEntityRenderer
         state.plantStack = be.getStack(0).copy();
         state.growthProgress = be.getGrowthProgress();
         state.growthStage = be.getGrowthStage();
+        state.isTree = isTreePlant(state.plantStack);
         state.soilIsWater = !state.soilStack.isEmpty() && RegistryHelper.getItemId(state.soilStack).equals("minecraft:water_bucket");
 
         if (!state.soilStack.isEmpty() && !state.soilIsWater) {
@@ -80,15 +81,12 @@ public class RaisedBedBlockEntityRenderer
         }
 
         state.plantModel.clear();
-        if (!state.plantStack.isEmpty() && !state.soilStack.isEmpty() && state.plantStack.getItem() instanceof BlockItem) {
-            String plantId = RegistryHelper.getItemId(state.plantStack);
-            boolean isTree = PlantablesConfig.isValidSapling(plantId);
-            boolean isCrop = PlantablesConfig.isValidSeed(plantId);
-
-            if (isTree) {
+        if (!state.plantStack.isEmpty() && !state.soilStack.isEmpty()
+                && state.plantStack.getItem() instanceof BlockItem) {
+            if (state.isTree) {
                 BlockState saplingState = ((BlockItem) state.plantStack.getItem()).getBlock().defaultBlockState();
                 blockModelResolver.update(state.plantModel, saplingState, BLOCK_DISPLAY_CONTEXT);
-            } else if (isCrop) {
+            } else {
                 BlockState cropState = getCropBlockState(state.plantStack, state.growthStage);
                 if (cropState != null) {
                     blockModelResolver.update(state.plantModel, cropState, BLOCK_DISPLAY_CONTEXT);
@@ -115,11 +113,8 @@ public class RaisedBedBlockEntityRenderer
         }
 
         if (!state.plantModel.isEmpty()) {
-            String plantId = RegistryHelper.getItemId(state.plantStack);
-            boolean isTree = PlantablesConfig.isValidSapling(plantId);
-
             poseStack.pushPose();
-            if (isTree) {
+            if (state.isTree) {
                 float scale = 0.3f + state.growthProgress * 0.4f;
                 poseStack.translate(0.5, 0.30, 0.5);
                 poseStack.scale(scale, scale, scale);
@@ -131,6 +126,12 @@ public class RaisedBedBlockEntityRenderer
             state.plantModel.submit(poseStack, collector, light, OverlayTexture.NO_OVERLAY, 0);
             poseStack.popPose();
         }
+    }
+
+    private static boolean isTreePlant(ItemStack stack) {
+        if (stack.isEmpty() || !(stack.getItem() instanceof BlockItem bi)) return false;
+        BlockState def = bi.getBlock().defaultBlockState();
+        return def.getProperties().stream().noneMatch(p -> p.getName().equals("age"));
     }
 
     private static void submitWater(PoseStack poseStack, SubmitNodeCollector collector, int light) {

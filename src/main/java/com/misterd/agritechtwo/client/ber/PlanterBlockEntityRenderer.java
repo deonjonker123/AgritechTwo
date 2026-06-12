@@ -5,13 +5,14 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.block.BlockModelResolver;
+import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
-import net.minecraft.client.renderer.block.BlockModelRenderState;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
@@ -37,7 +38,6 @@ import org.jspecify.annotations.Nullable;
 import com.misterd.agritechtwo.AgritechTwo;
 import com.misterd.agritechtwo.block.custom.PlanterBlock;
 import com.misterd.agritechtwo.blockentity.custom.PlanterBlockEntity;
-import com.misterd.agritechtwo.config.PlantablesConfig;
 import com.misterd.agritechtwo.util.RegistryHelper;
 
 public class PlanterBlockEntityRenderer
@@ -60,14 +60,14 @@ public class PlanterBlockEntityRenderer
 
     public static class RenderState extends BlockEntityRenderState {
         public boolean cloched = false;
+        public boolean isTree = false;
         public ItemStack soilStack = ItemStack.EMPTY;
         public ItemStack plantStack = ItemStack.EMPTY;
         public float growthProgress = 0f;
         public int growthStage = 0;
         public boolean soilIsWater = false;
         public double distanceSq = 0.0;
-        final net.minecraft.client.renderer.item.ItemStackRenderState soilRenderState =
-                new net.minecraft.client.renderer.item.ItemStackRenderState();
+        final ItemStackRenderState soilRenderState = new ItemStackRenderState();
         final BlockModelRenderState plantModel = new BlockModelRenderState();
     }
 
@@ -85,6 +85,7 @@ public class PlanterBlockEntityRenderer
         state.plantStack = be.getStack(0).copy();
         state.growthProgress = be.getGrowthProgress();
         state.growthStage = be.getGrowthStage();
+        state.isTree = isTreePlant(state.plantStack);
         var center = Vec3.atCenterOf(be.getBlockPos());
         state.distanceSq = cameraPos.distanceToSqr(center);
         state.soilIsWater = !state.soilStack.isEmpty() && RegistryHelper.getItemId(state.soilStack).equals("minecraft:water_bucket");
@@ -98,14 +99,10 @@ public class PlanterBlockEntityRenderer
         state.plantModel.clear();
         if (!state.plantStack.isEmpty() && !state.soilStack.isEmpty()
                 && state.plantStack.getItem() instanceof BlockItem) {
-            String plantId = RegistryHelper.getItemId(state.plantStack);
-            boolean isTree = PlantablesConfig.isValidSapling(plantId);
-            boolean isCrop = PlantablesConfig.isValidSeed(plantId);
-
-            if (isTree) {
+            if (state.isTree) {
                 BlockState saplingState = ((BlockItem) state.plantStack.getItem()).getBlock().defaultBlockState();
                 blockModelResolver.update(state.plantModel, saplingState, BLOCK_DISPLAY_CONTEXT);
-            } else if (isCrop) {
+            } else {
                 BlockState cropState = getCropBlockState(state.plantStack, state.growthStage);
                 if (cropState != null) {
                     blockModelResolver.update(state.plantModel, cropState, BLOCK_DISPLAY_CONTEXT);
@@ -149,17 +146,14 @@ public class PlanterBlockEntityRenderer
         }
 
         if (!state.plantModel.isEmpty()) {
-            String plantId = RegistryHelper.getItemId(state.plantStack);
-            boolean isTree = PlantablesConfig.isValidSapling(plantId);
-
             poseStack.pushPose();
-            if (isTree) {
+            if (state.isTree) {
                 float scale = 0.3f + state.growthProgress * 0.4f;
                 poseStack.translate(0.5, 0.58, 0.5);
                 poseStack.scale(scale, scale, scale);
                 poseStack.translate(-0.5, 0.0, -0.5);
             } else {
-                poseStack.translate(0.1725, 58, 0.1725);
+                poseStack.translate(0.1725, 0.58, 0.1725);
                 poseStack.scale(0.65f, 0.65f, 0.65f);
             }
             state.plantModel.submit(poseStack, collector, light, OverlayTexture.NO_OVERLAY, 0);
@@ -174,6 +168,12 @@ public class PlanterBlockEntityRenderer
                         Identifier.fromNamespaceAndPath(AgritechTwo.MODID, "block/cloche_dome")
                 )
         );
+    }
+
+    private static boolean isTreePlant(ItemStack stack) {
+        if (stack.isEmpty() || !(stack.getItem() instanceof BlockItem bi)) return false;
+        BlockState def = bi.getBlock().defaultBlockState();
+        return def.getProperties().stream().noneMatch(p -> p.getName().equals("age"));
     }
 
     private static void submitWater(PoseStack poseStack, SubmitNodeCollector collector, int light) {

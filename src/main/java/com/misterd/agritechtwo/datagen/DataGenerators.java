@@ -1,10 +1,7 @@
 package com.misterd.agritechtwo.datagen;
 
 import com.misterd.agritechtwo.AgritechTwo;
-import com.misterd.agritechtwo.datagen.custom.ATBlockTagProvider;
-import com.misterd.agritechtwo.datagen.custom.ATLootTableProvider;
-import com.misterd.agritechtwo.datagen.custom.ATModelProvider;
-import com.misterd.agritechtwo.datagen.custom.ATRecipeProvider;
+import com.misterd.agritechtwo.datagen.custom.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
@@ -34,6 +31,7 @@ public class DataGenerators {
         generator.addProvider(true, blockTagsProvider);
 
         generator.addProvider(true, new ATModelProvider(packOutput));
+        generator.addProvider(true, new ATItemTagProvider(packOutput, lookupProvider));
     }
 
     @SubscribeEvent
@@ -49,5 +47,6 @@ public class DataGenerators {
         generator.addProvider(true, blockTagsProvider);
 
         generator.addProvider(true, new ATModelProvider(packOutput));
+        generator.addProvider(true, new ATItemTagProvider(packOutput, lookupProvider));
     }
 }

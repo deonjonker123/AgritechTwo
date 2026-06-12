@@ -2,18 +2,39 @@ package com.misterd.agritechtwo.datagen.custom;
 
 import com.misterd.agritechtwo.block.ATBlocks;
 import com.misterd.agritechtwo.item.ATItems;
+import com.misterd.agritechtwo.recipe.CropRecipe;
+import com.misterd.agritechtwo.recipe.DropEntry;
+import com.misterd.agritechtwo.recipe.DurabilityShapelessRecipe;
+import com.misterd.agritechtwo.recipe.TreeRecipe;
+import com.misterd.agritechtwo.util.ATTags;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStackTemplate;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.conditions.NotCondition;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class ATRecipeProvider extends RecipeProvider {
+    private static final int DEFAULT_CROP_TICKS = 1200;
+
     public ATRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
         super(provider, recipeOutput);
     }
@@ -30,14 +51,14 @@ public class ATRecipeProvider extends RecipeProvider {
 
         @Override
         public String getName() {
-            return "My Recipes";
+            return "Agritech Recipes";
         }
     }
 
     @Override
     protected void buildRecipes() {
         RecipeOutput noEvolved = output.withConditions(
-                new NotCondition(new ModLoadedCondition("agritechevolved"))
+                new NotCondition(new ModLoadedCondition("agritechtwo"))
         );
 
         shaped(RecipeCategory.MISC, ATBlocks.ACACIA_PLANTER.get())
@@ -256,5 +277,271 @@ public class ATRecipeProvider extends RecipeProvider {
                 .pattern("P P").pattern("PCP").pattern("PSP")
                 .define('P', Items.WARPED_PLANKS).define('C', Tags.Items.CHESTS).define('S', Items.WARPED_SLAB)
                 .unlockedBy("has_warped_planks", has(Items.WARPED_PLANKS)).save(output);
+
+        saveTillingRecipe("dirt_to_farmland", Items.DIRT, Items.FARMLAND);
+        saveTillingRecipe("rooted_dirt_to_farmland", Items.ROOTED_DIRT, Items.FARMLAND);
+        saveTillingRecipe("coarse_dirt_to_farmland", Items.COARSE_DIRT, Items.FARMLAND);
+        saveTillingRecipe("grass_to_farmland", Items.GRASS_BLOCK, Items.FARMLAND);
+        saveTillingRecipeModded("rich_soil_to_rich_soil_farmland", "farmersdelight:rich_soil", "farmersdelight:rich_soil_farmland");
+
+        generateCropRecipes();
+        generateTreeRecipes();
+    }
+
+    private void generateCropRecipes() {
+        Ingredient farmlandSoils = tagIngredient(ATTags.Items.FARMLAND_SOILS);
+        Ingredient dirtSoils = tagIngredient(ATTags.Items.DIRT_SOILS);
+        Ingredient sandSoils = tagIngredient(ATTags.Items.SAND_SOILS);
+        Ingredient mossSoils = tagIngredient(ATTags.Items.MOSS_SOILS);
+        Ingredient waterSoils = tagIngredient(ATTags.Items.WATER_SOILS);
+        Ingredient soulSandSoils = tagIngredient(ATTags.Items.SOUL_SAND_SOILS);
+        Ingredient mushroomSoils = tagIngredient(ATTags.Items.MUSHROOM_SOILS);
+        Ingredient jungleSoils = tagIngredient(ATTags.Items.JUNGLE_SOILS);
+        Ingredient stoneSoils = tagIngredient(ATTags.Items.STONE_SOILS);
+        Ingredient endSoils = tagIngredient(ATTags.Items.END_SOILS);
+
+        saveCropRecipe("wheat", Items.WHEAT_SEEDS, List.of(farmlandSoils),
+                drop(Items.WHEAT, 1, 1),
+                drop(Items.WHEAT_SEEDS, 1, 2, 0.5f));
+
+        saveCropRecipe("beetroot", Items.BEETROOT_SEEDS, List.of(farmlandSoils),
+                drop(Items.BEETROOT, 1, 1),
+                drop(Items.BEETROOT_SEEDS, 1, 2, 0.5f));
+
+        saveCropRecipe("carrot", Items.CARROT, List.of(farmlandSoils),
+                drop(Items.CARROT, 2, 5));
+
+        saveCropRecipe("potato", Items.POTATO, List.of(farmlandSoils),
+                drop(Items.POTATO, 2, 5),
+                drop(Items.POISONOUS_POTATO, 1, 1, 0.02f));
+
+        saveCropRecipe("melon", Items.MELON_SEEDS, List.of(farmlandSoils),
+                drop(Items.MELON_SLICE, 3, 7));
+
+        saveCropRecipe("pumpkin", Items.PUMPKIN_SEEDS, List.of(farmlandSoils),
+                drop(Items.PUMPKIN, 1, 1));
+
+        saveCropRecipe("pitcher_pod", Items.PITCHER_POD, List.of(farmlandSoils),
+                drop(Items.PITCHER_PLANT, 1, 1));
+
+        saveCropRecipe("torchflower", Items.TORCHFLOWER_SEEDS, List.of(farmlandSoils),
+                drop(Items.TORCHFLOWER, 1, 1));
+
+        saveCropRecipe("sweet_berries", Items.SWEET_BERRIES, List.of(dirtSoils),
+                drop(Items.SWEET_BERRIES, 2, 4));
+
+        saveCropRecipe("firefly_bush", Items.FIREFLY_BUSH, List.of(dirtSoils),
+                drop(Items.FIREFLY_BUSH, 1, 2));
+
+        saveCropRecipe("bamboo", Items.BAMBOO, List.of(dirtSoils),
+                drop(Items.BAMBOO, 2, 4));
+
+        saveCropRecipe("sugar_cane", Items.SUGAR_CANE, List.of(dirtSoils, sandSoils),
+                drop(Items.SUGAR_CANE, 1, 3));
+
+        saveCropRecipe("cactus", Items.CACTUS, List.of(sandSoils),
+                drop(Items.CACTUS, 1, 3),
+                drop(Items.CACTUS_FLOWER, 1, 1, 0.25f));
+
+        saveCropRecipe("nether_wart", Items.NETHER_WART, List.of(soulSandSoils),
+                drop(Items.NETHER_WART, 1, 3));
+
+        saveCropRecipe("kelp", Items.KELP, List.of(waterSoils),
+                drop(Items.KELP, 1, 2));
+
+        saveCropRecipe("lily_pad", Items.LILY_PAD, List.of(waterSoils),
+                drop(Items.LILY_PAD, 1, 1));
+
+        saveCropRecipe("sea_pickle", Items.SEA_PICKLE, List.of(waterSoils),
+                drop(Items.SEA_PICKLE, 1, 1));
+
+        saveCropRecipe("glow_berries", Items.GLOW_BERRIES, List.of(mossSoils),
+                drop(Items.GLOW_BERRIES, 2, 4));
+
+        saveCropRecipe("spore_blossom", Items.SPORE_BLOSSOM, List.of(mossSoils),
+                drop(Items.SPORE_BLOSSOM, 1, 1));
+
+        saveCropRecipe("chorus_flower", Items.CHORUS_FLOWER, List.of(endSoils),
+                drop(Items.CHORUS_FRUIT, 1, 3),
+                drop(Items.CHORUS_FLOWER, 1, 1, 0.02f));
+
+        saveCropRecipe("moss_block", Items.MOSS_BLOCK, List.of(stoneSoils),
+                drop(Items.MOSS_BLOCK, 1, 2),
+                drop(Items.MOSS_CARPET, 1, 1, 0.1f),
+                drop(Items.WHEAT_SEEDS, 1, 1, 0.1f));
+
+        saveCropRecipe("pale_moss_block", Items.PALE_MOSS_BLOCK, List.of(stoneSoils),
+                drop(Items.PALE_MOSS_BLOCK, 1, 2),
+                drop(Items.PALE_MOSS_CARPET, 1, 1, 0.1f));
+
+        saveCropRecipe("brown_mushroom", Items.BROWN_MUSHROOM, List.of(mushroomSoils),
+                drop(Items.BROWN_MUSHROOM, 1, 1));
+
+        saveCropRecipe("red_mushroom", Items.RED_MUSHROOM, List.of(mushroomSoils),
+                drop(Items.RED_MUSHROOM, 1, 1));
+
+        saveCropRecipe("cocoa_beans", Items.COCOA_BEANS, List.of(jungleSoils),
+                drop(Items.COCOA_BEANS, 1, 3));
+
+        for (Item flower : new Item[]{
+                Items.ALLIUM, Items.AZURE_BLUET, Items.BLUE_ORCHID,
+                Items.CORNFLOWER, Items.DANDELION, Items.LILY_OF_THE_VALLEY,
+                Items.OXEYE_DAISY, Items.POPPY, Items.RED_TULIP,
+                Items.ORANGE_TULIP, Items.WHITE_TULIP, Items.PINK_TULIP,
+                Items.WITHER_ROSE, Items.LILAC, Items.PEONY,
+                Items.ROSE_BUSH, Items.SUNFLOWER,
+                Items.CLOSED_EYEBLOSSOM, Items.OPEN_EYEBLOSSOM
+        }) {
+            String name = BuiltInRegistries.ITEM.getKey(flower).getPath();
+            saveCropRecipe(name, flower, List.of(dirtSoils), drop(flower, 1, 1));
+        }
+    }
+
+    private void generateTreeRecipes() {
+        Ingredient treeSoils = tagIngredient(ATTags.Items.TREE_SOILS);
+        Ingredient netherSoils = tagIngredient(ATTags.Items.NETHER_SOILS);
+
+        saveTreeRecipe("oak", Items.OAK_SAPLING, List.of(treeSoils),
+                drop(Items.OAK_LOG, 2, 6),
+                drop(Items.OAK_SAPLING, 1, 2, 0.5f),
+                drop(Items.STICK, 1, 2, 0.5f),
+                drop(Items.APPLE, 1, 1, 0.4f));
+
+        saveTreeRecipe("birch", Items.BIRCH_SAPLING, List.of(treeSoils),
+                drop(Items.BIRCH_LOG, 2, 6),
+                drop(Items.BIRCH_SAPLING, 1, 2, 0.5f),
+                drop(Items.STICK, 1, 2, 0.5f));
+
+        saveTreeRecipe("spruce", Items.SPRUCE_SAPLING, List.of(treeSoils),
+                drop(Items.SPRUCE_LOG, 4, 8),
+                drop(Items.SPRUCE_SAPLING, 1, 2, 0.5f),
+                drop(Items.STICK, 1, 2, 0.5f));
+
+        saveTreeRecipe("jungle", Items.JUNGLE_SAPLING, List.of(treeSoils),
+                drop(Items.JUNGLE_LOG, 2, 6),
+                drop(Items.JUNGLE_SAPLING, 1, 2, 0.4f),
+                drop(Items.STICK, 1, 2, 0.5f),
+                drop(Items.COCOA_BEANS, 1, 2, 0.2f));
+
+        saveTreeRecipe("acacia", Items.ACACIA_SAPLING, List.of(treeSoils),
+                drop(Items.ACACIA_LOG, 2, 6),
+                drop(Items.ACACIA_SAPLING, 1, 2, 0.5f),
+                drop(Items.STICK, 1, 2, 0.5f));
+
+        saveTreeRecipe("dark_oak", Items.DARK_OAK_SAPLING, List.of(treeSoils),
+                drop(Items.DARK_OAK_LOG, 4, 8),
+                drop(Items.DARK_OAK_SAPLING, 1, 2, 0.5f),
+                drop(Items.STICK, 1, 2, 0.5f),
+                drop(Items.APPLE, 1, 2, 0.3f));
+
+        saveTreeRecipe("cherry", Items.CHERRY_SAPLING, List.of(treeSoils),
+                drop(Items.CHERRY_LOG, 2, 6),
+                drop(Items.CHERRY_SAPLING, 1, 2, 0.5f),
+                drop(Items.STICK, 1, 2, 0.5f));
+
+        saveTreeRecipe("pale_oak", Items.PALE_OAK_SAPLING, List.of(treeSoils),
+                drop(Items.PALE_OAK_LOG, 4, 8),
+                drop(Items.PALE_OAK_SAPLING, 1, 2, 0.5f),
+                drop(Items.STICK, 1, 2, 0.5f),
+                drop(Items.PALE_HANGING_MOSS, 1, 2, 0.3f));
+
+        saveTreeRecipe("mangrove", Items.MANGROVE_PROPAGULE, List.of(treeSoils),
+                drop(Items.MANGROVE_LOG, 2, 6),
+                drop(Items.MANGROVE_PROPAGULE, 1, 2, 0.5f),
+                drop(Items.STICK, 1, 2, 0.5f),
+                drop(Items.MANGROVE_ROOTS, 1, 1, 0.3f));
+
+        saveTreeRecipe("azalea", Items.AZALEA, List.of(treeSoils),
+                drop(Items.OAK_LOG, 1, 4),
+                drop(Items.AZALEA, 1, 1, 0.3f),
+                drop(Items.FLOWERING_AZALEA, 1, 1, 0.1f),
+                drop(Items.STICK, 1, 2, 0.5f));
+
+        saveTreeRecipe("flowering_azalea", Items.FLOWERING_AZALEA, List.of(treeSoils),
+                drop(Items.OAK_LOG, 1, 4),
+                drop(Items.AZALEA, 1, 1, 0.2f),
+                drop(Items.FLOWERING_AZALEA, 1, 1, 0.2f),
+                drop(Items.STICK, 1, 2, 0.5f));
+
+        saveTreeRecipe("crimson_fungus", Items.CRIMSON_FUNGUS, List.of(netherSoils),
+                drop(Items.CRIMSON_STEM, 2, 6),
+                drop(Items.NETHER_WART_BLOCK, 2, 6, 1f),
+                drop(Items.WEEPING_VINES, 1, 2, 0.5f),
+                drop(Items.SHROOMLIGHT, 1, 2, 0.5f));
+
+        saveTreeRecipe("warped_fungus", Items.WARPED_FUNGUS, List.of(netherSoils),
+                drop(Items.WARPED_STEM, 2, 6),
+                drop(Items.WARPED_WART_BLOCK, 2, 6, 1f),
+                drop(Items.TWISTING_VINES, 1, 2, 0.5f),
+                drop(Items.SHROOMLIGHT, 1, 2, 0.5f));
+    }
+
+    private Ingredient tagIngredient(TagKey<Item> tag) {
+        HolderSet<Item> holders = registries.lookupOrThrow(Registries.ITEM).getOrThrow(tag);
+        return Ingredient.of(holders);
+    }
+
+    private DropEntry drop(Item item, int min, int max) {
+        return new DropEntry(item, min, max, 1.0f);
+    }
+
+    private DropEntry drop(Item item, int min, int max, float chance) {
+        return new DropEntry(item, min, max, chance);
+    }
+
+    private void saveCropRecipe(String name, Item seed, List<Ingredient> soils, DropEntry... drops) {
+        CropRecipe recipe = new CropRecipe(Ingredient.of(seed), soils, DEFAULT_CROP_TICKS, List.of(drops));
+        ResourceKey<Recipe<?>> key = ResourceKey.create(
+                Registries.RECIPE,
+                Identifier.fromNamespaceAndPath("agritechtwo", "planter/crop/" + name)
+        );
+        output.accept(key, recipe, null);
+    }
+
+    private void saveTreeRecipe(String name, Item sapling, List<Ingredient> soils, DropEntry... drops) {
+        TreeRecipe recipe = new TreeRecipe(Ingredient.of(sapling), soils, List.of(drops));
+        ResourceKey<Recipe<?>> key = ResourceKey.create(
+                Registries.RECIPE,
+                Identifier.fromNamespaceAndPath("agritechtwo", "planter/tree/" + name)
+        );
+        output.accept(key, recipe, null);
+    }
+
+    private void saveTillingRecipe(String name, Item input, Item result) {
+        HolderSet<Item> hoeTag = registries
+                .lookupOrThrow(Registries.ITEM)
+                .getOrThrow(ItemTags.HOES);
+
+        NonNullList<Ingredient> ingredients = NonNullList.create();
+        ingredients.add(Ingredient.of(input));
+
+        DurabilityShapelessRecipe recipe = new DurabilityShapelessRecipe(
+                CraftingBookCategory.MISC,
+                new ItemStackTemplate(result),
+                ingredients,
+                Ingredient.of(hoeTag),
+                1
+        );
+
+        ResourceKey<Recipe<?>> key = ResourceKey.create(
+                Registries.RECIPE,
+                Identifier.fromNamespaceAndPath("agritechtwo", name)
+        );
+        output.accept(key, recipe, null);
+    }
+
+    private void saveTillingRecipeModded(String name, String inputId, String resultId) {
+        Optional<Item> inputOpt = findItem(inputId);
+        Optional<Item> resultOpt = findItem(resultId);
+        if (inputOpt.isEmpty() || resultOpt.isEmpty()) return;
+        saveTillingRecipe(name, inputOpt.get(), resultOpt.get());
+    }
+
+    private Optional<Item> findItem(String id) {
+        var result = BuiltInRegistries.ITEM.get(Identifier.parse(id));
+        if (result.isEmpty()) return Optional.empty();
+        Item item = result.get().value();
+        if (item == Items.AIR) return Optional.empty();
+        return Optional.of(item);
     }
 }

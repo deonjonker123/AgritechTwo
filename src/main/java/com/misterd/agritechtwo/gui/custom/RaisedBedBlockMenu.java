@@ -1,10 +1,9 @@
 package com.misterd.agritechtwo.gui.custom;
 
 import com.misterd.agritechtwo.blockentity.custom.RaisedBedBlockEntity;
-import com.misterd.agritechtwo.config.PlantablesConfig;
 import com.misterd.agritechtwo.gui.ATMenuTypes;
-import com.misterd.agritechtwo.util.RegistryHelper;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -43,39 +42,23 @@ public class RaisedBedBlockMenu extends AbstractContainerMenu {
 
         ItemStack stack = source.getItem();
         ItemStack copy = stack.copy();
-        String itemId = RegistryHelper.getItemId(stack);
 
         if (index >= 2) {
-            if (PlantablesConfig.isValidSeed(itemId) || PlantablesConfig.isValidSapling(itemId)) {
-                if (blockEntity.getStack(0).isEmpty()) {
-                    ItemStack existingSoil = blockEntity.getStack(1);
-                    if (!existingSoil.isEmpty()) {
-                        String soilId = RegistryHelper.getItemId(existingSoil);
-                        boolean valid = PlantablesConfig.isValidSeed(itemId)
-                                ? PlantablesConfig.isSoilValidForSeed(soilId, itemId)
-                                : PlantablesConfig.isSoilValidForSapling(soilId, itemId);
-                        if (!valid) return ItemStack.EMPTY;
-                    }
-                    slots.get(0).set(stack.copyWithCount(1));
-                    stack.shrink(1);
-                    return copy;
-                }
-            } else if (PlantablesConfig.isValidSoil(itemId)) {
-                if (blockEntity.getStack(1).isEmpty()) {
-                    ItemStack existingPlant = blockEntity.getStack(0);
-                    if (!existingPlant.isEmpty()) {
-                        String plantId = RegistryHelper.getItemId(existingPlant);
-                        boolean valid = PlantablesConfig.isValidSeed(plantId)
-                                ? PlantablesConfig.isSoilValidForSeed(itemId, plantId)
-                                : PlantablesConfig.isSoilValidForSapling(itemId, plantId);
-                        if (!valid) return ItemStack.EMPTY;
-                    }
-                    slots.get(1).set(stack.copyWithCount(1));
-                    stack.shrink(1);
-                    return copy;
-                }
+            if (blockEntity.isValidPlant(stack) && blockEntity.getStack(0).isEmpty()) {
+                ItemStack existingSoil = blockEntity.getStack(1);
+                if (!existingSoil.isEmpty() && !blockEntity.isValidPlantSoilCombination(stack, existingSoil))
+                    return ItemStack.EMPTY;
+                slots.get(0).set(stack.copyWithCount(1));
+                stack.shrink(1);
+                return copy;
+            } else if (blockEntity.isValidSoilForAnyRecipe(stack) && blockEntity.getStack(1).isEmpty()) {
+                ItemStack existingPlant = blockEntity.getStack(0);
+                if (!existingPlant.isEmpty() && !blockEntity.isValidPlantSoilCombination(existingPlant, stack))
+                    return ItemStack.EMPTY;
+                slots.get(1).set(stack.copyWithCount(1));
+                stack.shrink(1);
+                return copy;
             }
-            // Item doesn't fit any BE slot — bail out
             return ItemStack.EMPTY;
         } else {
             if (!moveItemStackTo(stack, 2, slots.size(), true)) return ItemStack.EMPTY;
@@ -108,16 +91,24 @@ public class RaisedBedBlockMenu extends AbstractContainerMenu {
         private final int index;
 
         public RaisedBedSlot(RaisedBedBlockEntity be, int index, int x, int y) {
-            super(new net.minecraft.world.SimpleContainer(be.inventory.size()), index, x, y);
+            super(new SimpleContainer(be.inventory.size()), index, x, y);
             this.be = be;
             this.index = index;
+            container.setItem(index, be.getStack(index));
         }
 
         @Override
-        public ItemStack getItem() { return be.getStack(index); }
+        public ItemStack getItem() {
+            Level lvl = be.getLevel();
+            if (lvl != null && lvl.isClientSide()) return container.getItem(index);
+            return be.getStack(index);
+        }
 
         @Override
         public void set(ItemStack stack) {
+            container.setItem(index, stack.copy());
+            Level lvl = be.getLevel();
+            if (lvl == null || lvl.isClientSide()) { setChanged(); return; }
             try (Transaction tx = Transaction.openRoot()) {
                 ItemStack existing = be.getStack(index);
                 if (!existing.isEmpty())

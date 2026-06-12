@@ -4,7 +4,7 @@
       "type": "neoforge:not",
       "value": {
         "type": "neoforge:mod_loaded",
-        "modid": "agritechevolved"
+        "modid": "agritechtwo"
       }
     }
   ],

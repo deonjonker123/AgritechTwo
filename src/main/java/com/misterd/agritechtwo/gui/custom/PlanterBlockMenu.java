@@ -1,14 +1,15 @@
 package com.misterd.agritechtwo.gui.custom;
 
 import com.misterd.agritechtwo.blockentity.custom.PlanterBlockEntity;
-import com.misterd.agritechtwo.config.PlantablesConfig;
+import com.misterd.agritechtwo.datamap.ATDataMaps;
 import com.misterd.agritechtwo.gui.ATMenuTypes;
-import com.misterd.agritechtwo.util.RegistryHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.*;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -64,36 +65,21 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
     }
 
     private boolean moveToSpecialSlots(ItemStack stack) {
-        String id = RegistryHelper.getItemId(stack);
-
-        if ((PlantablesConfig.isValidSeed(id) || PlantablesConfig.isValidSapling(id))
-                && blockEntity.getStack(0).isEmpty()) {
+        if (blockEntity.isValidPlant(stack) && blockEntity.getStack(0).isEmpty()) {
             ItemStack existingSoil = blockEntity.getStack(1);
-            if (!existingSoil.isEmpty()) {
-                String soilId = RegistryHelper.getItemId(existingSoil);
-                boolean valid = PlantablesConfig.isValidSeed(id)
-                        ? PlantablesConfig.isSoilValidForSeed(soilId, id)
-                        : PlantablesConfig.isSoilValidForSapling(soilId, id);
-                if (!valid) return false;
-            }
+            if (!existingSoil.isEmpty() && !blockEntity.isValidPlantSoilCombination(stack, existingSoil)) return false;
             insertSingle(stack, 0);
             return true;
         }
 
-        if (PlantablesConfig.isValidSoil(id) && blockEntity.getStack(1).isEmpty()) {
+        if (blockEntity.isValidSoilForAnyRecipe(stack) && blockEntity.getStack(1).isEmpty()) {
             ItemStack existingPlant = blockEntity.getStack(0);
-            if (!existingPlant.isEmpty()) {
-                String plantId = RegistryHelper.getItemId(existingPlant);
-                boolean valid = PlantablesConfig.isValidSeed(plantId)
-                        ? PlantablesConfig.isSoilValidForSeed(id, plantId)
-                        : PlantablesConfig.isSoilValidForSapling(id, plantId);
-                if (!valid) return false;
-            }
+            if (!existingPlant.isEmpty() && !blockEntity.isValidPlantSoilCombination(existingPlant, stack)) return false;
             insertSingle(stack, 1);
             return true;
         }
 
-        if (PlantablesConfig.isValidFertilizer(id)) {
+        if (stack.getItem().builtInRegistryHolder().getData(ATDataMaps.FERTILIZERS) != null) {
             return insertIntoBlockEntity(stack, 2, 3);
         }
 
@@ -169,12 +155,21 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
             super(new SimpleContainer(be.inventory.size()), index, x, y);
             this.be = be;
             this.index = index;
+            container.setItem(index, be.getStack(index));
         }
 
-        @Override public ItemStack getItem() { return be.getStack(index); }
+        @Override
+        public ItemStack getItem() {
+            Level lvl = be.getLevel();
+            if (lvl != null && lvl.isClientSide()) return container.getItem(index);
+            return be.getStack(index);
+        }
 
         @Override
         public void set(ItemStack stack) {
+            container.setItem(index, stack.copy());
+            Level lvl = be.getLevel();
+            if (lvl == null || lvl.isClientSide()) { setChanged(); return; }
             try (Transaction tx = Transaction.openRoot()) {
                 ItemStack existing = be.getStack(index);
                 if (!existing.isEmpty())
@@ -211,7 +206,7 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
 
         @Override
         public boolean mayPlace(ItemStack stack) {
-            return PlantablesConfig.isValidFertilizer(RegistryHelper.getItemId(stack));
+            return stack.getItem().builtInRegistryHolder().getData(ATDataMaps.FERTILIZERS) != null;
         }
     }
 }

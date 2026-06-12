@@ -5,6 +5,7 @@ import com.misterd.agritechtwo.blockentity.ATBlockEntities;
 import com.misterd.agritechtwo.client.ber.PlanterBlockEntityRenderer;
 import com.misterd.agritechtwo.client.ber.RaisedBedBlockEntityRenderer;
 import com.misterd.agritechtwo.command.ATCommands;
+import com.misterd.agritechtwo.datamap.ATDataMaps;
 import com.misterd.agritechtwo.gui.ATMenuTypes;
 import com.misterd.agritechtwo.gui.custom.CrateBlockScreen;
 import com.misterd.agritechtwo.gui.custom.PlanterBlockScreen;
@@ -12,6 +13,7 @@ import com.misterd.agritechtwo.gui.custom.RaisedBedBlockScreen;
 import com.misterd.agritechtwo.item.ATCreativeTab;
 import com.misterd.agritechtwo.item.ATItems;
 import com.misterd.agritechtwo.network.ATNetwork;
+import com.misterd.agritechtwo.recipe.ATRecipe;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -43,8 +45,9 @@ public class AgritechTwo {
         ATBlockEntities.register(modEventBus);
         ATMenuTypes.register(modEventBus);
         ATNetwork.register(modEventBus);
+        ATRecipe.register(modEventBus);
+        ATDataMaps.register(modEventBus);
         Config.register(modContainer);
-        modEventBus.register(Config.class);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

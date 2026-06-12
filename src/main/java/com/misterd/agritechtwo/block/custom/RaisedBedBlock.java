@@ -2,7 +2,7 @@ package com.misterd.agritechtwo.block.custom;
 
 import com.misterd.agritechtwo.blockentity.ATBlockEntities;
 import com.misterd.agritechtwo.blockentity.custom.RaisedBedBlockEntity;
-import com.misterd.agritechtwo.config.PlantablesConfig;
+import com.misterd.agritechtwo.datamap.ATDataMaps;
 import com.misterd.agritechtwo.gui.custom.RaisedBedBlockMenu;
 import com.misterd.agritechtwo.util.RegistryHelper;
 import com.mojang.serialization.MapCodec;
@@ -46,22 +46,22 @@ import java.util.Map;
 public class RaisedBedBlock extends BaseEntityBlock {
 
     public static final VoxelShape SHAPE = Shapes.or(
-            Block.box(0,  0,  0, 16, 5,  1),
-            Block.box(0,  0, 15, 16, 5, 16),
-            Block.box(0,  0,  1,  1, 5, 15),
-            Block.box(15, 0,  1, 16, 5, 15),
-            Block.box(1,  0,  1, 15, 1, 15)
+            Block.box(0, 0, 0, 16, 5, 1),
+            Block.box(0, 0, 15, 16, 5, 16),
+            Block.box(0, 0, 1, 1, 5, 15),
+            Block.box(15, 0, 1, 16, 5, 15),
+            Block.box(1, 0, 1, 15, 1, 15)
     );
 
     public static final MapCodec<RaisedBedBlock> CODEC = simpleCodec(RaisedBedBlock::new);
 
     private static final Map<String, String> ESSENCE_TO_FARMLAND = Map.of(
-            "mysticalagriculture:inferium_essence","mysticalagriculture:inferium_farmland",
-            "mysticalagriculture:prudentium_essence","mysticalagriculture:prudentium_farmland",
+            "mysticalagriculture:inferium_essence", "mysticalagriculture:inferium_farmland",
+            "mysticalagriculture:prudentium_essence", "mysticalagriculture:prudentium_farmland",
             "mysticalagriculture:tertium_essence", "mysticalagriculture:tertium_farmland",
-            "mysticalagriculture:imperium_essence","mysticalagriculture:imperium_farmland",
-            "mysticalagriculture:supremium_essence","mysticalagriculture:supremium_farmland",
-            "mysticalagradditions:insanium_essence","mysticalagradditions:insanium_farmland"
+            "mysticalagriculture:imperium_essence", "mysticalagriculture:imperium_farmland",
+            "mysticalagriculture:supremium_essence", "mysticalagriculture:supremium_farmland",
+            "mysticalagradditions:insanium_essence", "mysticalagradditions:insanium_farmland"
     );
 
     public RaisedBedBlock(Properties properties) {
@@ -101,24 +101,23 @@ public class RaisedBedBlock extends BaseEntityBlock {
         }
 
         ItemStack heldItem = player.getItemInHand(hand);
-        String heldItemId = RegistryHelper.getItemId(heldItem);
 
         if (player.isCrouching()) {
             return handleCrouchOpen(level, pos, player, planter);
         }
-
-        if (PlantablesConfig.isValidSeed(heldItemId) || PlantablesConfig.isValidSapling(heldItemId)) {
-            return handlePlantInsert(state, level, pos, player, planter, heldItem, heldItemId);
+        if (planter.isValidPlant(heldItem)) {
+            return handlePlantInsert(state, level, pos, player, planter, heldItem);
         }
-        if (PlantablesConfig.isValidSoil(heldItemId)) {
-            return handleSoilInsert(state, level, pos, player, planter, heldItem, heldItemId);
+        if (planter.isValidSoilForAnyRecipe(heldItem)) {
+            return handleSoilInsert(state, level, pos, player, planter, heldItem);
         }
-        if (PlantablesConfig.isValidFertilizer(heldItemId)) {
-            return handleFertilizer(state, level, pos, player, planter, heldItem, heldItemId);
+        if (isFertilizer(heldItem)) {
+            return handleFertilizer(state, level, pos, player, planter, heldItem);
         }
         if (heldItem.getItem() instanceof HoeItem) {
             return handleHoeTill(level, pos, player, planter, heldItem, hand, hitResult);
         }
+        String heldItemId = RegistryHelper.getItemId(heldItem);
         if (ESSENCE_TO_FARMLAND.containsKey(heldItemId)) {
             return handleEssenceUpgrade(stack, level, pos, player, planter, heldItemId);
         }
@@ -127,12 +126,16 @@ public class RaisedBedBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
+    private static boolean isFertilizer(ItemStack stack) {
+        return !stack.isEmpty() && stack.getItem().builtInRegistryHolder().getData(ATDataMaps.FERTILIZERS) != null;
+    }
+
     private InteractionResult handleCrouchOpen(Level level, BlockPos pos, Player player, RaisedBedBlockEntity planter) {
         if (!level.isClientSide()) openGui(player, planter, pos);
         return InteractionResult.SUCCESS;
     }
 
-    private InteractionResult handlePlantInsert(BlockState state, Level level, BlockPos pos, Player player, RaisedBedBlockEntity planter, ItemStack heldItem, String heldItemId) {
+    private InteractionResult handlePlantInsert(BlockState state, Level level, BlockPos pos, Player player, RaisedBedBlockEntity planter, ItemStack heldItem) {
         if (!planter.getStack(0).isEmpty()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return InteractionResult.SUCCESS;
@@ -140,15 +143,9 @@ public class RaisedBedBlock extends BaseEntityBlock {
         if (level.isClientSide()) return InteractionResult.SUCCESS;
 
         ItemStack existingSoil = planter.getStack(1);
-        if (!existingSoil.isEmpty()) {
-            String soilId = RegistryHelper.getItemId(existingSoil);
-            boolean valid = PlantablesConfig.isValidSeed(heldItemId)
-                    ? PlantablesConfig.isSoilValidForSeed(soilId, heldItemId)
-                    : PlantablesConfig.isSoilValidForSapling(soilId, heldItemId);
-            if (!valid) {
-                player.sendOverlayMessage(Component.translatable("message.agritechtwo.invalid_seed_soil_combination").withStyle(ChatFormatting.GOLD));
-                return InteractionResult.SUCCESS;
-            }
+        if (!existingSoil.isEmpty() && !planter.isValidPlantSoilCombination(heldItem, existingSoil)) {
+            player.sendOverlayMessage(Component.translatable("message.agritechtwo.invalid_seed_soil_combination").withStyle(ChatFormatting.GOLD));
+            return InteractionResult.SUCCESS;
         }
 
         try (Transaction tx = Transaction.openRoot()) {
@@ -162,7 +159,7 @@ public class RaisedBedBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    private InteractionResult handleSoilInsert(BlockState state, Level level, BlockPos pos, Player player, RaisedBedBlockEntity planter, ItemStack heldItem, String heldItemId) {
+    private InteractionResult handleSoilInsert(BlockState state, Level level, BlockPos pos, Player player, RaisedBedBlockEntity planter, ItemStack heldItem) {
         if (!planter.getStack(1).isEmpty()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return InteractionResult.SUCCESS;
@@ -170,15 +167,9 @@ public class RaisedBedBlock extends BaseEntityBlock {
         if (level.isClientSide()) return InteractionResult.SUCCESS;
 
         ItemStack existingPlant = planter.getStack(0);
-        if (!existingPlant.isEmpty()) {
-            String plantId = RegistryHelper.getItemId(existingPlant);
-            boolean valid = PlantablesConfig.isValidSeed(plantId)
-                    ? PlantablesConfig.isSoilValidForSeed(heldItemId, plantId)
-                    : PlantablesConfig.isSoilValidForSapling(heldItemId, plantId);
-            if (!valid) {
-                player.sendOverlayMessage(Component.translatable("message.agritechtwo.invalid_seed_soil_combination").withStyle(ChatFormatting.GOLD));
-                return InteractionResult.SUCCESS;
-            }
+        if (!existingPlant.isEmpty() && !planter.isValidPlantSoilCombination(existingPlant, heldItem)) {
+            player.sendOverlayMessage(Component.translatable("message.agritechtwo.invalid_seed_soil_combination").withStyle(ChatFormatting.GOLD));
+            return InteractionResult.SUCCESS;
         }
 
         try (Transaction tx = Transaction.openRoot()) {
@@ -192,15 +183,15 @@ public class RaisedBedBlock extends BaseEntityBlock {
         return InteractionResult.SUCCESS;
     }
 
-    private InteractionResult handleFertilizer(BlockState state, Level level, BlockPos pos, Player player, RaisedBedBlockEntity planter, ItemStack heldItem, String heldItemId) {
+    private InteractionResult handleFertilizer(BlockState state, Level level, BlockPos pos, Player player, RaisedBedBlockEntity planter, ItemStack heldItem) {
         if (planter.getStack(0).isEmpty() || planter.getStack(1).isEmpty() || planter.isReadyToHarvest()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return InteractionResult.SUCCESS;
         }
         if (!level.isClientSide()) {
-            PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(heldItemId);
-            if (info != null) {
-                planter.applyManualFertilizer(info.speedMultiplier);
+            var data = heldItem.getItem().builtInRegistryHolder().getData(ATDataMaps.FERTILIZERS);
+            if (data != null) {
+                planter.applyManualFertilizer(data.speedMultiplier());
                 if (!player.getAbilities().instabuild) heldItem.shrink(1);
                 level.playSound(null, pos, SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
                 if (level instanceof ServerLevel serverLevel) {

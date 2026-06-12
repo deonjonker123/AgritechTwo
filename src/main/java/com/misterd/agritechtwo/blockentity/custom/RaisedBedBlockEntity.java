@@ -3,10 +3,12 @@ package com.misterd.agritechtwo.blockentity.custom;
 import com.misterd.agritechtwo.Config;
 import com.misterd.agritechtwo.block.custom.PlanterBlock;
 import com.misterd.agritechtwo.blockentity.ATBlockEntities;
-import com.misterd.agritechtwo.config.PlantablesConfig;
+import com.misterd.agritechtwo.datamap.ATDataMaps;
 import com.misterd.agritechtwo.gui.custom.RaisedBedBlockMenu;
-import com.misterd.agritechtwo.item.ATItems;
-import com.misterd.agritechtwo.util.RegistryHelper;
+import com.misterd.agritechtwo.recipe.CropRecipe;
+import com.misterd.agritechtwo.recipe.DropEntry;
+import com.misterd.agritechtwo.recipe.TreeRecipe;
+import com.misterd.agritechtwo.util.ATTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -14,6 +16,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
@@ -21,8 +24,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -45,10 +48,10 @@ public class RaisedBedBlockEntity extends BlockEntity implements MenuProvider {
         @Override
         public boolean isValid(int index, ItemResource resource) {
             if (resource.isEmpty()) return false;
-            String itemId = RegistryHelper.getItemId(resource.toStack());
+            ItemStack stack = resource.toStack();
             return switch (index) {
-                case 0 -> PlantablesConfig.isValidSeed(itemId) || PlantablesConfig.isValidSapling(itemId);
-                case 1 -> PlantablesConfig.isValidSoil(itemId);
+                case 0 -> isValidPlant(stack);
+                case 1 -> isValidSoilForAnyRecipe(stack);
                 default -> false;
             };
         }
@@ -88,10 +91,7 @@ public class RaisedBedBlockEntity extends BlockEntity implements MenuProvider {
             return;
         }
 
-        String plantId = RegistryHelper.getItemId(plantStack);
-        String soilId = RegistryHelper.getItemId(soilStack);
-
-        if (!be.isValidPlantSoilCombination(plantId, soilId)) {
+        if (!be.isValidPlantSoilCombination(plantStack, soilStack)) {
             be.resetGrowth();
             return;
         }
@@ -100,7 +100,7 @@ public class RaisedBedBlockEntity extends BlockEntity implements MenuProvider {
             float soilMod = be.getSoilGrowthModifier(soilStack);
             float skyMod = getSkyDayModifier(level, pos);
             float totalMod = soilMod * skyMod;
-            int baseTime = be.getBaseGrowthTime(plantStack);
+            int baseTime = be.getGrowthTime(plantStack);
             int adjustedTime = Math.max(1, Math.round((float) baseTime / totalMod));
 
             be.growthTicks++;
@@ -136,6 +136,71 @@ public class RaisedBedBlockEntity extends BlockEntity implements MenuProvider {
         return 1.0F;
     }
 
+    public boolean isTree() {
+        return findTreeRecipe(getStack(0)).isPresent();
+    }
+
+    public boolean isValidPlant(ItemStack stack) {
+        if (stack.isEmpty()) return false;
+        return findCropRecipe(stack).isPresent() || findTreeRecipe(stack).isPresent();
+    }
+
+    public boolean isValidSoilForAnyRecipe(ItemStack stack) {
+        if (stack.isEmpty()) return false;
+        return stack.is(ATTags.Items.FARMLAND_SOILS)
+                || stack.is(ATTags.Items.DIRT_SOILS)
+                || stack.is(ATTags.Items.TREE_SOILS)
+                || stack.is(ATTags.Items.SAND_SOILS)
+                || stack.is(ATTags.Items.SOUL_SAND_SOILS)
+                || stack.is(ATTags.Items.MOSS_SOILS)
+                || stack.is(ATTags.Items.WATER_SOILS)
+                || stack.is(ATTags.Items.MUSHROOM_SOILS)
+                || stack.is(ATTags.Items.NETHER_SOILS)
+                || stack.is(ATTags.Items.JUNGLE_SOILS)
+                || stack.is(ATTags.Items.STONE_SOILS)
+                || stack.is(ATTags.Items.END_SOILS);
+    }
+
+    public boolean isValidPlantSoilCombination(ItemStack plant, ItemStack soil) {
+        if (plant.isEmpty() || soil.isEmpty()) return false;
+        Optional<CropRecipe> crop = findCropRecipe(plant);
+        if (crop.isPresent()) return crop.get().matchesSoil(soil);
+        Optional<TreeRecipe> tree = findTreeRecipe(plant);
+        return tree.isPresent() && tree.get().matchesSoil(soil);
+    }
+
+    private int getGrowthTime(ItemStack plant) {
+        Optional<CropRecipe> crop = findCropRecipe(plant);
+        if (crop.isPresent()) return crop.get().getGrowthTicks();
+        return Config.getPlanterBaseProcessingTime();
+    }
+
+    private Optional<CropRecipe> findCropRecipe(ItemStack plant) {
+        if (level == null || !(level instanceof ServerLevel sl)) return Optional.empty();
+        RecipeManager rm = sl.recipeAccess();
+        return rm.getRecipes().stream()
+                .filter(h -> h.value() instanceof CropRecipe)
+                .map(h -> (CropRecipe) h.value())
+                .filter(r -> r.matchesSeed(plant))
+                .findFirst();
+    }
+
+    private Optional<TreeRecipe> findTreeRecipe(ItemStack plant) {
+        if (level == null || !(level instanceof ServerLevel sl)) return Optional.empty();
+        RecipeManager rm = sl.recipeAccess();
+        return rm.getRecipes().stream()
+                .filter(h -> h.value() instanceof TreeRecipe)
+                .map(h -> (TreeRecipe) h.value())
+                .filter(r -> r.matchesSapling(plant))
+                .findFirst();
+    }
+
+    public float getSoilGrowthModifier(ItemStack soilStack) {
+        if (soilStack.isEmpty()) return 1.0F;
+        var data = soilStack.getItem().builtInRegistryHolder().getData(ATDataMaps.SOIL_MODIFIERS);
+        return data != null ? data.growthModifier() : 1.0F;
+    }
+
     public void applyManualFertilizer(float speedMultiplier) {
         if (readyToHarvest) return;
         ItemStack plantStack = getStack(0);
@@ -143,7 +208,7 @@ public class RaisedBedBlockEntity extends BlockEntity implements MenuProvider {
         if (plantStack.isEmpty() || soilStack.isEmpty()) return;
 
         float soilMod = getSoilGrowthModifier(soilStack);
-        int adjustedTime = Math.max(1, Math.round(getBaseGrowthTime(plantStack) / soilMod));
+        int adjustedTime = Math.max(1, Math.round(getGrowthTime(plantStack) / soilMod));
 
         int boost = Math.max(1, Math.round(adjustedTime * 0.25F * speedMultiplier));
         growthTicks = Math.min(adjustedTime, growthTicks + boost);
@@ -156,29 +221,6 @@ public class RaisedBedBlockEntity extends BlockEntity implements MenuProvider {
 
         lastGrowthStage = getGrowthStage();
         setChanged();
-    }
-
-    private boolean isValidPlantSoilCombination(String plantId, String soilId) {
-        if (PlantablesConfig.isValidSeed(plantId)) return PlantablesConfig.isSoilValidForSeed(soilId, plantId);
-        if (PlantablesConfig.isValidSapling(plantId)) return PlantablesConfig.isSoilValidForSapling(soilId, plantId);
-        return false;
-    }
-
-    private boolean isTree() {
-        ItemStack s = getStack(0);
-        return !s.isEmpty() && PlantablesConfig.isValidSapling(RegistryHelper.getItemId(s));
-    }
-
-    private int getBaseGrowthTime(ItemStack plantStack) {
-        String id = RegistryHelper.getItemId(plantStack);
-        if (PlantablesConfig.isValidSeed(id)) return Config.getPlanterBaseProcessingTime();
-        if (PlantablesConfig.isValidSapling(id)) return PlantablesConfig.getBaseSaplingGrowthTime(id);
-        return Config.getPlanterBaseProcessingTime();
-    }
-
-    public float getSoilGrowthModifier(ItemStack soilStack) {
-        if (soilStack.isEmpty()) return 1.0F;
-        return PlantablesConfig.getSoilGrowthModifier(RegistryHelper.getItemId(soilStack));
     }
 
     private void resetGrowth() {
@@ -213,21 +255,23 @@ public class RaisedBedBlockEntity extends BlockEntity implements MenuProvider {
         List<ItemStack> drops = new ArrayList<>();
         if (plantStack.isEmpty()) return drops;
 
-        String plantId = RegistryHelper.getItemId(plantStack);
-        List<PlantablesConfig.DropInfo> configDrops;
-
-        if (PlantablesConfig.isValidSeed(plantId)) configDrops = PlantablesConfig.getCropDrops(plantId);
-        else if (PlantablesConfig.isValidSapling(plantId)) configDrops = PlantablesConfig.getTreeDrops(plantId);
-        else return drops;
+        List<DropEntry> entries;
+        Optional<CropRecipe> crop = findCropRecipe(plantStack);
+        if (crop.isPresent()) {
+            entries = crop.get().getDrops();
+        } else {
+            Optional<TreeRecipe> tree = findTreeRecipe(plantStack);
+            if (tree.isEmpty()) return drops;
+            entries = tree.get().getDrops();
+        }
 
         Random rng = new Random();
-        for (PlantablesConfig.DropInfo info : configDrops) {
-            if (rng.nextFloat() <= info.chance) {
-                int count = info.maxCount > info.minCount
-                        ? info.minCount + rng.nextInt(info.maxCount - info.minCount + 1)
-                        : info.minCount;
-                Item item = RegistryHelper.getItem(info.item);
-                if (item != null) drops.add(new ItemStack(item, count));
+        for (DropEntry entry : entries) {
+            if (rng.nextFloat() <= entry.chance()) {
+                int count = entry.max() > entry.min()
+                        ? entry.min() + rng.nextInt(entry.max() - entry.min() + 1)
+                        : entry.min();
+                drops.add(new ItemStack(entry.item(), count));
             }
         }
         return drops;
@@ -255,9 +299,7 @@ public class RaisedBedBlockEntity extends BlockEntity implements MenuProvider {
 
     public void drops() {
         SimpleContainer inv = new SimpleContainer(inventory.size());
-        for (int i = 0; i < inventory.size(); i++) {
-            inv.setItem(i, getStack(i));
-        }
+        for (int i = 0; i < inventory.size(); i++) inv.setItem(i, getStack(i));
         Containers.dropContents(level, worldPosition, inv);
     }
 
