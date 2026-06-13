@@ -25,7 +25,7 @@ Fertilizer support via data-maps:
 
 Fertilizer can be automated via hopper or pipe into any of the four cardinal sides of the planter.
 
-## Data-Driven
+## Data-Driven (NeoForge only for now)
 
 The entire system is data-driven. Seeds, saplings, soils, and fertilizers are all defined through data rather than hard-coded, meaning you can fully customize, extend, or override any of them.
 
