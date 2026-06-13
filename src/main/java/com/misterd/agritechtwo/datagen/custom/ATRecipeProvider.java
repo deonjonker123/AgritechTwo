@@ -280,8 +280,6 @@ public class ATRecipeProvider extends RecipeProvider {
         saveTillingRecipe("rooted_dirt_to_farmland", Items.ROOTED_DIRT, Items.FARMLAND, noEvolved);
         saveTillingRecipe("coarse_dirt_to_farmland", Items.COARSE_DIRT, Items.FARMLAND, noEvolved);
         saveTillingRecipe("grass_to_farmland", Items.GRASS_BLOCK, Items.FARMLAND, noEvolved);
-        saveTillingRecipeModded("rich_soil_to_rich_soil_farmland", "farmersdelight:rich_soil", "farmersdelight:rich_soil_farmland", noEvolved);
-
 
         generateCropRecipes();
         generateTreeRecipes();
@@ -526,20 +524,5 @@ public class ATRecipeProvider extends RecipeProvider {
                 Identifier.fromNamespaceAndPath("agritechtwo", name)
         );
         out.accept(key, recipe, null);
-    }
-
-    private void saveTillingRecipeModded(String name, String inputId, String resultId, RecipeOutput out) {
-        Optional<Item> inputOpt = findItem(inputId);
-        Optional<Item> resultOpt = findItem(resultId);
-        if (inputOpt.isEmpty() || resultOpt.isEmpty()) return;
-        saveTillingRecipe(name, inputOpt.get(), resultOpt.get(), out);
-    }
-
-    private Optional<Item> findItem(String id) {
-        var result = BuiltInRegistries.ITEM.get(Identifier.parse(id));
-        if (result.isEmpty()) return Optional.empty();
-        Item item = result.get().value();
-        if (item == Items.AIR) return Optional.empty();
-        return Optional.of(item);
     }
 }

@@ -20,7 +20,7 @@ public class SoilTooltipHandler {
         var soilData = event.getItemStack().getItem().builtInRegistryHolder().getData(ATDataMaps.SOIL_MODIFIERS);
         var fertData = event.getItemStack().getItem().builtInRegistryHolder().getData(ATDataMaps.FERTILIZERS);
 
-        if (soilData == null && fertData == null) return;
+        if (soilData == null && fertData == null || ATE_LOADED) return;
 
         if (soilData != null) {
             event.getToolTip().add(
