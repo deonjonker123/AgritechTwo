@@ -83,9 +83,9 @@
   "tooltip.agritechtwo.crate.collecting": "Turn off auto-collecting",
   "tooltip.agritechtwo.crate.not_collecting": "Turn on auto-collecting",
 
-  "tooltip.agritechtwo.soil_type": "Agritech Soil Info",
+  "tooltip.agritechtwo.soil_type": "Soil Info",
   "tooltip.agritechtwo.soil_growth_modifier": "Growth Speed: %s",
-  "tooltip.agritechtwo.fertilizer_type": "Agritech Fertilizer Info",
+  "tooltip.agritechtwo.fertilizer_type": "Fertilizer Info",
   "tooltip.agritechtwo.fertilizer_speed": "Growth Speed: %s",
   "tooltip.agritechtwo.fertilizer_yield": "Yield Bonus: %s"
 }
