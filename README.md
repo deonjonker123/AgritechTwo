@@ -25,6 +25,21 @@ Fertilizer support via data-maps:
 
 Fertilizer can be automated via hopper or pipe into any of the four cardinal sides of the planter.
 
+## Data-Driven
+
+The entire system is data-driven. Seeds, saplings, soils, and fertilizers are all defined through data rather than hard-coded, meaning you can fully customize, extend, or override any of them.
+
+**This is supported through:**
+
+- **Datapacks** — Add or remove crop/sapling/soil/fertilizer entries using standard datapack JSON files. Drop a datapack into your world or modpack.
+- **KubeJS** — Script additions, removals, and overrides directly in KubeJS server scripts for tighter modpack integration and dynamic control.
+
+This means you can:
+- Register entirely new seeds or saplings from any mod not natively supported
+- Define custom soils and their growth speed modifiers (or override existing supported soils' modifiers)
+- Add new fertilizer types and their effect values (or override existing supported fertilizers' modifiers)
+- Override any built-in entry to suit your modpack's needs
+
 ## Mod Compatibility (NeoForge)
 
 ### **Supported Crop Mods**
@@ -97,16 +112,6 @@ Failed reloads report errors directly in chat rather than silently failing.
 -   Right-click with soil blocks for instant placement
 -   Right-click with hoes to till compatible blocks
 - Right-click with mystical essence to convert vanilla farmland to the mystical farmland
-
-### **Visual Feedback**
-
--   Real-time rendering of planted crops and soil types
--   Progress bars for all processing operations
--   Audio feedback for successful interactions
-
-## Minecraft 26.1.2 Exclusive (in addition to everything above)
-
-The following features are available exclusively on the 26.1.2 version of AgriTech.
 
 ### **Raised Beds**
 
