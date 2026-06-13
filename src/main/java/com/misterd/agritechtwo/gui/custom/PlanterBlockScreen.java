@@ -16,7 +16,7 @@ import java.util.List;
 
 public class PlanterBlockScreen extends AbstractContainerScreen<PlanterBlockMenu> {
     private static final Identifier GUI_TEXTURE =
-            Identifier.fromNamespaceAndPath("agritechtwo", "textures/gui/planter/planter_gui.png");
+            Identifier.fromNamespaceAndPath("agritechtwo", "textures/gui/planter_gui.png");
 
     private static final int GUI_HEIGHT = 172;
 
