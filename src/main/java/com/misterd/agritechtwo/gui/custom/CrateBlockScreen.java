@@ -43,7 +43,7 @@ public class CrateBlockScreen extends AbstractContainerScreen<CrateBlockMenu> {
         super.init();
 
         addRenderableWidget(new ImageButton(
-                leftPos + 160, topPos + 5, 9, 10,
+                leftPos + 159, topPos + 5, 10, 10,
                 collecting ? COLLECTING_SPRITES : NOT_COLLECTING_SPRITES,
                 btn -> toggleCollecting()
         )).setTooltip(Tooltip.create(Component.translatable(

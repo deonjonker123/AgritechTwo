@@ -14,6 +14,10 @@ import com.misterd.agritechtwo.item.ATCreativeTab;
 import com.misterd.agritechtwo.item.ATItems;
 import com.misterd.agritechtwo.network.ATNetwork;
 import com.misterd.agritechtwo.recipe.ATRecipe;
+import net.minecraft.resources.Identifier;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
@@ -21,6 +25,7 @@ import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
+import net.neoforged.neoforge.event.AddServerReloadListenersEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 
 import net.neoforged.bus.api.IEventBus;
@@ -34,6 +39,7 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 @Mod(AgritechTwo.MODID)
 public class AgritechTwo {
     public static final String MODID = "agritechtwo";
+    public static int RECIPE_REVISION = 0;
 
     public AgritechTwo(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
@@ -62,6 +68,21 @@ public class AgritechTwo {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
 
+    }
+
+    @SubscribeEvent
+    public void onServerReload(AddServerReloadListenersEvent event) {
+        event.addListener(Identifier.fromNamespaceAndPath(MODID, "recipe_revision_tracker"),
+                new SimplePreparableReloadListener<Void>() {
+                    @Override
+                    protected Void prepare(ResourceManager manager, ProfilerFiller profiler) {
+                        return null;
+                    }
+                    @Override
+                    protected void apply(Void object, ResourceManager manager, ProfilerFiller profiler) {
+                        RECIPE_REVISION++;
+                    }
+                });
     }
 
     @EventBusSubscriber(modid = MODID, value = Dist.CLIENT)

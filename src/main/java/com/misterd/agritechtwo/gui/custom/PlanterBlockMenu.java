@@ -7,9 +7,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -20,6 +18,7 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
 
     public final PlanterBlockEntity blockEntity;
     private final Level level;
+    private final ContainerData data;
 
     public PlanterBlockMenu(int id, Inventory inv, FriendlyByteBuf buf) {
         this(id, inv, inv.player.level().getBlockEntity(buf.readBlockPos()));
@@ -41,6 +40,22 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
 
         addPlayerInventory(inv);
         addPlayerHotbar(inv);
+
+        PlanterBlockEntity blockEntity = this.blockEntity;
+        if (be != null) {
+            this.data = new ContainerData() {
+                @Override public int get(int index) { return index == 0 ? blockEntity.growthProgress : 0; }
+                @Override public void set(int index, int value) { if (index == 0) blockEntity.growthProgress = value; }
+                @Override public int getCount() { return 1; }
+            };
+        } else {
+            this.data = new SimpleContainerData(1);
+        }
+        addDataSlots(this.data);
+    }
+
+    public int getGrowthProgress() {
+        return data.get(0);
     }
 
     @Override
