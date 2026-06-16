@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "mysticalagriculture"
+    }
+  ],
   "type": "agritechtwo:crop",
   "seed": "mysticalagriculture:yellorium_seeds",
   "soils": [

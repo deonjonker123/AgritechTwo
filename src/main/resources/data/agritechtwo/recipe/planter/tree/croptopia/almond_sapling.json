@@ -1,4 +1,10 @@
 {
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "croptopia"
+    }
+  ],
   "type": "agritechtwo:tree",
   "sapling": "croptopia:almond_sapling",
   "soils": [
