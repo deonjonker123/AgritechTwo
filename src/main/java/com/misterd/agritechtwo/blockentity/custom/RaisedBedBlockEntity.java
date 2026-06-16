@@ -6,6 +6,9 @@ import com.misterd.agritechtwo.block.custom.PlanterBlock;
 import com.misterd.agritechtwo.blockentity.ATBlockEntities;
 import com.misterd.agritechtwo.datamap.ATDataMaps;
 import com.misterd.agritechtwo.gui.custom.RaisedBedBlockMenu;
+import com.misterd.agritechtwo.integration.PlanterPostHarvestEvent;
+import com.misterd.agritechtwo.integration.PlanterPreHarvestEvent;
+import com.misterd.agritechtwo.integration.PlanterProcessingTimeEvent;
 import com.misterd.agritechtwo.recipe.ATRecipeTypes;
 import com.misterd.agritechtwo.recipe.CropRecipe;
 import com.misterd.agritechtwo.recipe.DropEntry;
@@ -38,8 +41,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import javax.annotation.Nullable;
 import java.util.*;
@@ -152,6 +157,10 @@ public class RaisedBedBlockEntity extends BlockEntity implements MenuProvider {
             float totalMod = soilMod * skyMod;
             int baseTime = be.getGrowthTime(plantStack);
             int adjustedTime = Math.max(1, Math.round((float) baseTime / totalMod));
+
+            PlanterProcessingTimeEvent timeEvent = new PlanterProcessingTimeEvent(be, plantStack, adjustedTime);
+            NeoForge.EVENT_BUS.post(timeEvent);
+            adjustedTime = timeEvent.getProcessingTime();
 
             be.growthTicks++;
 
@@ -288,7 +297,24 @@ public class RaisedBedBlockEntity extends BlockEntity implements MenuProvider {
     public void harvestPlant(Level level, BlockPos pos) {
         if (!readyToHarvest) return;
 
-        List<ItemStack> drops = getHarvestDrops(getStack(0));
+        PlanterPreHarvestEvent preEvent = new PlanterPreHarvestEvent(this, getStack(0));
+        NeoForge.EVENT_BUS.post(preEvent);
+        ItemStack seedForDrops = preEvent.getSeed();
+
+        if (!ItemStack.matches(seedForDrops, getStack(0))) {
+            try (Transaction tx = Transaction.openRoot()) {
+                inventory.extract(0, ItemResource.of(getStack(0)), 1, tx);
+                inventory.insert(0, ItemResource.of(seedForDrops), 1, tx);
+                tx.commit();
+            }
+        }
+
+        List<ItemStack> drops = new ArrayList<>(getHarvestDrops(seedForDrops));
+
+        PlanterPostHarvestEvent postEvent = new PlanterPostHarvestEvent(this, getStack(0), drops);
+        NeoForge.EVENT_BUS.post(postEvent);
+        drops = postEvent.getDrops();
+
         for (ItemStack drop : drops) {
             double x = pos.getX() + 0.25 + level.getRandom().nextDouble() * 0.5;
             double y = pos.getY() + 0.5;
