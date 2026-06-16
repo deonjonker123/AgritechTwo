@@ -37,3 +37,7 @@ All notable changes to this project will be documented here.
 - `PlanterPreHarvestEvent` writes the returned seed back into the planter's seed slot, allowing persistent stat changes on the planted seed itself without needing to cycle harvested seeds back through the output
 ### Removed
 - Removed the `/agritechtwo reload` command as it no longer makes sense nor works with the new data-driven approach
+
+## [1.2.2.1+neoforge-mc26.1.2] - 2026-06-16
+### Fixed
+- Fixed data components (NBT) being stripped from items when extracted through menus or scaled through yield modifiers
