@@ -1,148 +1,62 @@
-
 ![AT](https://raw.githubusercontent.com/deonjonker123/AgritechTwo/refs/heads/26.1.2/at_ban.png)
 
-# Agritech
+# Agritech (AT2)
 
-Agritech (AT2) is a farming automation mod centered on planter and raised bed blocks for growing crops and trees
+Farming automation mod. Planters and raised beds grow your crops and trees for you.
 
-## Core Features
+## Automated Planters
 
-### **Automated Planters**
+Plant a seed or sapling, it grows by itself, drops go into whatever's underneath it. All 11 vanilla wood types.
 
--   **Agritech Planter**: A simple wooden planter that automatically grows crops and saplings. Automatically outputs drops to a container under it. Available in all 11 vanilla wood types.
+## Cloche
 
-### **Cloche** (NeoForge only)
-A glass bell jar that attaches to any planter, boosting both growth speed and harvest yield. Stacks with fertilizer for maximum efficiency. Configurable speed and yield multipliers.
+Glass dome that attaches to a planter. Boosts growth speed and yield, stacks with fertilizer. Right-click to attach, shift-right-click empty-handed to take it back off. Break a cloched planter and you get both items back separately.
 
-- Right-click a planter with a cloche to attach it
-- Shift-right-click with an empty hand to detach and recover it
-- Breaking a cloched planter drops both items separately
+## Fertilizer
 
-### **Fertilizer System**
+Bone meal works. Also supports Mystical Agriculture, Immersive Engineering, and Forbidden & Arcanus fertilizers. Pipe or hopper it into any side of the planter.
 
-Fertilizer support via data-maps:
+## Data-Driven
 
--   Vanilla bone meal
--   Mystical Agriculture fertilizers (NeoForge only)
--   Immersive Engineering fertilizers (NeoForge only)
--   Forbidden & Arcanus arcane bone meal (NeoForge only)
+Nothing's hardcoded. Add/remove/edit seeds, soils, saplings, fertilizers through:
 
-Fertilizer can be automated via hopper or pipe into any of the four cardinal sides of the planter.
+- **Datapacks** — regular JSON
+- **KubeJS** — for scripted/server-side control
 
-## Data-Driven (NeoForge only for now)
+Means you can add support for unsupported mods, change growth modifiers, mess with fertilizer values, or override defaults you don't like.
 
-The entire system is data-driven. Seeds, saplings, soils, and fertilizers are all defined through data rather than hard-coded, meaning you can fully customize, extend, or override any of them.
+## Mod Support
 
-**This is supported through:**
+**Crops:** Mystical Agriculture & Mystical Agradditions, Farmer's Delight, Ars Nouveau, Silent Gear, Immersive Engineering, Occultism, Cobblemon, Pam's HarvestCraft 2, Actually Additions, Croptopia, The Aether II
 
-- **Datapacks** — Add or remove crop/sapling/soil/fertilizer entries using standard datapack JSON files. Drop a datapack into your world or modpack.
-- **KubeJS** — Script additions, removals, and overrides directly in KubeJS server scripts for tighter modpack integration and dynamic control.
+**Trees:** Ars Nouveau & Ars Elemental, Forbidden & Arcanus, Integrated Dynamics, Silent Gear, Occultism, Cobblemon, Pam's HarvestCraft 2, Croptopia, EvilCraft, The Aether II
 
-This means you can:
-- Register entirely new seeds or saplings from any mod not natively supported
-- Define custom soils and their growth speed modifiers (or override existing supported soils' modifiers)
-- Add new fertilizer types and their effect values (or override existing supported fertilizers' modifiers)
-- Override any built-in entry to suit your modpack's needs
+**Soils:** Mystical Agriculture farmland, Farmer's Delight soils, Just Dire Things goosoils, The Aether II
 
-## Mod Compatibility (NeoForge)
+## Interactive Placement
 
-### **Supported Crop Mods**
+- Right-click with seeds/saplings/soil to insert directly
+- Right-click with a hoe to till compatible blocks
+- Right-click vanilla farmland with mystical essence to convert it
 
-- Mystical Agriculture & Mystical Agradditions
-- Farmer's Delight
-- Ars Nouveau
-- Silent Gear
-- Immersive Engineering
-- Occultism
-- Cobblemon
-- Pam's HarvestCraft 2 - Crops
-- Actually Additions
-- Croptopia
-- The Aether II
+## Raised Beds
 
-### **Supported Tree Mods**
+Manual early-game version. All 12 wood types. Grows stuff automatically but drops harvest on the ground instead of storing it. Outdoor + sky access + daytime = growth bonus. No cloche or automation, fertilize by hand. JEI/Jade supported.
 
-- Ars Nouveau & Ars Elemental
-- Forbidden & Arcanus
-- Integrated Dynamics
-- Silent Gear
-- Occultism
-- Cobblemon
-- Pam's HarvestCraft 2 - Trees
-- Croptopia
-- EvilCraft
-- The Aether II
+## Crates
 
-### **Supported Soil Mods**
+54-slot storage block, 12 wood types. Auto-collects drops in a 5x5 area, toggleable in the GUI, configurable interval. Pipes can use any side. Also just works as normal storage if you don't care about the auto-collect.
 
--   Mystical Agriculture farmlands
--   Farmer's Delight soils
--   Just Dire Things goosoils
-- The Aether II
+## JEI
 
-## Mod Compatibility (Fabric)
+Shows valid crop/soil combos for planters and raised beds, with drop counts and chance %.
 
-### **Supported Crop Mods**
-- Farmer's Delight Refabricated
-- Cobblemon
-- Croptopia
+## Jade
 
-### **Supported Tree Mods**
-- Cobblemon
-- Croptopia
-
-### **Supported Soil Mods**
--   Farmer's Delight Refabricated soils
-
-## Advanced Configuration System
-
-1.  **Mod Compatibility Toggles**: Enable/disable specific mod integrations per-mod, so you only load what you need.
-2.  **Crop/Sapling/Soil Database**: Comprehensive JSON-based system defining what grows on what, with full TOML override support for custom rules.
-
-### **Interactive Placement**
-
--   Right-click with seeds to insert directly into planters
--   Right-click with saplings for instant placement
--   Right-click with soil blocks for instant placement
--   Right-click with hoes to till compatible blocks
-- Right-click with mystical essence to convert vanilla farmland to the mystical farmland
-
-### **Raised Beds**
-
-A manual, early-game alternative to the planter. Available in all 12 vanilla wood types.
-
-- Grows crops and saplings automatically, dropping harvests on the ground rather than storing them
-- Receives a configurable speed bonus when placed outdoors with sky access during daytime
-- Supports manual fertilizer application via right-clicking with a supported fertilizer item
-- No cloche, no fertilizer slot, no pipe automation — designed for hands-on farming
-- Full JEI and Jade integration
-
-### **Crates**
-
-An open-top wooden storage block with a 54-slot inventory — double chest capacity in a single block footprint. Available in all 12 vanilla wood types.
-
-- Automatically collects item drops within a 5x5 area
-- Collection can be toggled on/off via a button in the GUI
-- Full item capability on all sides — pipes can insert and extract freely
-- Works as a standalone decorative storage block independent of the farming system
-- Configurable collection interval
-
-### **JEI Integration**
-
-- Compatible crop/soil combinations for planters and raised beds, showing drops as text with count ranges and chance percentages
-
-### **Jade Integration**
-
-- Displays current crop or sapling name
-- Shows growth stage and progress percentage
-- Shows active soil type and its growth modifier
-- Shows sunlight boost status when active
-- Shows cloche status with speed and yield modifiers (NeoForge only)
-
-
+Shows crop/sapling, growth stage and progress, soil type and its bonus, sunlight boost status, and cloche speed/yield.
 
 ## Note
 
-AgriTech is a separate, standalone mod — it is not an addon, dependency, or successor requiring Agritech Evolved (ATE), nor is it built on top of it in any way. The two mods are fully independent and do not interact. Installing both in the same modpack is pointless, as they each implement their own self-contained planter/raised bed farming systems with no shared functionality or compatibility benefit.
+Agritech is NOT related to Agritech: Evolved (ATE). Not an addon, not a successor, doesn't build on it. Two separate mods, similar name, same general idea, zero shared code.
 
-If you do install both, be aware that compatibility datapacks/KubeJS scripts written for one mod will not work for the other — they target different data map and registry namespaces, so seed/soil/fertilizer entries added for Agritech won't carry over to Agritech: Evolved, and vice versa.
+Running both is fine but pointless — datapacks/KubeJS for one won't do anything for the other, different namespaces entirely.
