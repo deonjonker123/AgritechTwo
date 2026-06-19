@@ -1,38 +1,32 @@
 package com.misterd.agritechtwo;
 
-import com.mojang.logging.LogUtils;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.neoforge.common.ModConfigSpec;
-import org.slf4j.Logger;
 
 
 public class Config {
-    public static final Logger LOGGER = LogUtils.getLogger();
     public static final ModConfigSpec.Builder COMMON_BUILDER = new ModConfigSpec.Builder();
     public static ModConfigSpec COMMON_CONFIG;
     public static ModConfigSpec SPEC;
 
-    // Cloche
     public static ModConfigSpec.DoubleValue CLOCHE_SPEED_MULTIPLIER;
     public static ModConfigSpec.DoubleValue CLOCHE_YIELD_MULTIPLIER;
 
-    // Planter
     public static ModConfigSpec.IntValue PLANTER_BASE_PROCESSING_TIME;
 
-    // Raised Bed
     public static ModConfigSpec.DoubleValue RAISED_BED_SKY_DAY_SPEED_MULTIPLIER;
     public static ModConfigSpec.IntValue BASKET_PICKUP_INTERVAL_TICKS;
 
     public static void register(ModContainer container) {
-        machineConfig();
+        settingsConfig();
         COMMON_CONFIG = COMMON_BUILDER.build();
         SPEC = COMMON_CONFIG;
         container.registerConfig(ModConfig.Type.COMMON, COMMON_CONFIG);
     }
 
-    private static void machineConfig() {
-        COMMON_BUILDER.comment("Machine Settings").push("machines");
+    private static void settingsConfig() {
+        COMMON_BUILDER.comment("Settings").push("settings");
         planterConfig();
         raisedBedConfig();
         crateConfig();
@@ -59,19 +53,12 @@ public class Config {
         COMMON_BUILDER.pop();
     }
 
-    // --- Cloche getters ---
     public static double getClocheSpeedMultiplier() { return CLOCHE_SPEED_MULTIPLIER.get(); }
     public static double getClocheYieldMultiplier() { return CLOCHE_YIELD_MULTIPLIER.get(); }
 
-    // --- Planter getters ---
     public static int getPlanterBaseProcessingTime() { return PLANTER_BASE_PROCESSING_TIME.get(); }
 
-    // --- Raised Bed getters ---
     public static double getRaisedBedSkyDaySpeedMultiplier() { return RAISED_BED_SKY_DAY_SPEED_MULTIPLIER.get(); }
 
     public static int getBasketPickupIntervalTicks() { return BASKET_PICKUP_INTERVAL_TICKS.get(); }
-
-    public static void loadConfig() {
-        LOGGER.info("AgriTech configs reloaded");
-    }
 }

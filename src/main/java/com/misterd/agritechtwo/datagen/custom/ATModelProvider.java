@@ -26,8 +26,6 @@ public class ATModelProvider extends ModelProvider {
                     .select(Direction.WEST, BlockModelGenerators.Y_ROT_270)
                     .select(Direction.NORTH, BlockModelGenerators.NOP);
 
-
-
     @Override
     protected void registerModels(BlockModelGenerators g, ItemModelGenerators itemModels) {
         itemModels.generateFlatItem(ATItems.CLOCHE.get(), ModelTemplates.FLAT_ITEM);
