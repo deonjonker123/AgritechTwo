@@ -43,5 +43,4 @@ All notable changes to this project will be documented here.
 - Fixed data components (NBT) being stripped from items when extracted through menus or scaled through yield modifiers
 
 ## [2.0.0+neoforge-mc26.2] - 2026-06-19
-### Fixed
 - Port to 26.2
