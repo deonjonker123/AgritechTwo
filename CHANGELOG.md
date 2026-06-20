@@ -44,3 +44,7 @@ All notable changes to this project will be documented here.
 
 ## [2.0.0+neoforge-mc26.2] - 2026-06-19
 - Port to 26.2
+
+## [2.0.0.1+neoforge-mc26.2] - 2026-06-20
+### Updated
+- Updated JEI and Jade
