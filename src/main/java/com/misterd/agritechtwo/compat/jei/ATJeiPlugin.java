@@ -1,8 +1,9 @@
 package com.misterd.agritechtwo.compat.jei;
 
 import com.misterd.agritechtwo.block.ATBlocks;
-import com.misterd.agritechtwo.config.PlantablesConfig;
-import com.misterd.agritechtwo.util.RegistryHelper;
+import com.misterd.agritechtwo.recipe.ATRecipeTypes;
+import com.misterd.agritechtwo.recipe.CropRecipe;
+import com.misterd.agritechtwo.recipe.TreeRecipe;
 import com.mojang.logging.LogUtils;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -10,12 +11,14 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
+import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @JeiPlugin
 public class ATJeiPlugin implements IModPlugin {
@@ -46,53 +49,27 @@ public class ATJeiPlugin implements IModPlugin {
 
     private List<PlanterRecipe> generatePlanterRecipes() {
         List<PlanterRecipe> recipes = new ArrayList<>();
-        recipes.addAll(generateCropRecipes());
-        recipes.addAll(generateTreeRecipes());
+        RecipeManager rm = Minecraft.getInstance().level.getRecipeManager();
+
+        for (RecipeHolder<CropRecipe> holder : rm.getAllRecipesFor(ATRecipeTypes.CROP_TYPE.get())) {
+            try {
+                PlanterRecipe recipe = PlanterRecipe.fromCropRecipe(holder.value());
+                if (!recipe.getOutputs().isEmpty()) recipes.add(recipe);
+            } catch (Exception e) {
+                LogUtils.getLogger().error("Error creating JEI recipe from CropRecipe: {}", e.getMessage(), e);
+            }
+        }
+
+        for (RecipeHolder<TreeRecipe> holder : rm.getAllRecipesFor(ATRecipeTypes.TREE_TYPE.get())) {
+            try {
+                PlanterRecipe recipe = PlanterRecipe.fromTreeRecipe(holder.value());
+                if (!recipe.getOutputs().isEmpty()) recipes.add(recipe);
+            } catch (Exception e) {
+                LogUtils.getLogger().error("Error creating JEI recipe from TreeRecipe: {}", e.getMessage(), e);
+            }
+        }
+
         LogUtils.getLogger().info("Generated {} total planter recipes for JEI", recipes.size());
-        return recipes;
-    }
-
-    private List<PlanterRecipe> generateCropRecipes() {
-        List<PlanterRecipe> recipes = new ArrayList<>();
-        for (Map.Entry<String, List<String>> entry : PlantablesConfig.getAllSeedToSoilMappings().entrySet()) {
-            String seedId = entry.getKey();
-            for (String soilId : entry.getValue()) {
-                try {
-                    if (!soilId.equals("minecraft:water_bucket") && RegistryHelper.getBlock(soilId) == null) {
-                        LogUtils.getLogger().error("Invalid soil block in config: {} for seed {}", soilId, seedId);
-                        continue;
-                    }
-                    PlanterRecipe recipe = PlanterRecipe.createCrop(seedId, soilId);
-                    if (recipe != null && !recipe.getOutputs().isEmpty()) recipes.add(recipe);
-                } catch (Exception e) {
-                    LogUtils.getLogger().error("Error creating recipe for seed {} and soil {}: {}", seedId, soilId, e.getMessage(), e);
-                }
-            }
-        }
-        LogUtils.getLogger().info("Generated {} crop planter recipes for JEI", recipes.size());
-        return recipes;
-    }
-
-    private List<PlanterRecipe> generateTreeRecipes() {
-        List<PlanterRecipe> recipes = new ArrayList<>();
-        for (Map.Entry<String, List<String>> entry : PlantablesConfig.getAllSaplingToSoilMappings().entrySet()) {
-            String saplingId = entry.getKey();
-            for (String soilId : entry.getValue()) {
-                try {
-                    if (RegistryHelper.getBlock(soilId) == null) {
-                        LogUtils.getLogger().error("Invalid soil block in config: {} for sapling {}", soilId, saplingId);
-                        continue;
-                    }
-                    PlanterRecipe recipe = PlanterRecipe.createTree(saplingId, soilId);
-                    if (recipe != null && !recipe.getOutputs().isEmpty()) {
-                        recipes.add(recipe);
-                    }
-                } catch (Exception e) {
-                    LogUtils.getLogger().error("Error creating recipe for sapling {} and soil {}: {}", saplingId, soilId, e.getMessage(), e);
-                }
-            }
-        }
-        LogUtils.getLogger().info("Generated {} tree planter recipes for JEI", recipes.size());
         return recipes;
     }
 

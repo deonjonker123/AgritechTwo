@@ -17,9 +17,9 @@
 
   "blockentity.agritechtwo.name": "Planter",
 
-  "container.agritechtwo.planter": "Agritech Planter",
+  "container.agritechtwo.planter": "Planter",
 
-  "jei.agritechtwo.planter.tooltip": "Agritech Planters",
+  "jei.agritechtwo.planter.tooltip": "Planters",
 
   "message.agritechtwo.invalid_seed_soil_combination": "This seed cannot grow in this soil!",
   "message.agritechtwo.invalid_soil": "This block cannot be used as soil!",
@@ -37,5 +37,11 @@
   "jade.agritechtwo.crop_ready": "%s (Ready to Harvest)",
   "jade.agritechtwo.soil_info": "Soil: %s (%s speed)",
   "jade.agritechtwo.fertilizer_info": "Fertilizer: %s (Speed: %s, Yield: %s)",
-  "jade.agritechtwo.cloche_installed": "Cloche: Installed (Speed: %s, Yield: %s)"
+  "jade.agritechtwo.cloche_installed": "Cloche: Installed (Speed: %s, Yield: %s)",
+
+  "tooltip.agritechtwo.soil_type": "Soil Info",
+  "tooltip.agritechtwo.soil_growth_modifier": "Growth Speed: %s",
+  "tooltip.agritechtwo.fertilizer_type": "Fertilizer Info",
+  "tooltip.agritechtwo.fertilizer_speed": "Growth Speed: %s",
+  "tooltip.agritechtwo.fertilizer_yield": "Yield Bonus: %s"
 }

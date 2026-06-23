@@ -3,8 +3,8 @@ package com.misterd.agritechtwo.compat.jade;
 import com.misterd.agritechtwo.Config;
 import com.misterd.agritechtwo.block.custom.PlanterBlock;
 import com.misterd.agritechtwo.blockentity.custom.PlanterBlockEntity;
-import com.misterd.agritechtwo.config.PlantablesConfig;
-import com.misterd.agritechtwo.util.RegistryHelper;
+import com.misterd.agritechtwo.datamap.ATDataMaps;
+import com.misterd.agritechtwo.datamap.FertilizerData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -28,23 +28,20 @@ public enum PlanterProvider implements IBlockComponentProvider, IServerDataProvi
         CompoundTag data = accessor.getServerData();
         if (!data.contains("hasCrop") || !data.getBoolean("hasCrop")) return;
 
-        String cropName       = data.getString("cropName");
-        int currentStage      = data.getInt("currentStage");
-        int maxStage          = data.getInt("maxStage");
+        String cropName = data.getString("cropName");
+        int currentStage = data.getInt("currentStage");
+        int maxStage = data.getInt("maxStage");
         float progressPercent = data.getFloat("progressPercent");
-        String soilName       = data.getString("soilName");
-        float growthModifier  = data.getFloat("growthModifier");
+        String soilName = data.getString("soilName");
+        float growthModifier = data.getFloat("growthModifier");
 
         if (progressPercent >= 100.0F) {
-            tooltip.add(Component.translatable("jade.agritechtwo.crop_ready", cropName)
-                    .withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD));
+            tooltip.add(Component.translatable("jade.agritechtwo.crop_ready", cropName).withStyle(ChatFormatting.GREEN, ChatFormatting.BOLD));
         } else {
-            tooltip.add(Component.translatable("jade.agritechtwo.crop_progress", cropName, currentStage, maxStage, Math.round(progressPercent))
-                    .withStyle(ChatFormatting.DARK_GREEN));
+            tooltip.add(Component.translatable("jade.agritechtwo.crop_progress", cropName, currentStage, maxStage, Math.round(progressPercent)).withStyle(ChatFormatting.DARK_GREEN));
         }
 
-        tooltip.add(Component.translatable("jade.agritechtwo.soil_info", soilName, String.format("%.2fx", growthModifier))
-                .withStyle(ChatFormatting.GRAY));
+        tooltip.add(Component.translatable("jade.agritechtwo.soil_info", soilName, String.format("%.2fx", growthModifier)).withStyle(ChatFormatting.GRAY));
 
         if (data.contains("hasFertilizer") && data.getBoolean("hasFertilizer")) {
             float fertSpeed = data.getFloat("fertilizerSpeedModifier");
@@ -52,17 +49,13 @@ public enum PlanterProvider implements IBlockComponentProvider, IServerDataProvi
             tooltip.add(Component.translatable("jade.agritechtwo.fertilizer_info",
                             data.getString("fertilizerName"),
                             String.format("%.2fx", fertSpeed),
-                            String.format("%.2fx", fertYield))
-                    .withStyle(ChatFormatting.YELLOW));
+                            String.format("%.2fx", fertYield)).withStyle(ChatFormatting.YELLOW));
         }
 
         if (data.contains("isCloched") && data.getBoolean("isCloched")) {
             float clocheSpeed = data.getFloat("clocheSpeedModifier");
             float clocheYield = data.getFloat("clocheYieldModifier");
-            tooltip.add(Component.translatable("jade.agritechtwo.cloche_installed",
-                            String.format("%.2fx", clocheSpeed),
-                            String.format("%.2fx", clocheYield))
-                    .withStyle(ChatFormatting.AQUA));
+            tooltip.add(Component.translatable("jade.agritechtwo.cloche_installed", String.format("%.2fx", clocheSpeed), String.format("%.2fx", clocheYield)).withStyle(ChatFormatting.AQUA));
         }
     }
 
@@ -84,18 +77,18 @@ public enum PlanterProvider implements IBlockComponentProvider, IServerDataProvi
         data.putBoolean("hasCrop", true);
         data.putString("cropName", seedStack.getDisplayName().getString());
         data.putInt("currentStage", planter.getGrowthStage());
-        data.putInt("maxStage", getMaxStage(seedStack));
+        data.putInt("maxStage", getMaxStage(planter));
         data.putFloat("progressPercent", planter.getGrowthProgress() * 100.0F);
         data.putString("soilName", soilStack.getDisplayName().getString());
         data.putFloat("growthModifier", planter.getSoilGrowthModifier(soilStack));
 
         ItemStack fertilizerStack = planter.inventory.getStackInSlot(2);
         if (!fertilizerStack.isEmpty()) {
-            String fertilizerId = RegistryHelper.getItemId(fertilizerStack);
+            FertilizerData fertData = fertilizerStack.getItem().builtInRegistryHolder().getData(ATDataMaps.FERTILIZERS);
             data.putBoolean("hasFertilizer", true);
             data.putString("fertilizerName", fertilizerStack.getDisplayName().getString());
-            data.putFloat("fertilizerSpeedModifier", getFertilizerSpeedModifier(fertilizerId));
-            data.putFloat("fertilizerYieldModifier", getFertilizerYieldModifier(fertilizerId));
+            data.putFloat("fertilizerSpeedModifier", fertData != null ? fertData.speedMultiplier() : 1.0F);
+            data.putFloat("fertilizerYieldModifier", fertData != null ? fertData.yieldMultiplier() : 1.0F);
         } else {
             data.putBoolean("hasFertilizer", false);
         }
@@ -108,18 +101,8 @@ public enum PlanterProvider implements IBlockComponentProvider, IServerDataProvi
         }
     }
 
-    private float getFertilizerSpeedModifier(String fertilizerId) {
-        PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(fertilizerId);
-        return info != null ? info.speedMultiplier : 1.0F;
-    }
-
-    private float getFertilizerYieldModifier(String fertilizerId) {
-        PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(fertilizerId);
-        return info != null ? info.yieldMultiplier : 1.0F;
-    }
-
-    private int getMaxStage(ItemStack plantStack) {
-        return PlantablesConfig.isValidSapling(RegistryHelper.getItemId(plantStack)) ? 1 : 8;
+    private int getMaxStage(PlanterBlockEntity planter) {
+        return planter.isTree() ? 1 : 8;
     }
 
     @Override

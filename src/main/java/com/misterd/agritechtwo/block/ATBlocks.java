@@ -18,66 +18,66 @@ public class ATBlocks {
     public static final DeferredRegister.Blocks BLOCKS = DeferredRegister.createBlocks(AgritechTwo.MODID);
 
     public static final DeferredBlock<Block> ACACIA_PLANTER = registerBlock("acacia_planter",
-            () -> new AcaciaPlanterBlock(BlockBehaviour.Properties.of()
+            () -> new PlanterBlock(BlockBehaviour.Properties.of()
                     .strength(2.0F, 3.0F)
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
     public static final DeferredBlock<Block> BAMBOO_PLANTER = registerBlock("bamboo_planter",
-            () -> new BambooPlanterBlock(BlockBehaviour.Properties.of()
+            () -> new PlanterBlock(BlockBehaviour.Properties.of()
                     .strength(2.0F, 3.0F)
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
     public static final DeferredBlock<Block> BIRCH_PLANTER = registerBlock("birch_planter",
-            () -> new BirchPlanterBlock(BlockBehaviour.Properties.of()
+            () -> new PlanterBlock(BlockBehaviour.Properties.of()
                     .strength(2.0F, 3.0F)
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
     public static final DeferredBlock<Block> CHERRY_PLANTER = registerBlock("cherry_planter",
-            () ->  new CherryPlanterBlock(BlockBehaviour.Properties.of()
+            () ->  new PlanterBlock(BlockBehaviour.Properties.of()
                     .strength(2.0F, 3.0F)
                     .sound(SoundType.WOOD).noOcclusion()));
 
     public static final DeferredBlock<Block> CRIMSON_PLANTER = registerBlock("crimson_planter",
-            () -> new CrimsonPlanterBlock(BlockBehaviour.Properties.of()
+            () -> new PlanterBlock(BlockBehaviour.Properties.of()
                     .strength(2.0F, 3.0F)
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
     public static final DeferredBlock<Block> DARK_OAK_PLANTER = registerBlock("dark_oak_planter",
-            () -> new DarkOakPlanterBlock(BlockBehaviour.Properties.of()
+            () -> new PlanterBlock(BlockBehaviour.Properties.of()
                     .strength(2.0F, 3.0F)
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
     public static final DeferredBlock<Block> JUNGLE_PLANTER = registerBlock("jungle_planter",
-            () -> new JunglePlanterBlock(BlockBehaviour.Properties.of()
+            () -> new PlanterBlock(BlockBehaviour.Properties.of()
                     .strength(2.0F, 3.0F)
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
     public static final DeferredBlock<Block> MANGROVE_PLANTER = registerBlock("mangrove_planter",
-            () -> new MangrovePlanterBlock(BlockBehaviour.Properties.of()
+            () -> new PlanterBlock(BlockBehaviour.Properties.of()
                     .strength(2.0F, 3.0F)
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
     public static final DeferredBlock<Block> OAK_PLANTER = registerBlock("oak_planter",
-            () -> new OakPlanterBlock(BlockBehaviour.Properties.of()
+            () -> new PlanterBlock(BlockBehaviour.Properties.of()
                     .strength(2.0F, 3.0F)
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
     public static final DeferredBlock<Block> SPRUCE_PLANTER = registerBlock("spruce_planter",
-            () -> new SprucePlanterBlock(BlockBehaviour.Properties.of()
+            () -> new PlanterBlock(BlockBehaviour.Properties.of()
                     .strength(2.0F, 3.0F)
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
     public static final DeferredBlock<Block> WARPED_PLANTER = registerBlock("warped_planter",
-            () -> new WarpedPlanterBlock(BlockBehaviour.Properties.of()
+            () -> new PlanterBlock(BlockBehaviour.Properties.of()
                     .strength(2.0F, 3.0F)
                     .sound(SoundType.WOOD)
                     .noOcclusion()));

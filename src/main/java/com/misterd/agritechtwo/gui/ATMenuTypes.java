@@ -13,7 +13,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ATMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(Registries.MENU, "agritechtwo");
 
-    public static final DeferredHolder<MenuType<?>, MenuType<PlanterBlockMenu>> PLANTER_BLOCK_MENU    = registerMenuType("planter_block_menu",    PlanterBlockMenu::new);
+    public static final DeferredHolder<MenuType<?>, MenuType<PlanterBlockMenu>> PLANTER_BLOCK_MENU = registerMenuType("planter_block_menu", PlanterBlockMenu::new);
 
     private static <T extends AbstractContainerMenu> DeferredHolder<MenuType<?>, MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IMenuTypeExtension.create(factory));

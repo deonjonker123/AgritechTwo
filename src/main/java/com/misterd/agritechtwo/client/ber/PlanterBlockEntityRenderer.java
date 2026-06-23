@@ -2,7 +2,6 @@ package com.misterd.agritechtwo.client.ber;
 
 import com.misterd.agritechtwo.block.custom.PlanterBlock;
 import com.misterd.agritechtwo.blockentity.custom.PlanterBlockEntity;
-import com.misterd.agritechtwo.config.PlantablesConfig;
 import com.misterd.agritechtwo.util.RegistryHelper;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -39,8 +38,8 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
     @Override
     public void render(PlanterBlockEntity blockEntity, float partialTick, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
         ItemStackHandler inventory = blockEntity.inventory;
-        float growthProgress       = blockEntity.getGrowthProgress();
-        int growthStage            = blockEntity.getGrowthStage();
+        float growthProgress = blockEntity.getGrowthProgress();
+        int growthStage = blockEntity.getGrowthStage();
 
         if (blockEntity.getBlockState().getValue(PlanterBlock.CLOCHED)) {
             BakedModel domeModel = Minecraft.getInstance().getModelManager().getModel(CLOCHE_DOME_MODEL);
@@ -78,8 +77,8 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
         ItemStack plantStack = inventory.getStackInSlot(0);
         if (!plantStack.isEmpty() && !soilStack.isEmpty() && plantStack.getItem() instanceof BlockItem plantBlockItem) {
             String plantId = RegistryHelper.getItemId(plantStack);
-            boolean isTree = PlantablesConfig.isValidSapling(plantId);
-            boolean isCrop = PlantablesConfig.isValidSeed(plantId);
+            boolean isTree = blockEntity.isTree();
+            boolean isCrop = !plantStack.isEmpty() && blockEntity.isValidPlant(plantStack) && !isTree;
 
             if (isTree || isCrop) {
                 BlockState plantState = plantBlockItem.getBlock().defaultBlockState();
@@ -108,7 +107,7 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
                 .getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
                 .apply(WATER_STILL);
 
-        float y    = 0.41F;
+        float y = 0.41F;
         float xMin = 0.175F;
         float xMax = 0.825F;
         float zMin = 0.175F;
@@ -143,9 +142,9 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
             }
         }
 
-        if (defaultState.hasProperty(BlockStateProperties.AGE_7))  return defaultState.setValue(BlockStateProperties.AGE_7,  Math.min(age, 7));
-        if (defaultState.hasProperty(BlockStateProperties.AGE_3))  return defaultState.setValue(BlockStateProperties.AGE_3,  Math.min(age, 3));
-        if (defaultState.hasProperty(BlockStateProperties.AGE_5))  return defaultState.setValue(BlockStateProperties.AGE_5,  Math.min(age, 5));
+        if (defaultState.hasProperty(BlockStateProperties.AGE_7))  return defaultState.setValue(BlockStateProperties.AGE_7, Math.min(age, 7));
+        if (defaultState.hasProperty(BlockStateProperties.AGE_3))  return defaultState.setValue(BlockStateProperties.AGE_3, Math.min(age, 3));
+        if (defaultState.hasProperty(BlockStateProperties.AGE_5))  return defaultState.setValue(BlockStateProperties.AGE_5, Math.min(age, 5));
         if (defaultState.hasProperty(BlockStateProperties.AGE_15)) return defaultState.setValue(BlockStateProperties.AGE_15, Math.min(age, 15));
         if (defaultState.hasProperty(BlockStateProperties.AGE_25)) return defaultState.setValue(BlockStateProperties.AGE_25, Math.min(age, 25));
 

@@ -2,7 +2,8 @@ package com.misterd.agritechtwo.block.custom;
 
 import com.misterd.agritechtwo.blockentity.ATBlockEntities;
 import com.misterd.agritechtwo.blockentity.custom.PlanterBlockEntity;
-import com.misterd.agritechtwo.config.PlantablesConfig;
+import com.misterd.agritechtwo.datamap.ATDataMaps;
+import com.misterd.agritechtwo.datamap.FertilizerData;
 import com.misterd.agritechtwo.gui.custom.PlanterBlockMenu;
 import com.misterd.agritechtwo.item.ATItems;
 import com.misterd.agritechtwo.item.custom.ClocheItem;
@@ -62,12 +63,12 @@ public class PlanterBlock extends BaseEntityBlock {
     public static final BooleanProperty CLOCHED = BooleanProperty.create("cloched");
 
     private static final Map<String, String> ESSENCE_TO_FARMLAND = Map.of(
-            "mysticalagriculture:inferium_essence",   "mysticalagriculture:inferium_farmland",
+            "mysticalagriculture:inferium_essence", "mysticalagriculture:inferium_farmland",
             "mysticalagriculture:prudentium_essence", "mysticalagriculture:prudentium_farmland",
-            "mysticalagriculture:tertium_essence",    "mysticalagriculture:tertium_farmland",
-            "mysticalagriculture:imperium_essence",   "mysticalagriculture:imperium_farmland",
-            "mysticalagriculture:supremium_essence",  "mysticalagriculture:supremium_farmland",
-            "mysticalagradditions:insanium_essence",  "mysticalagradditions:insanium_farmland"
+            "mysticalagriculture:tertium_essence", "mysticalagriculture:tertium_farmland",
+            "mysticalagriculture:imperium_essence", "mysticalagriculture:imperium_farmland",
+            "mysticalagriculture:supremium_essence", "mysticalagriculture:supremium_farmland",
+            "mysticalagradditions:insanium_essence", "mysticalagradditions:insanium_farmland"
     );
 
     public PlanterBlock(Properties properties) {
@@ -114,10 +115,6 @@ public class PlanterBlock extends BaseEntityBlock {
         super.onRemove(state, level, pos, newState, movedByPiston);
     }
 
-    // -------------------------------------------------------------------------
-    // useItemOn — dispatch to dedicated handlers
-    // -------------------------------------------------------------------------
-
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (!(level.getBlockEntity(pos) instanceof PlanterBlockEntity planter)) {
             return ItemInteractionResult.FAIL;
@@ -135,14 +132,14 @@ public class PlanterBlock extends BaseEntityBlock {
         if (heldItem.getItem() instanceof ClocheItem) {
             return handleClochePlace(state, level, pos, player, heldItem);
         }
-        if (PlantablesConfig.isValidSeed(heldItemId) || PlantablesConfig.isValidSapling(heldItemId)) {
-            return handlePlantInsert(state, level, pos, player, planter, heldItem, heldItemId);
+        if (planter.isValidPlant(heldItem)) {
+            return handlePlantInsert(state, level, pos, player, planter, heldItem);
         }
-        if (PlantablesConfig.isValidSoil(heldItemId)) {
-            return handleSoilInsert(state, level, pos, player, planter, heldItem, heldItemId);
+        if (planter.isValidSoilForAnyRecipe(heldItem)) {
+            return handleSoilInsert(state, level, pos, player, planter, heldItem);
         }
-        if (PlantablesConfig.isValidFertilizer(heldItemId)) {
-            return handleFertilizer(state, level, pos, player, planter, heldItem, heldItemId);
+        if (PlanterBlockEntity.isFertilizer(heldItem)) {
+            return handleFertilizer(state, level, pos, player, planter, heldItem);
         }
         if (heldItem.getItem() instanceof HoeItem) {
             return handleHoeTill(level, pos, player, planter, heldItem, hand, hitResult);
@@ -155,11 +152,6 @@ public class PlanterBlock extends BaseEntityBlock {
         return ItemInteractionResult.SUCCESS;
     }
 
-    // -------------------------------------------------------------------------
-    // Handlers
-    // -------------------------------------------------------------------------
-
-    /** Sneak + empty hand on a cloched planter → pop the cloche off. */
     private ItemInteractionResult handleClocheRemoval(BlockState state, Level level, BlockPos pos, Player player) {
         if (!level.isClientSide()) {
             level.setBlock(pos, state.setValue(CLOCHED, false), 3);
@@ -172,13 +164,11 @@ public class PlanterBlock extends BaseEntityBlock {
         return ItemInteractionResult.SUCCESS;
     }
 
-    /** Sneak + any item → open GUI. */
     private ItemInteractionResult handleCrouchOpen(Level level, BlockPos pos, Player player, PlanterBlockEntity planter) {
         if (!level.isClientSide()) openGui(player, planter, pos);
         return ItemInteractionResult.SUCCESS;
     }
 
-    /** Cloche item in hand → place cloche on planter. */
     private ItemInteractionResult handleClochePlace(BlockState state, Level level, BlockPos pos, Player player, ItemStack heldItem) {
         if (state.getValue(CLOCHED)) return ItemInteractionResult.FAIL;
         if (!level.isClientSide()) {
@@ -189,9 +179,7 @@ public class PlanterBlock extends BaseEntityBlock {
         return ItemInteractionResult.SUCCESS;
     }
 
-    /** Seed / sapling in hand → insert into slot 0, validating against existing soil. */
-    private ItemInteractionResult handlePlantInsert(BlockState state, Level level, BlockPos pos, Player player,
-                                                    PlanterBlockEntity planter, ItemStack heldItem, String heldItemId) {
+    private ItemInteractionResult handlePlantInsert(BlockState state, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem) {
         if (!planter.inventory.getStackInSlot(0).isEmpty()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return ItemInteractionResult.SUCCESS;
@@ -200,11 +188,7 @@ public class PlanterBlock extends BaseEntityBlock {
 
         ItemStack existingSoil = planter.inventory.getStackInSlot(1);
         if (!existingSoil.isEmpty()) {
-            String soilId = RegistryHelper.getItemId(existingSoil);
-            boolean valid = PlantablesConfig.isValidSeed(heldItemId)
-                    ? PlantablesConfig.isSoilValidForSeed(soilId, heldItemId)
-                    : PlantablesConfig.isSoilValidForSapling(soilId, heldItemId);
-            if (!valid) {
+            if (!planter.isValidPlantSoilCombination(heldItem, existingSoil)) {
                 player.displayClientMessage(Component.translatable("message.agritechtwo.invalid_seed_soil_combination"), true);
                 return ItemInteractionResult.SUCCESS;
             }
@@ -218,9 +202,7 @@ public class PlanterBlock extends BaseEntityBlock {
         return ItemInteractionResult.SUCCESS;
     }
 
-    /** Soil in hand → insert into slot 1, validating against existing plant. */
-    private ItemInteractionResult handleSoilInsert(BlockState state, Level level, BlockPos pos, Player player,
-                                                   PlanterBlockEntity planter, ItemStack heldItem, String heldItemId) {
+    private ItemInteractionResult handleSoilInsert(BlockState state, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem) {
         if (!planter.inventory.getStackInSlot(1).isEmpty()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return ItemInteractionResult.SUCCESS;
@@ -229,11 +211,7 @@ public class PlanterBlock extends BaseEntityBlock {
 
         ItemStack existingPlant = planter.inventory.getStackInSlot(0);
         if (!existingPlant.isEmpty()) {
-            String plantId = RegistryHelper.getItemId(existingPlant);
-            boolean valid = PlantablesConfig.isValidSeed(plantId)
-                    ? PlantablesConfig.isSoilValidForSeed(heldItemId, plantId)
-                    : PlantablesConfig.isSoilValidForSapling(heldItemId, plantId);
-            if (!valid) {
+            if (!planter.isValidPlantSoilCombination(existingPlant, heldItem)) {
                 player.displayClientMessage(Component.translatable("message.agritechtwo.invalid_seed_soil_combination"), true);
                 return ItemInteractionResult.SUCCESS;
             }
@@ -247,36 +225,29 @@ public class PlanterBlock extends BaseEntityBlock {
         return ItemInteractionResult.SUCCESS;
     }
 
-    /** Fertilizer in hand → boost growth speed, or open GUI if preconditions not met. */
-    private ItemInteractionResult handleFertilizer(BlockState state, Level level, BlockPos pos, Player player,
-                                                   PlanterBlockEntity planter, ItemStack heldItem, String heldItemId) {
+    private ItemInteractionResult handleFertilizer(BlockState state, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem) {
         if (planter.inventory.getStackInSlot(0).isEmpty()
                 || planter.inventory.getStackInSlot(1).isEmpty()
                 || planter.isReadyToHarvest()) {
             if (!level.isClientSide()) openGui(player, planter, pos);
             return ItemInteractionResult.SUCCESS;
         }
-        if (!level.isClientSide()) {
-            PlantablesConfig.FertilizerInfo info = PlantablesConfig.getFertilizerInfo(heldItemId);
-            if (info != null) {
-                planter.applyManualFertilizer(info.speedMultiplier);
-                if (!player.getAbilities().instabuild) heldItem.shrink(1);
-                level.playSound(null, pos, SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
-                if (level instanceof ServerLevel serverLevel) {
-                    serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER,
-                            pos.getX() + 0.5, pos.getY() + 0.8, pos.getZ() + 0.5,
-                            6, 0.3, 0.2, 0.3, 0.0);
-                }
-                level.sendBlockUpdated(pos, state, state, 3);
+        FertilizerData data = heldItem.getItem().builtInRegistryHolder().getData(ATDataMaps.FERTILIZERS);
+        if (data != null) {
+            planter.applyManualFertilizer(data.speedMultiplier());
+            if (!player.getAbilities().instabuild) heldItem.shrink(1);
+            level.playSound(null, pos, SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
+            if (level instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER,
+                        pos.getX() + 0.5, pos.getY() + 0.8, pos.getZ() + 0.5,
+                        6, 0.3, 0.2, 0.3, 0.0);
             }
+            level.sendBlockUpdated(pos, state, state, 3);
         }
         return ItemInteractionResult.SUCCESS;
     }
 
-    /** Hoe in hand → till the soil currently in slot 1. */
-    private ItemInteractionResult handleHoeTill(Level level, BlockPos pos, Player player,
-                                                PlanterBlockEntity planter, ItemStack heldItem,
-                                                InteractionHand hand, BlockHitResult hitResult) {
+    private ItemInteractionResult handleHoeTill(Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem, InteractionHand hand, BlockHitResult hitResult) {
         ItemStack soilStack = planter.inventory.getStackInSlot(1);
         if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
             BlockState soilState = soilBlockItem.getBlock().defaultBlockState();
@@ -295,9 +266,7 @@ public class PlanterBlock extends BaseEntityBlock {
         return ItemInteractionResult.FAIL;
     }
 
-    /** Mystical Agriculture essence in hand → upgrade the farmland in slot 1. */
-    private ItemInteractionResult handleEssenceUpgrade(ItemStack stack, Level level, BlockPos pos, Player player,
-                                                       PlanterBlockEntity planter, String heldItemId) {
+    private ItemInteractionResult handleEssenceUpgrade(ItemStack stack, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, String heldItemId) {
         ItemStack soilStack = planter.inventory.getStackInSlot(1);
         if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
             String soilId = RegistryHelper.getBlockId(soilBlockItem.getBlock());
@@ -325,10 +294,6 @@ public class PlanterBlock extends BaseEntityBlock {
         }
         return ItemInteractionResult.FAIL;
     }
-
-    // -------------------------------------------------------------------------
-    // Helpers
-    // -------------------------------------------------------------------------
 
     private void openGui(Player player, PlanterBlockEntity planter, BlockPos pos) {
         MenuProvider menuProvider = new SimpleMenuProvider(
