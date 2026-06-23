@@ -33,6 +33,8 @@
   "item.agritechtwo.cloche.tooltip.line2": "Stacks with fertilizer for maximum efficiency.",
   "item.agritechtwo.cloche.tooltip.line3": "Shift-right-click with empty hand to remove.",
 
+  "config.jade.agritechtwo.planter_info": "Planter Info",
+  "config.jade.plugin_agritechtwo.planter_info": "Planter Info",
   "jade.agritechtwo.crop_progress": "%s (Stage %d/%d - %d%%)",
   "jade.agritechtwo.crop_ready": "%s (Ready to Harvest)",
   "jade.agritechtwo.soil_info": "Soil: %s (%s speed)",

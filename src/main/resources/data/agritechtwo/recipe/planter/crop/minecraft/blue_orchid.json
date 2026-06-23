@@ -1,0 +1,19 @@
+{
+  "type": "agritechtwo:crop",
+  "drops": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:blue_orchid",
+      "max": 1,
+      "min": 1
+    }
+  ],
+  "seed": {
+    "item": "minecraft:blue_orchid"
+  },
+  "soils": [
+    {
+      "tag": "agritechtwo:dirt_soils"
+    }
+  ]
+}

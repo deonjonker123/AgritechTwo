@@ -1,0 +1,19 @@
+{
+  "type": "agritechtwo:crop",
+  "drops": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:azure_bluet",
+      "max": 1,
+      "min": 1
+    }
+  ],
+  "seed": {
+    "item": "minecraft:azure_bluet"
+  },
+  "soils": [
+    {
+      "tag": "agritechtwo:dirt_soils"
+    }
+  ]
+}

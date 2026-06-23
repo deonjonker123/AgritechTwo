@@ -2,6 +2,6 @@
   "values": [
     "minecraft:sand",
     "minecraft:red_sand",
-    {"id":"aether_ii:quicksoil", "required": false}
+    {"id":"aether:quicksoil", "required": false}
   ]
 }

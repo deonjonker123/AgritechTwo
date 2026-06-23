@@ -1,0 +1,19 @@
+{
+  "type": "agritechtwo:crop",
+  "drops": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:moss_block",
+      "max": 2,
+      "min": 1
+    }
+  ],
+  "seed": {
+    "item": "minecraft:moss_block"
+  },
+  "soils": [
+    {
+      "tag": "agritechtwo:stone_soils"
+    }
+  ]
+}

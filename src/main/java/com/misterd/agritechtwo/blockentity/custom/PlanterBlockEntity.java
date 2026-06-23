@@ -103,8 +103,8 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
 
     @Nullable
     private RecipeManager getRecipes() {
-        if (level != null && !level.isClientSide()) return level.getServer().getRecipeManager();
-        return null;
+        if (level == null) return null;
+        return level.isClientSide() ? level.getRecipeManager() : level.getServer().getRecipeManager();
     }
 
     private void refreshRecipeCacheIfNeeded(ItemStack seed) {
@@ -334,8 +334,7 @@ public class PlanterBlockEntity extends BlockEntity implements MenuProvider {
     private List<ItemStack> getHarvestDrops(ItemStack plantStack) {
         if (plantStack.isEmpty()) return List.of();
         Optional<CropRecipe> crop = findCropRecipe(plantStack);
-        List<DropEntry> entries = crop.map(CropRecipe::getDrops)
-                .orElseGet(() -> findTreeRecipe(plantStack).map(TreeRecipe::getDrops).orElse(List.of()));
+        List<DropEntry> entries = crop.map(CropRecipe::getDrops).orElseGet(() -> findTreeRecipe(plantStack).map(TreeRecipe::getDrops).orElse(List.of()));
         List<ItemStack> drops = new ArrayList<>();
         Random rng = new Random();
         for (DropEntry entry : entries) {

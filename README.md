@@ -1,104 +1,52 @@
+# Agritech (AT2)
 
-# AgriTech: Two
+Farming automation mod. Planters grow your crops and trees for you.
 
-AgriTech: Two is a new and improved take on the original Agritech: Crops and Agritech: Trees mods, now combined into a single, more intuitive package. It brings expanded mod compatibility, a reworked configuration system, and a brand new fertilizer system for enhanced automation — all under one roof.
+## Automated Planters
 
-## Core Features
+Plant a seed or sapling, it grows by itself, drops go into whatever's underneath it. All 11 vanilla wood types.
 
-### **Automated Planters**
+## Cloche
 
--   **Agritech Planter**: A simple wooden planter that automatically grows crops and saplings. Automatically outputs drops to a container under it. Available in all 11 vanilla wood types.
+Glass dome that attaches to a planter. Boosts growth speed and yield, stacks with fertilizer. Right-click to attach, shift-right-click empty-handed to take it back off. Break a cloched planter and you get both items back separately.
 
-### **Cloche**
-A glass bell jar that attaches to any planter, boosting both growth speed and harvest yield. Stacks with fertilizer for maximum efficiency. Configurable speed and yield multipliers.
+## Fertilizer
 
-- Right-click a planter with a cloche to attach it
-- Shift-right-click with an empty hand to detach and recover it
-- Breaking a cloched planter drops both items separately
+Bone meal works. Also supports Mystical Agriculture, Immersive Engineering, and Forbidden & Arcanus fertilizers. Pipe or hopper it into any side of the planter.
 
-### **Fertilizer System**
+## Data-Driven
 
-Fertilizer support with configurable speed and yield multipliers:
+Nothing's hardcoded. Add/remove/edit seeds, soils, saplings, fertilizers through:
 
--   Vanilla bone meal
--   Mystical Agriculture fertilizers
--   Immersive Engineering fertilizers
--   Forbidden & Arcanus arcane bone meal
+- **Datapacks** — regular JSON
+- **KubeJS** — for scripted/server-side control
 
-Fertilizer can be automated via hopper or pipe into any of the four cardinal sides of the planter.
+Means you can add support for unsupported mods, change growth modifiers, mess with fertilizer values, or override defaults you don't like.
 
-## Mod Compatibility
+## Mod Support
 
-### **Supported Crop Mods**
+**Crops:** Mystical Agriculture & Mystical Agradditions, Farmer's Delight, Ars Nouveau, Silent Gear, Immersive Engineering, Occultism, Cobblemon, Pam's HarvestCraft 2, Actually Additions, Croptopia
 
-- Mystical Agriculture & Mystical Agradditions
-- Farmer's Delight
-- Ars Nouveau
-- Silent Gear
-- Immersive Engineering
-- Occultism
-- Cobblemon
-- Pam's HarvestCraft 2 - Crops
-- Actually Additions
-- Croptopia
+**Trees:** Ars Nouveau & Ars Elemental, Forbidden & Arcanus, Integrated Dynamics, Silent Gear, Occultism, Cobblemon, Pam's HarvestCraft 2, Croptopia, EvilCraft
 
-### **Supported Tree Mods**
+**Soils:** Mystical Agriculture farmland, Farmer's Delight soils, Just Dire Things goosoils
 
-- Ars Nouveau & Ars Elemental
-- Forbidden & Arcanus
-- Integrated Dynamics
-- Silent Gear
-- Occultism
-- Cobblemon
-- Pam's HarvestCraft 2 - Trees
-- Croptopia
-- EvilCraft
+## Interactive Placement
 
-### **Supported Soil Mods**
+- Right-click with seeds/saplings/soil to insert directly
+- Right-click with a hoe to till compatible blocks
+- Right-click vanilla farmland with mystical essence to convert it
 
--   Mystical Agriculture farmlands
--   Farmer's Delight soils
--   Just Dire Things goosoils
+## JEI
 
-## Advanced Configuration System
+Shows valid crop/soil combos for planters with drop counts and chance %.
 
-1.  **Mod Compatibility Toggles**: Enable/disable specific mod integrations per-mod, so you only load what you need.
-2.  **Crop/Sapling/Soil Database**: Comprehensive JSON-based system defining what grows on what, with full TOML override support for custom rules.
+## Jade
 
-### **Live Config Reloading**
+Shows crop/sapling, growth stage and progress, soil type and its bonus, sunlight boost status, and cloche speed/yield.
 
-No server/client restart required. Changes to crops, soils, fertilizers via the overrider toml, or compatibility settings can be applied instantly via in-game commands.
+## Note
 
-| Command | Effect |
-|--|--|
-| `/agritechtwo reload` | Reloads all configs |
-| `/agritechtwo reload plantables` | Reloads the crop/soil/sapling database only |
-| `/agritechtwo reload config` | Reloads the main TOML config only |
+Agritech is NOT related to Agritech: Evolved (ATE). Not an addon, not a successor, doesn't build on it. Two separate mods, similar name, same general idea, zero shared code.
 
-Failed reloads report errors directly in chat rather than silently failing.
-
-### **Interactive Placement**
-
--   Right-click with seeds to insert directly into planters
--   Right-click with saplings for instant placement
--   Right-click with soil blocks for instant placement
--   Right-click with hoes to till compatible blocks
-- Right-click with mystical essence to convert vanilla farmland to the mystical farmland
-
-### **Visual Feedback**
-
--   Real-time rendering of planted crops and soil types
--   Progress bars for all processing operations
--   Audio feedback for successful interactions
-
-## JEI Integration
-
--   Compatible crop/soil combinations of the planters
-
-## Jade Integration
-
--   Displays current crop or sapling name
--   Shows growth stage and progress percentage
--   Shows active soil type and its growth modifier
--   Shows active fertilizer when one is slotted
-- Shows cloche status with speed and yield modifiers
+Running both is fine but pointless — datapacks/KubeJS for one won't do anything for the other, different namespaces entirely.

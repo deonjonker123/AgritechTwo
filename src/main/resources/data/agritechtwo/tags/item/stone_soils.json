@@ -1,7 +1,6 @@
 {
   "values": [
     "minecraft:stone",
-    "minecraft:end_stone",
-    {"id":"aether_ii:holystone", "required": false}
+    "minecraft:end_stone"
   ]
 }

@@ -67,7 +67,7 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
             } else if (soilStack.getItem() instanceof BlockItem soilBlockItem) {
                 BlockState soilState = soilBlockItem.getBlock().defaultBlockState();
                 poseStack.pushPose();
-                poseStack.translate(0.175, 0.4, 0.175);
+                poseStack.translate(0.175, 0.5, 0.175);
                 poseStack.scale(0.65F, 0.05F, 0.65F);
                 Minecraft.getInstance().getBlockRenderer().renderSingleBlock(soilState, poseStack, bufferSource, packedLight, OverlayTexture.NO_OVERLAY);
                 poseStack.popPose();
@@ -86,13 +86,13 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
 
                 if (isTree) {
                     float scale = 0.3F + growthProgress * 0.4F;
-                    poseStack.translate(0.5, 0.45, 0.5);
+                    poseStack.translate(0.5, 0.55, 0.5);
                     poseStack.scale(scale, scale, scale);
                     poseStack.translate(-0.5, 0.0, -0.5);
                 } else {
                     plantState = getCropBlockState(plantStack, growthStage);
                     float growthScale = 0.2F + Math.min(1.0F, growthProgress) * 0.5F;
-                    poseStack.translate(0.1725, 0.45, 0.1725);
+                    poseStack.translate(0.1725, 0.585, 0.1725);
                     poseStack.scale(0.65F, growthScale, 0.65F);
                 }
 

@@ -1,0 +1,19 @@
+{
+  "type": "agritechtwo:crop",
+  "drops": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:sweet_berries",
+      "max": 4,
+      "min": 2
+    }
+  ],
+  "seed": {
+    "item": "minecraft:sweet_berries"
+  },
+  "soils": [
+    {
+      "tag": "agritechtwo:dirt_soils"
+    }
+  ]
+}
