@@ -1,0 +1,15 @@
+{
+  "type": "agritechtwo:crop",
+  "drops": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:kelp",
+      "max": 2,
+      "min": 1
+    }
+  ],
+  "seed": "minecraft:kelp",
+  "soils": [
+    "#agritechtwo:water_soils"
+  ]
+}

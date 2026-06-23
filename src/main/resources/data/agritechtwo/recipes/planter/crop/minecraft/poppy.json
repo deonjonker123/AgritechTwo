@@ -1,0 +1,15 @@
+{
+  "type": "agritechtwo:crop",
+  "drops": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:poppy",
+      "max": 1,
+      "min": 1
+    }
+  ],
+  "seed": "minecraft:poppy",
+  "soils": [
+    "#agritechtwo:dirt_soils"
+  ]
+}

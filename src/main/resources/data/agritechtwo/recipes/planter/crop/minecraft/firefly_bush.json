@@ -1,0 +1,15 @@
+{
+  "type": "agritechtwo:crop",
+  "drops": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:firefly_bush",
+      "max": 2,
+      "min": 1
+    }
+  ],
+  "seed": "minecraft:firefly_bush",
+  "soils": [
+    "#agritechtwo:dirt_soils"
+  ]
+}

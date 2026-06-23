@@ -1,0 +1,15 @@
+{
+  "type": "agritechtwo:crop",
+  "drops": [
+    {
+      "chance": 1.0,
+      "item": "minecraft:red_tulip",
+      "max": 1,
+      "min": 1
+    }
+  ],
+  "seed": "minecraft:red_tulip",
+  "soils": [
+    "#agritechtwo:dirt_soils"
+  ]
+}
