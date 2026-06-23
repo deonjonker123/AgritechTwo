@@ -29,7 +29,7 @@ public class Config {
     }
 
     private static void machineConfig() {
-        COMMON_BUILDER.comment("Planter Settings").push("machines");
+        COMMON_BUILDER.comment("Agritech Settings").push("agritech");
         planterConfig();
         COMMON_BUILDER.pop();
     }
@@ -49,6 +49,6 @@ public class Config {
 
     @SubscribeEvent
     static void onLoad(ModConfigEvent event) {
-        LOGGER.info("AgriTech: Two configuration loaded");
+        LOGGER.info("AgriTech configuration loaded");
     }
 }
