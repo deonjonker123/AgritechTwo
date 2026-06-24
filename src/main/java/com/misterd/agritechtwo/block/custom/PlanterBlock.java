@@ -46,6 +46,7 @@ import net.neoforged.neoforge.transfer.item.ItemResource;
 import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Map;
 
 public class PlanterBlock extends BaseEntityBlock {
@@ -64,6 +65,16 @@ public class PlanterBlock extends BaseEntityBlock {
 
     public static final MapCodec<PlanterBlock> CODEC = simpleCodec(PlanterBlock::new);
     public static final BooleanProperty CLOCHED = BooleanProperty.create("cloched");
+
+    private static final List<String> FARMLAND_TIERS = List.of(
+            "minecraft:farmland",
+            "mysticalagriculture:inferium_farmland",
+            "mysticalagriculture:prudentium_farmland",
+            "mysticalagriculture:tertium_farmland",
+            "mysticalagriculture:imperium_farmland",
+            "mysticalagriculture:supremium_farmland",
+            "mysticalagradditions:insanium_farmland"
+    );
 
     private static final Map<String, String> ESSENCE_TO_FARMLAND = Map.of(
             "mysticalagriculture:inferium_essence", "mysticalagriculture:inferium_farmland",
@@ -284,9 +295,11 @@ public class PlanterBlock extends BaseEntityBlock {
                 String farmlandId = ESSENCE_TO_FARMLAND.get(heldItemId);
                 Block resultBlock = RegistryHelper.getBlock(farmlandId);
                 if (resultBlock != null) {
-                    if (soilId.equals(farmlandId)) {
+                    int currentTier = FARMLAND_TIERS.indexOf(soilId);
+                    int targetTier = FARMLAND_TIERS.indexOf(farmlandId);
+                    if (targetTier <= currentTier) {
                         if (!level.isClientSide()) {
-                            player.sendOverlayMessage(Component.translatable("message.agritechtwo.same_farmland").withStyle(ChatFormatting.GOLD));
+                            player.sendOverlayMessage(Component.translatable("message.agritechtwo.same_ma_farmland").withStyle(ChatFormatting.GOLD));
                         }
                         return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
                     }
