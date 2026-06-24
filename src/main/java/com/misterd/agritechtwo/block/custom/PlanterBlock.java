@@ -9,6 +9,7 @@ import com.misterd.agritechtwo.item.ATItems;
 import com.misterd.agritechtwo.item.custom.ClocheItem;
 import com.misterd.agritechtwo.util.RegistryHelper;
 import com.mojang.serialization.MapCodec;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -44,23 +45,34 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.ItemAbilities;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Map;
 
 public class PlanterBlock extends BaseEntityBlock {
     public static final VoxelShape SHAPE = Shapes.or(
-            Block.box(1,  0,  1,  3, 11,  3),
-            Block.box(13, 0,  1, 15, 11,  3),
-            Block.box(1,  0, 13,  3, 11, 15),
+            Block.box(1, 0, 1, 3, 11, 3),
+            Block.box(13, 0, 1, 15, 11, 3),
+            Block.box(1, 0, 13, 3, 11, 15),
             Block.box(13, 0, 13, 15, 11, 15),
-            Block.box(2,  2,  2, 14, 10,  3),
-            Block.box(2,  2, 13, 14, 10, 14),
-            Block.box(2,  2,  3,  3, 10, 13),
-            Block.box(13, 2,  3, 14, 10, 13),
-            Block.box(3,  2,  3, 13,  3, 13)
+            Block.box(2, 2, 2, 14, 10, 3),
+            Block.box(2, 2, 13, 14, 10, 14),
+            Block.box(2, 2, 3, 3, 10, 13),
+            Block.box(13, 2, 3, 14, 10, 13),
+            Block.box(3, 2, 3, 13, 3, 13)
     );
 
     public static final MapCodec<PlanterBlock> CODEC = simpleCodec(PlanterBlock::new);
     public static final BooleanProperty CLOCHED = BooleanProperty.create("cloched");
+
+    private static final List<String> FARMLAND_TIERS = List.of(
+            "minecraft:farmland",
+            "mysticalagriculture:inferium_farmland",
+            "mysticalagriculture:prudentium_farmland",
+            "mysticalagriculture:tertium_farmland",
+            "mysticalagriculture:imperium_farmland",
+            "mysticalagriculture:supremium_farmland",
+            "mysticalagradditions:insanium_farmland"
+    );
 
     private static final Map<String, String> ESSENCE_TO_FARMLAND = Map.of(
             "mysticalagriculture:inferium_essence", "mysticalagriculture:inferium_farmland",
@@ -101,11 +113,7 @@ public class PlanterBlock extends BaseEntityBlock {
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
         if (state.getBlock() != newState.getBlock()) {
             if (state.getValue(CLOCHED)) {
-                level.addFreshEntity(new ItemEntity(
-                        level,
-                        pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                        new ItemStack(ATItems.CLOCHE.get())
-                ));
+                level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, new ItemStack(ATItems.CLOCHE.get())));
             }
             if (level.getBlockEntity(pos) instanceof PlanterBlockEntity planterBlockEntity) {
                 planterBlockEntity.drops();
@@ -155,10 +163,7 @@ public class PlanterBlock extends BaseEntityBlock {
     private ItemInteractionResult handleClocheRemoval(BlockState state, Level level, BlockPos pos, Player player) {
         if (!level.isClientSide()) {
             level.setBlock(pos, state.setValue(CLOCHED, false), 3);
-            level.addFreshEntity(new ItemEntity(
-                    level, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5,
-                    new ItemStack(ATItems.CLOCHE.get())
-            ));
+            level.addFreshEntity(new ItemEntity(level, pos.getX() + 0.5, pos.getY() + 1.0, pos.getZ() + 0.5, new ItemStack(ATItems.CLOCHE.get())));
             level.playSound(null, pos, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 0.5F, 1.2F);
         }
         return ItemInteractionResult.SUCCESS;
@@ -238,9 +243,7 @@ public class PlanterBlock extends BaseEntityBlock {
             if (!player.getAbilities().instabuild) heldItem.shrink(1);
             level.playSound(null, pos, SoundEvents.BONE_MEAL_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
             if (level instanceof ServerLevel serverLevel) {
-                serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER,
-                        pos.getX() + 0.5, pos.getY() + 0.8, pos.getZ() + 0.5,
-                        6, 0.3, 0.2, 0.3, 0.0);
+                serverLevel.sendParticles(ParticleTypes.HAPPY_VILLAGER, pos.getX() + 0.5, pos.getY() + 0.8, pos.getZ() + 0.5, 6, 0.3, 0.2, 0.3, 0.0);
             }
             level.sendBlockUpdated(pos, state, state, 3);
         }
@@ -251,9 +254,7 @@ public class PlanterBlock extends BaseEntityBlock {
         ItemStack soilStack = planter.inventory.getStackInSlot(1);
         if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
             BlockState soilState = soilBlockItem.getBlock().defaultBlockState();
-            BlockState result = soilState.getToolModifiedState(
-                    new UseOnContext(level, player, hand, heldItem, hitResult),
-                    ItemAbilities.HOE_TILL, false);
+            BlockState result = soilState.getToolModifiedState(new UseOnContext(level, player, hand, heldItem, hitResult), ItemAbilities.HOE_TILL, false);
             if (result != null) {
                 planter.inventory.setStackInSlot(1, new ItemStack(result.getBlock()));
                 level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
@@ -278,9 +279,12 @@ public class PlanterBlock extends BaseEntityBlock {
                 String farmlandId = ESSENCE_TO_FARMLAND.get(heldItemId);
                 Block resultBlock = RegistryHelper.getBlock(farmlandId);
                 if (resultBlock != null) {
-                    if (soilId.equals(farmlandId)) {
+                    int currentTier = FARMLAND_TIERS.indexOf(soilId);
+                    int targetTier = FARMLAND_TIERS.indexOf(farmlandId);
+
+                    if (targetTier <= currentTier) {
                         if (!level.isClientSide()) {
-                            player.displayClientMessage(Component.translatable("message.agritech.same_farmland"), true);
+                            player.displayClientMessage(Component.translatable("message.agritechtwo.same_ma_farmland").withStyle(ChatFormatting.GOLD), true);
                         }
                         return ItemInteractionResult.sidedSuccess(level.isClientSide());
                     }
@@ -296,10 +300,7 @@ public class PlanterBlock extends BaseEntityBlock {
     }
 
     private void openGui(Player player, PlanterBlockEntity planter, BlockPos pos) {
-        MenuProvider menuProvider = new SimpleMenuProvider(
-                (containerId, playerInventory, playerEntity) -> new PlanterBlockMenu(containerId, playerInventory, planter),
-                Component.translatable("container.agritechtwo.planter")
-        );
+        MenuProvider menuProvider = new SimpleMenuProvider((containerId, playerInventory, playerEntity) -> new PlanterBlockMenu(containerId, playerInventory, planter), Component.translatable("container.agritechtwo.planter"));
         player.openMenu(menuProvider, pos);
     }
 

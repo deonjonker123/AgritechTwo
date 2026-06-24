@@ -25,6 +25,7 @@
   "message.agritechtwo.invalid_soil": "This block cannot be used as soil!",
   "message.agritechtwo.slots_full": "The planter is full!",
   "message.agritechtwo.same_farmland": "This farmland is already of this type!",
+  "message.agritechtwo.same_ma_farmland": "Cannot downgrade Mystical Farmland Tier",
 
   "tooltip.agritechtwo.growth_progress": "Growth Progress",
   "tooltip.agritechtwo.view_recipes": "Click to view recipes",
