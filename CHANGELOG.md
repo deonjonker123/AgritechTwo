@@ -45,3 +45,7 @@ All notable changes to this project will be documented here.
 ## [2.2.2.2+neoforge-mc26.1.2] - 2026-06-24
 ### Fixed
 -  Made it so MA farmlands can't be downgraded in the planter
+
+## [2.2.2.3+neoforge-mc26.1.2] - 2026-06-24
+### Added
+-  Silent's Gems, Biomes O' Plenty, Oh The Biomes We've Gone, and Regions Unexplored compatibility
