@@ -8,7 +8,7 @@
   "type": "agritechtwo:crop",
   "seed": "biomesoplenty:waterlily",
   "soils": [
-    "#agritechtwo:tree_soils"
+    "#agritechtwo:water_soils"
   ],
   "drops": [
     {
