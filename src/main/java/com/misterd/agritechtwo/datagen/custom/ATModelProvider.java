@@ -57,6 +57,24 @@ public class ATModelProvider extends ModelProvider {
         g.createNonTemplateModelBlock(ATBlocks.SPRUCE_RAISED_BED.get());
         g.createNonTemplateModelBlock(ATBlocks.WARPED_RAISED_BED.get());
 
+        g.createNonTemplateModelBlock(ATBlocks.TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.BLACK_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.BLUE_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.BROWN_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.CYAN_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.GRAY_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.GREEN_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.LIGHT_BLUE_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.LIGHT_GRAY_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.LIME_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.MAGENTA_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.ORANGE_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.PINK_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.PURPLE_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.RED_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.WHITE_TERRACOTTA_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.YELLOW_TERRACOTTA_PLANTER.get());
+
         g.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ATBlocks.ACACIA_CRATE.get(),
                         BlockModelGenerators.plainVariant(Identifier.fromNamespaceAndPath(AgritechTwo.MODID, "block/acacia_crate")))
                 .with(ROTATION_HORIZONTAL_FACING));

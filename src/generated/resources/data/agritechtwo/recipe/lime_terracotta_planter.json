@@ -1,0 +1,24 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "agritechtwo"
+      }
+    }
+  ],
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "H": "minecraft:hopper",
+    "P": "minecraft:lime_terracotta"
+  },
+  "pattern": [
+    "PHP",
+    "PPP"
+  ],
+  "result": {
+    "id": "agritechtwo:lime_terracotta_planter"
+  }
+}

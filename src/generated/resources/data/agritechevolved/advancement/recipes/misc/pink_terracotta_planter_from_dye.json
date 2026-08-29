@@ -10,11 +10,11 @@
   ],
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_oak_log": {
+    "has_terracotta_planter": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:oak_log"
+            "items": "agritechtwo:terracotta_planter"
           }
         ]
       },
@@ -22,7 +22,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritechtwo:zzz_oak_planter_from_any_wood"
+        "recipe": "agritechevolved:pink_terracotta_planter_from_dye"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -30,12 +30,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_oak_log"
+      "has_terracotta_planter"
     ]
   ],
   "rewards": {
     "recipes": [
-      "agritechtwo:zzz_oak_planter_from_any_wood"
+      "agritechevolved:pink_terracotta_planter_from_dye"
     ]
   }
 }

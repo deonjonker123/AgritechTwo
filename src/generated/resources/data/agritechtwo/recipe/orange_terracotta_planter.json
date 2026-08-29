@@ -11,17 +11,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "D": "#minecraft:wooden_slabs",
     "H": "minecraft:hopper",
-    "L": "#minecraft:logs",
-    "P": "#minecraft:planks"
+    "P": "minecraft:orange_terracotta"
   },
   "pattern": [
-    "P P",
-    "PDP",
-    "LHL"
+    "PHP",
+    "PPP"
   ],
   "result": {
-    "id": "agritechtwo:oak_planter"
+    "id": "agritechtwo:orange_terracotta_planter"
   }
 }

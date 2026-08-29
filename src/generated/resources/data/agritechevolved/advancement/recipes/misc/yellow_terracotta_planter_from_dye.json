@@ -1,0 +1,41 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "agritechtwo"
+      }
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_terracotta_planter": {
+      "conditions": {
+        "items": [
+          {
+            "items": "agritechtwo:terracotta_planter"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "agritechevolved:yellow_terracotta_planter_from_dye"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_terracotta_planter"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "agritechevolved:yellow_terracotta_planter_from_dye"
+    ]
+  }
+}
