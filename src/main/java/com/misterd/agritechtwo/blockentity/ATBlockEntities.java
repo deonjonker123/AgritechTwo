@@ -30,7 +30,24 @@ public class ATBlockEntities {
                     ATBlocks.MANGROVE_PLANTER.get(),
                     ATBlocks.OAK_PLANTER.get(),
                     ATBlocks.SPRUCE_PLANTER.get(),
-                    ATBlocks.WARPED_PLANTER.get()
+                    ATBlocks.WARPED_PLANTER.get(),
+                    ATBlocks.TERRACOTTA_PLANTER.get(),
+                    ATBlocks.BLACK_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.BLUE_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.BROWN_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.CYAN_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.GRAY_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.GREEN_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.LIGHT_BLUE_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.LIGHT_GRAY_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.LIME_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.MAGENTA_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.ORANGE_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.PINK_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.PURPLE_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.RED_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.WHITE_TERRACOTTA_PLANTER.get(),
+                    ATBlocks.YELLOW_TERRACOTTA_PLANTER.get()
             ).build(null));
 
     private static void registerCapabilities(RegisterCapabilitiesEvent event) {

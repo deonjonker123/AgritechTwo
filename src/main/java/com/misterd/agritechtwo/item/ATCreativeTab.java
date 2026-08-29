@@ -29,7 +29,26 @@ public class ATCreativeTab {
                         output.accept(ATBlocks.OAK_PLANTER);
                         output.accept(ATBlocks.SPRUCE_PLANTER);
                         output.accept(ATBlocks.WARPED_PLANTER);
+                        output.accept(ATBlocks.TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.BLACK_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.BLUE_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.BROWN_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.CYAN_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.GRAY_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.GREEN_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.LIGHT_BLUE_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.LIGHT_GRAY_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.LIME_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.MAGENTA_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.ORANGE_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.PINK_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.PURPLE_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.RED_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.WHITE_TERRACOTTA_PLANTER);
+                        output.accept(ATBlocks.YELLOW_TERRACOTTA_PLANTER);
                         output.accept(ATItems.CLOCHE.get());
+                        
+                        
                     }).build());
 
     public static void register(IEventBus eventBus) {

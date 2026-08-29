@@ -28,6 +28,23 @@ public class ATLootTableProvider extends BlockLootSubProvider {
         dropSelf(ATBlocks.OAK_PLANTER.get());
         dropSelf(ATBlocks.SPRUCE_PLANTER.get());
         dropSelf(ATBlocks.WARPED_PLANTER.get());
+        dropSelf(ATBlocks.TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.BLACK_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.BLUE_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.BROWN_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.CYAN_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.GRAY_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.GREEN_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.LIGHT_BLUE_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.LIGHT_GRAY_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.LIME_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.MAGENTA_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.ORANGE_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.PINK_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.PURPLE_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.RED_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.WHITE_TERRACOTTA_PLANTER.get());
+        dropSelf(ATBlocks.YELLOW_TERRACOTTA_PLANTER.get());
     }
 
     @Override

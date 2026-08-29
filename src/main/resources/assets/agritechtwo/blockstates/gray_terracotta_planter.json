@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "cloched=false": { "model": "agritechtwo:block/gray_terracotta_planter" },
+    "cloched=true":  { "model": "agritechtwo:block/gray_terracotta_planter" }
+  }
+}

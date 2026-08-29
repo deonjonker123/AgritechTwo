@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_oak_log": {
+    "has_hopper": {
       "conditions": {
         "items": [
           {
-            "items": "minecraft:oak_log"
+            "items": "minecraft:hopper"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritechtwo:oak_planter_from_any_wood"
+        "recipe": "agritechtwo:white_terracotta_planter"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_oak_log"
+      "has_hopper"
     ]
   ],
   "rewards": {
     "recipes": [
-      "agritechtwo:oak_planter_from_any_wood"
+      "agritechtwo:white_terracotta_planter"
     ]
   }
 }

@@ -107,7 +107,7 @@ public class PlanterBlockEntityRenderer implements BlockEntityRenderer<PlanterBl
                 .getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
                 .apply(WATER_STILL);
 
-        float y = 0.41F;
+        float y = 0.55F;
         float xMin = 0.175F;
         float xMax = 0.825F;
         float zMin = 0.175F;
