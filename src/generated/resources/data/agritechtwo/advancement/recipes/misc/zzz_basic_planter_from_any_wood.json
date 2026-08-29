@@ -22,7 +22,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "agritechtwo:zzz_oak_planter_from_any_wood"
+        "recipe": "agritechtwo:zzz_basic_planter_from_any_wood"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -35,7 +35,7 @@
   ],
   "rewards": {
     "recipes": [
-      "agritechtwo:zzz_oak_planter_from_any_wood"
+      "agritechtwo:zzz_basic_planter_from_any_wood"
     ]
   }
 }

@@ -61,5 +61,24 @@ public class ATBlockTagProvider extends BlockTagsProvider {
                 .add(key(ATBlocks.PALE_OAK_CRATE.get()))
                 .add(key(ATBlocks.SPRUCE_CRATE.get()))
                 .add(key(ATBlocks.WARPED_CRATE.get()));
+
+        tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(key(ATBlocks.TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.BLACK_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.BLUE_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.BROWN_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.CYAN_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.GRAY_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.GREEN_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.LIGHT_BLUE_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.LIGHT_GRAY_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.LIME_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.MAGENTA_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.ORANGE_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.PINK_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.PURPLE_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.RED_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.WHITE_TERRACOTTA_PLANTER.get()))
+                .add(key(ATBlocks.YELLOW_TERRACOTTA_PLANTER.get()));
     }
 }

@@ -56,3 +56,12 @@ All notable changes to this project will be documented here.
 ## [3.0.0.3+neoforge-mc26.2] - 2026-07-07
 ### Added
 - Added Biomes O' Plenty, Oh The Biomes We've Gone, Regions Unexplored, and Silent's Gems compatibility
+
+## [3.0.0.4+neoforge-mc26.2] - 2026-08-29
+### Added
+- New terracotta planters (all 17 variants)
+- New vanilla crops compatability: all coral, short grass, and ferns
+
+### Changed
+
+- Updated basic planters' recipes to be less annoying 
