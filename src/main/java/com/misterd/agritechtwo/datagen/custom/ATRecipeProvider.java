@@ -91,14 +91,6 @@ public class ATRecipeProvider extends RecipeProvider implements IConditionBuilde
                 .unlockedBy("has_oak_log", has(Items.OAK_LOG))
                 .save(recipeOutput);
 
-        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ATBlocks.OAK_PLANTER.get())
-                .pattern("PHP")
-                .pattern("PPP")
-                .define('P', ItemTags.PLANKS)
-                .define('H', Items.HOPPER)
-                .unlockedBy("has_oak_log", has(Items.OAK_LOG))
-                .save(recipeOutput, "agritechtwo:basic_planter_from_any_wood");
-
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ATBlocks.SPRUCE_PLANTER.get())
                 .pattern("PHP")
                 .pattern("PPP")

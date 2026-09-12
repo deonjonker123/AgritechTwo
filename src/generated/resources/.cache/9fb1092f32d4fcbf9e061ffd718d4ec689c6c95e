@@ -1,7 +1,6 @@
-// 1.21.1	2026-08-29T20:41:35.4553834	Recipes
+// 1.21.1	2026-09-12T12:10:06.7484269	Recipes
 5b48028c5e95efae261c994a09955797563e46d3 data/agritechtwo/advancement/recipes/misc/acacia_planter.json
 db7df9d53094f1ea05d170689e258e9b449b53c7 data/agritechtwo/advancement/recipes/misc/bamboo_planter.json
-cec597a25a0b3dbd3294c2d1323599f808c27a0c data/agritechtwo/advancement/recipes/misc/basic_planter_from_any_wood.json
 b3cd91748e7e1f10934a7400e34bde14c5253ee2 data/agritechtwo/advancement/recipes/misc/birch_planter.json
 7efc6d69fd64bed4d694372443fe553c0b84096b data/agritechtwo/advancement/recipes/misc/black_terracotta_planter.json
 c6edd4be80406c01a86b9524d7e65bb93c71321b data/agritechtwo/advancement/recipes/misc/black_terracotta_planter_from_dye.json
@@ -47,7 +46,6 @@ cad9edb133e08a74194443f7ec8d77ac103fe13d data/agritechtwo/advancement/recipes/mi
 f6309d95bb1290dfb343bd8e576ec95d58b7ad52 data/agritechtwo/advancement/recipes/misc/yellow_terracotta_planter_from_dye.json
 afef1b236bd9b5088113ece683a710c6016c7578 data/agritechtwo/recipe/acacia_planter.json
 a09c1c4c3fa3e699567cb0ac6dbaae0fa1fc4038 data/agritechtwo/recipe/bamboo_planter.json
-2bb8a787a83041a2fa636234dce8d4c196acf4a0 data/agritechtwo/recipe/basic_planter_from_any_wood.json
 1755a56f01fbbd54ea554176107b5e5e68b754b1 data/agritechtwo/recipe/birch_planter.json
 8f25e627550e47dfb6414b4cbbdda8d0ef13b798 data/agritechtwo/recipe/black_terracotta_planter.json
 5467623bbe8f180a1b48d4de10d75ef4ccae48c0 data/agritechtwo/recipe/black_terracotta_planter_from_dye.json
