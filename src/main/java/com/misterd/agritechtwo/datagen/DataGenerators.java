@@ -26,7 +26,8 @@ public class DataGenerators {
                 .add(Registries.LOOT_TABLE, new LootTableProvider(
                         Set.of(),
                         List.of(new LootTableProvider.SubProviderEntry(ATLootTableProvider::new, LootContextParamSets.BLOCK))
-                ));
+                ))
+                .add(ATRecipeProvider.create());
     }
 
     @SubscribeEvent

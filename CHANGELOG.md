@@ -68,3 +68,8 @@ All notable changes to this project will be documented here.
 
 ## [4.0.0.0+neoforge-mc26.3] - 2026-09-22
 - Port to 26.3
+
+## [4.0.0.2+neoforge-mc26.3] - 2026-09-22
+### Hotfix
+- Textures fixed
+- Recipes working again

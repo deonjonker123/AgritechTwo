@@ -1,0 +1,19 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:mod_loaded",
+        "modid": "agritechevolved"
+      }
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    "agritechtwo:terracotta_planter",
+    "minecraft:black_dye"
+  ],
+  "result": {
+    "id": "agritechtwo:black_terracotta_planter"
+  }
+}

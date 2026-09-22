@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "C": "#c:chests",
+    "P": "minecraft:birch_planks",
+    "S": "minecraft:birch_slab"
+  },
+  "pattern": [
+    "P P",
+    "PCP",
+    "PSP"
+  ],
+  "result": {
+    "id": "agritechtwo:birch_crate"
+  }
+}
