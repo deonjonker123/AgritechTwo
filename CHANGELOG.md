@@ -65,3 +65,7 @@ All notable changes to this project will be documented here.
 ### Changed
 
 - Updated basic planters' recipes to be less annoying 
+
+## [3.0.0.5+neoforge-mc26.2] - 2026-09-22
+### Fixed
+- Recipe loading conflict
