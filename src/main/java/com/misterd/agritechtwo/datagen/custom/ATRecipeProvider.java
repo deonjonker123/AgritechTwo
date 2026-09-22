@@ -56,7 +56,7 @@ public class ATRecipeProvider extends RecipeProvider {
     @Override
     protected void buildRecipes() {
         RecipeOutput noEvolved = output.withConditions(
-                new NotCondition(new ModLoadedCondition("agritechtwo"))
+                new NotCondition(new ModLoadedCondition("agritechevolved"))
         );
 
         shaped(RecipeCategory.MISC, ATBlocks.ACACIA_PLANTER.get())
