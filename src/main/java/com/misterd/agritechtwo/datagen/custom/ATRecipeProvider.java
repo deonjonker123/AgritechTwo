@@ -7,15 +7,19 @@ import com.misterd.agritechtwo.recipe.DropEntry;
 import com.misterd.agritechtwo.recipe.DurabilityShapelessRecipe;
 import com.misterd.agritechtwo.recipe.TreeRecipe;
 import com.misterd.agritechtwo.util.ATTags;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.MultiRegistryBootstrap;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.ItemTags;
@@ -31,27 +35,32 @@ import net.neoforged.neoforge.common.conditions.ModLoadedCondition;
 import net.neoforged.neoforge.common.conditions.NotCondition;
 
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 public class ATRecipeProvider extends RecipeProvider {
-    public ATRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
-        super(provider, recipeOutput);
+    private final BootstrapContext<Recipe<?>> recipeContext;
+
+    public ATRecipeProvider(BootstrapContext<Recipe<?>> recipeOutput, BootstrapContext<Advancement> advancementOutput) {
+        super(recipeOutput, advancementOutput);
+        this.recipeContext = recipeOutput;
     }
 
-    public static class Runner extends RecipeProvider.Runner {
-        public Runner(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> provider) {
-            super(packOutput, provider);
-        }
+    public static MultiRegistryBootstrap create() {
+        return new MultiRegistryBootstrap() {
+            @Override
+            public Set<ResourceKey<? extends Registry<?>>> requestedRegistries() {
+                return Set.of(Registries.RECIPE, Registries.ADVANCEMENT);
+            }
 
-        @Override
-        protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
-            return new ATRecipeProvider(provider, recipeOutput);
-        }
-
-        @Override
-        public String getName() {
-            return "Agritech Recipes";
-        }
+            @Override
+            public void run(MultiRegistryBootstrap.BootstrapGetter registries) {
+                new ATRecipeProvider(
+                        registries.get(Registries.RECIPE),
+                        registries.get(Registries.ADVANCEMENT)
+                ).buildRecipes();
+            }
+        };
     }
 
     @Override
@@ -162,6 +171,14 @@ public class ATRecipeProvider extends RecipeProvider {
                 .define('P', Items.PALE_OAK_PLANKS)
                 .define('H', Items.HOPPER)
                 .unlockedBy("has_pale_oak_log", has(Items.PALE_OAK_LOG))
+                .save(noEvolved);
+
+        shaped(RecipeCategory.MISC, ATBlocks.POPLAR_PLANTER.get())
+                .pattern("PHP")
+                .pattern("PPP")
+                .define('P', Items.POPLAR_PLANKS)
+                .define('H', Items.HOPPER)
+                .unlockedBy("has_poplar_log", has(Items.POPLAR_LOG))
                 .save(noEvolved);
 
         shaped(RecipeCategory.MISC, ATBlocks.TERRACOTTA_PLANTER.get())
@@ -448,6 +465,10 @@ public class ATRecipeProvider extends RecipeProvider {
                 .pattern("PDP").define('P', Items.PALE_OAK_PLANKS).define('D', Items.PALE_OAK_SLAB)
                 .unlockedBy("has_pale_oak_planks", has(Items.PALE_OAK_PLANKS)).save(output);
 
+        shaped(RecipeCategory.MISC, ATBlocks.POPLAR_RAISED_BED.get())
+                .pattern("PDP").define('P', Items.POPLAR_PLANKS).define('D', Items.POPLAR_SLAB)
+                .unlockedBy("has_poplar_planks", has(Items.POPLAR_PLANKS)).save(output);
+
         shaped(RecipeCategory.MISC, ATBlocks.SPRUCE_RAISED_BED.get())
                 .pattern("PDP").define('P', Items.SPRUCE_PLANKS).define('D', Items.SPRUCE_SLAB)
                 .unlockedBy("has_spruce_planks", has(Items.SPRUCE_PLANKS)).save(output);
@@ -512,6 +533,11 @@ public class ATRecipeProvider extends RecipeProvider {
                 .define('P', Items.PALE_OAK_PLANKS).define('C', Tags.Items.CHESTS).define('S', Items.PALE_OAK_SLAB)
                 .unlockedBy("has_pale_oak_planks", has(Items.PALE_OAK_PLANKS)).save(output);
 
+        shaped(RecipeCategory.MISC, ATBlocks.POPLAR_CRATE.get())
+                .pattern("P P").pattern("PCP").pattern("PSP")
+                .define('P', Items.POPLAR_PLANKS).define('C', Tags.Items.CHESTS).define('S', Items.POPLAR_SLAB)
+                .unlockedBy("has_poplar_planks", has(Items.POPLAR_PLANKS)).save(output);
+
         shaped(RecipeCategory.MISC, ATBlocks.SPRUCE_CRATE.get())
                 .pattern("P P").pattern("PCP").pattern("PSP")
                 .define('P', Items.SPRUCE_PLANKS).define('C', Tags.Items.CHESTS).define('S', Items.SPRUCE_SLAB)
@@ -529,8 +555,8 @@ public class ATRecipeProvider extends RecipeProvider {
     }
 
     private void saveTillingRecipe(String name, Item input, Item result, RecipeOutput out) {
-        HolderSet<Item> hoeTag = registries
-                .lookupOrThrow(Registries.ITEM)
+        HolderSet<Item> hoeTag = recipeContext
+                .lookup(Registries.ITEM)
                 .getOrThrow(ItemTags.HOES);
 
         NonNullList<Ingredient> ingredients = NonNullList.create();

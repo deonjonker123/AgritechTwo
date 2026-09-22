@@ -65,3 +65,6 @@ All notable changes to this project will be documented here.
 ### Changed
 
 - Updated basic planters' recipes to be less annoying 
+
+## [4.0.0.0+neoforge-mc26.3] - 2026-09-22
+- Port to 26.3

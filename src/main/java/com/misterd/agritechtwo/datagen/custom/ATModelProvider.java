@@ -39,6 +39,7 @@ public class ATModelProvider extends ModelProvider {
         g.createNonTemplateModelBlock(ATBlocks.MANGROVE_PLANTER.get());
         g.createNonTemplateModelBlock(ATBlocks.OAK_PLANTER.get());
         g.createNonTemplateModelBlock(ATBlocks.PALE_OAK_PLANTER.get());
+        g.createNonTemplateModelBlock(ATBlocks.POPLAR_PLANTER.get());
         g.createNonTemplateModelBlock(ATBlocks.SPRUCE_PLANTER.get());
         g.createNonTemplateModelBlock(ATBlocks.WARPED_PLANTER.get());
 
@@ -70,6 +71,7 @@ public class ATModelProvider extends ModelProvider {
         g.createNonTemplateModelBlock(ATBlocks.MANGROVE_RAISED_BED.get());
         g.createNonTemplateModelBlock(ATBlocks.OAK_RAISED_BED.get());
         g.createNonTemplateModelBlock(ATBlocks.PALE_OAK_RAISED_BED.get());
+        g.createNonTemplateModelBlock(ATBlocks.POPLAR_RAISED_BED.get());
         g.createNonTemplateModelBlock(ATBlocks.SPRUCE_RAISED_BED.get());
         g.createNonTemplateModelBlock(ATBlocks.WARPED_RAISED_BED.get());
 
@@ -102,6 +104,9 @@ public class ATModelProvider extends ModelProvider {
                 .with(ROTATION_HORIZONTAL_FACING));
         g.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ATBlocks.PALE_OAK_CRATE.get(),
                         BlockModelGenerators.plainVariant(Identifier.fromNamespaceAndPath(AgritechTwo.MODID, "block/pale_oak_crate")))
+                .with(ROTATION_HORIZONTAL_FACING));
+        g.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ATBlocks.POPLAR_CRATE.get(),
+                        BlockModelGenerators.plainVariant(Identifier.fromNamespaceAndPath(AgritechTwo.MODID, "block/poplar_crate")))
                 .with(ROTATION_HORIZONTAL_FACING));
         g.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(ATBlocks.SPRUCE_CRATE.get(),
                         BlockModelGenerators.plainVariant(Identifier.fromNamespaceAndPath(AgritechTwo.MODID, "block/spruce_crate")))

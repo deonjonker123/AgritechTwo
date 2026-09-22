@@ -35,6 +35,7 @@ public class ATBlockEntities {
                     ATBlocks.SPRUCE_PLANTER.get(),
                     ATBlocks.WARPED_PLANTER.get(),
                     ATBlocks.PALE_OAK_PLANTER.get(),
+                    ATBlocks.POPLAR_PLANTER.get(),
                     ATBlocks.TERRACOTTA_PLANTER.get(),
                     ATBlocks.BLACK_TERRACOTTA_PLANTER.get(),
                     ATBlocks.BLUE_TERRACOTTA_PLANTER.get(),
@@ -68,7 +69,8 @@ public class ATBlockEntities {
                     ATBlocks.OAK_RAISED_BED.get(),
                     ATBlocks.SPRUCE_RAISED_BED.get(),
                     ATBlocks.WARPED_RAISED_BED.get(),
-                    ATBlocks.PALE_OAK_RAISED_BED.get()
+                    ATBlocks.PALE_OAK_RAISED_BED.get(),
+                    ATBlocks.POPLAR_RAISED_BED.get()
             ));
 
     public static final Supplier<BlockEntityType<CrateBlockEntity>> CRATE_BLOCK_BE =
@@ -84,6 +86,7 @@ public class ATBlockEntities {
                     ATBlocks.MANGROVE_CRATE.get(),
                     ATBlocks.OAK_CRATE.get(),
                     ATBlocks.PALE_OAK_CRATE.get(),
+                    ATBlocks.POPLAR_CRATE.get(),
                     ATBlocks.SPRUCE_CRATE.get(),
                     ATBlocks.WARPED_CRATE.get()
             ));

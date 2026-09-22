@@ -30,6 +30,7 @@ public class ATCreativeTab {
                             output.accept(ATBlocks.MANGROVE_PLANTER);
                             output.accept(ATBlocks.OAK_PLANTER);
                             output.accept(ATBlocks.PALE_OAK_PLANTER);
+                            output.accept(ATBlocks.POPLAR_PLANTER);
                             output.accept(ATBlocks.SPRUCE_PLANTER);
                             output.accept(ATBlocks.WARPED_PLANTER);
                             output.accept(ATBlocks.TERRACOTTA_PLANTER);
@@ -61,6 +62,7 @@ public class ATCreativeTab {
                         output.accept(ATBlocks.MANGROVE_CRATE);
                         output.accept(ATBlocks.OAK_CRATE);
                         output.accept(ATBlocks.PALE_OAK_CRATE);
+                        output.accept(ATBlocks.POPLAR_RAISED_BED);
                         output.accept(ATBlocks.SPRUCE_CRATE);
                         output.accept(ATBlocks.WARPED_CRATE);
 
@@ -74,6 +76,7 @@ public class ATCreativeTab {
                         output.accept(ATBlocks.MANGROVE_RAISED_BED);
                         output.accept(ATBlocks.OAK_RAISED_BED);
                         output.accept(ATBlocks.PALE_OAK_RAISED_BED);
+                        output.accept(ATBlocks.POPLAR_CRATE);
                         output.accept(ATBlocks.SPRUCE_RAISED_BED);
                         output.accept(ATBlocks.WARPED_RAISED_BED);
 

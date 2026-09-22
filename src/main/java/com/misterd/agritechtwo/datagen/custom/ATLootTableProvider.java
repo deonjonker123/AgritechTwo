@@ -4,14 +4,15 @@ import com.misterd.agritechtwo.block.ATBlocks;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.BlockLootSubProvider;
+import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.level.block.Block;
 
 import java.util.Set;
 
 public class ATLootTableProvider extends BlockLootSubProvider {
-    public ATLootTableProvider(HolderLookup.Provider registries) {
-        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), registries);
+    public ATLootTableProvider(LootTableSubProvider.Context output) {
+        super(Set.of(), FeatureFlags.REGISTRY.allFlags(), output);
     }
 
     @Override
@@ -28,6 +29,7 @@ public class ATLootTableProvider extends BlockLootSubProvider {
         dropSelf(ATBlocks.SPRUCE_PLANTER.get());
         dropSelf(ATBlocks.WARPED_PLANTER.get());
         dropSelf(ATBlocks.PALE_OAK_PLANTER.get());
+        dropSelf(ATBlocks.POPLAR_PLANTER.get());
 
         dropSelf(ATBlocks.ACACIA_RAISED_BED.get());
         dropSelf(ATBlocks.BAMBOO_RAISED_BED.get());
@@ -41,6 +43,7 @@ public class ATLootTableProvider extends BlockLootSubProvider {
         dropSelf(ATBlocks.SPRUCE_RAISED_BED.get());
         dropSelf(ATBlocks.WARPED_RAISED_BED.get());
         dropSelf(ATBlocks.PALE_OAK_RAISED_BED.get());
+        dropSelf(ATBlocks.POPLAR_RAISED_BED.get());
 
         dropSelf(ATBlocks.ACACIA_CRATE.get());
         dropSelf(ATBlocks.BAMBOO_CRATE.get());
@@ -54,6 +57,7 @@ public class ATLootTableProvider extends BlockLootSubProvider {
         dropSelf(ATBlocks.PALE_OAK_CRATE.get());
         dropSelf(ATBlocks.SPRUCE_CRATE.get());
         dropSelf(ATBlocks.WARPED_CRATE.get());
+        dropSelf(ATBlocks.POPLAR_CRATE.get());
 
         dropSelf(ATBlocks.TERRACOTTA_PLANTER.get());
         dropSelf(ATBlocks.BLACK_TERRACOTTA_PLANTER.get());

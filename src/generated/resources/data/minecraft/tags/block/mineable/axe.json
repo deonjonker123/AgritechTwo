@@ -12,6 +12,7 @@
     "agritechtwo:spruce_planter",
     "agritechtwo:warped_planter",
     "agritechtwo:pale_oak_planter",
+    "agritechtwo:poplar_planter",
     "agritechtwo:acacia_raised_bed",
     "agritechtwo:bamboo_raised_bed",
     "agritechtwo:birch_raised_bed",
@@ -24,6 +25,7 @@
     "agritechtwo:spruce_raised_bed",
     "agritechtwo:warped_raised_bed",
     "agritechtwo:pale_oak_raised_bed",
+    "agritechtwo:poplar_raised_bed",
     "agritechtwo:acacia_crate",
     "agritechtwo:bamboo_crate",
     "agritechtwo:birch_crate",
@@ -34,6 +36,7 @@
     "agritechtwo:mangrove_crate",
     "agritechtwo:oak_crate",
     "agritechtwo:pale_oak_crate",
+    "agritechtwo:poplar_crate",
     "agritechtwo:spruce_crate",
     "agritechtwo:warped_crate"
   ]

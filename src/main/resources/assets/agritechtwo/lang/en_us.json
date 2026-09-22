@@ -13,6 +13,7 @@
   "block.agritechtwo.spruce_planter": "Spruce Planter",
   "block.agritechtwo.warped_planter": "Warped Planter",
   "block.agritechtwo.pale_oak_planter": "Pale Oak Planter",
+  "block.agritechtwo.poplar_planter": "Poplar Planter",
 
   "block.agritechtwo.acacia_raised_bed": "Acacia Raised Bed",
   "block.agritechtwo.bamboo_raised_bed": "Bamboo Raised Bed",
@@ -26,6 +27,7 @@
   "block.agritechtwo.spruce_raised_bed": "Spruce Raised Bed",
   "block.agritechtwo.warped_raised_bed": "Warped Raised Bed",
   "block.agritechtwo.pale_oak_raised_bed": "Pale Oak Raised Bed",
+  "block.agritechtwo.poplar_raised_bed": "Poplar Raised Bed",
 
   "block.agritechtwo.acacia_crate": "Acacia Crate",
   "block.agritechtwo.bamboo_crate": "Bamboo Crate",
@@ -39,6 +41,7 @@
   "block.agritechtwo.pale_oak_crate": "Pale Oak Crate",
   "block.agritechtwo.spruce_crate": "Spruce Crate",
   "block.agritechtwo.warped_crate": "Warped Crate",
+  "block.agritechtwo.poplar_crate": "Poplar Crate",
 
   "block.agritechtwo.terracotta_planter": "Terracotta Planter",
   "block.agritechtwo.black_terracotta_planter": "Black Terracotta Planter",

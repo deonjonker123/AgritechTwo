@@ -110,6 +110,13 @@ public class ATBlocks {
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
+    public static final DeferredBlock<Block> POPLAR_PLANTER = registerBlock("poplar_planter",
+            regName -> new PlanterBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
     public static final DeferredBlock<Block> ACACIA_RAISED_BED = registerBlock("acacia_raised_bed",
             regName -> new RaisedBedBlock(BlockBehaviour.Properties.of()
                     .setId(ResourceKey.create(Registries.BLOCK, regName))
@@ -194,6 +201,13 @@ public class ATBlocks {
                     .sound(SoundType.WOOD)
                     .noOcclusion()));
 
+    public static final DeferredBlock<Block> POPLAR_RAISED_BED = registerBlock("poplar_raised_bed",
+            regName -> new RaisedBedBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
     public static final DeferredBlock<Block> ACACIA_CRATE = registerBlock("acacia_crate",
             regName -> new CrateBlock(BlockBehaviour.Properties.of()
                     .setId(ResourceKey.create(Registries.BLOCK, regName))
@@ -258,6 +272,13 @@ public class ATBlocks {
                     .noOcclusion()));
 
     public static final DeferredBlock<Block> PALE_OAK_CRATE = registerBlock("pale_oak_crate",
+            regName -> new CrateBlock(BlockBehaviour.Properties.of()
+                    .setId(ResourceKey.create(Registries.BLOCK, regName))
+                    .strength(2.0F, 3.0F)
+                    .sound(SoundType.WOOD)
+                    .noOcclusion()));
+
+    public static final DeferredBlock<Block> POPLAR_CRATE = registerBlock("poplar_crate",
             regName -> new CrateBlock(BlockBehaviour.Properties.of()
                     .setId(ResourceKey.create(Registries.BLOCK, regName))
                     .strength(2.0F, 3.0F)

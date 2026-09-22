@@ -7,7 +7,6 @@ import com.misterd.agritechtwo.gui.custom.PlanterBlockMenu;
 import com.misterd.agritechtwo.item.ATItems;
 import com.misterd.agritechtwo.item.custom.ClocheItem;
 import com.misterd.agritechtwo.util.RegistryHelper;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -15,6 +14,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,13 +24,13 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -63,7 +64,6 @@ public class PlanterBlock extends BaseEntityBlock {
             Block.box(3, 2, 3, 13, 3, 13)
     );
 
-    public static final MapCodec<PlanterBlock> CODEC = simpleCodec(PlanterBlock::new);
     public static final BooleanProperty CLOCHED = BooleanProperty.create("cloched");
 
     private static final List<String> FARMLAND_TIERS = List.of(
@@ -98,11 +98,6 @@ public class PlanterBlock extends BaseEntityBlock {
     @Override
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
-    }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
     }
 
     @Override
@@ -147,7 +142,7 @@ public class PlanterBlock extends BaseEntityBlock {
         if (isFertilizer(heldItem)) {
             return handleFertilizer(state, level, pos, player, planter, heldItem);
         }
-        if (heldItem.getItem() instanceof HoeItem) {
+        if (heldItem.is(ItemTags.HOES)) {
             return handleHoeTill(level, pos, player, planter, heldItem, hand, hitResult);
         }
         String heldItemId = RegistryHelper.getItemId(heldItem);
@@ -260,27 +255,48 @@ public class PlanterBlock extends BaseEntityBlock {
 
     private InteractionResult handleHoeTill(Level level, BlockPos pos, Player player, PlanterBlockEntity planter, ItemStack heldItem, InteractionHand hand, BlockHitResult hitResult) {
         ItemStack soilStack = planter.getStack(1);
-        if (!soilStack.isEmpty() && soilStack.getItem() instanceof BlockItem soilBlockItem) {
-            BlockState soilState = soilBlockItem.getBlock().defaultBlockState();
-            BlockState result = soilState.getToolModifiedState(
-                    new UseOnContext(level, player, hand, heldItem, hitResult),
-                    ItemAbilities.HOE_TILL, false);
-            if (result != null) {
-                try (Transaction tx = Transaction.openRoot()) {
-                    planter.inventory.extract(1, ItemResource.of(soilStack), 1, tx);
-                    planter.inventory.insert(1, ItemResource.of(new ItemStack(result.getBlock())), 1, tx);
-                    tx.commit();
-                }
-                level.playSound(player, pos, SoundEvents.HOE_TILL, SoundSource.BLOCKS, 1.0F, 1.0F);
-                if (!player.getAbilities().instabuild) {
-                    EquipmentSlot slot = hand == InteractionHand.MAIN_HAND
-                            ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
-                    heldItem.hurtAndBreak(1, player, slot);
-                }
-                return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
-            }
+        if (soilStack.isEmpty() || !(soilStack.getItem() instanceof BlockItem soilBlockItem)) {
+            return InteractionResult.PASS;
         }
-        return InteractionResult.PASS;
+
+        BlockState soilState = soilBlockItem.getBlock().defaultBlockState();
+        BlockState result = computeTilledState(soilState);
+
+        if (result == null) {
+            return InteractionResult.PASS;
+        }
+
+        try (Transaction tx = Transaction.openRoot()) {
+            planter.inventory.extract(1, ItemResource.of(soilStack), 1, tx);
+            planter.inventory.insert(1, ItemResource.of(new ItemStack(result.getBlock())), 1, tx);
+            tx.commit();
+        }
+
+        level.playSound(null, pos, SoundEvents.HOE_TILL.value(), SoundSource.BLOCKS, 1.0F, 1.0F);
+
+        if (!player.getAbilities().instabuild) {
+            EquipmentSlot slot = hand == InteractionHand.MAIN_HAND
+                    ? EquipmentSlot.MAINHAND : EquipmentSlot.OFFHAND;
+            heldItem.hurtAndBreak(1, player, slot);
+        }
+
+        return level.isClientSide() ? InteractionResult.SUCCESS : InteractionResult.SUCCESS_SERVER;
+    }
+
+    private static @Nullable BlockState computeTilledState(BlockState soilState) {
+        Block soil = soilState.getBlock();
+
+        if (soil == Blocks.ROOTED_DIRT) {
+            return Blocks.DIRT.defaultBlockState();
+        }
+        if (soil == Blocks.COARSE_DIRT) {
+            return Blocks.DIRT.defaultBlockState();
+        }
+        if (soilState.is(BlockTags.TURNS_INTO_FARMLAND)) {
+            return Blocks.FARMLAND.defaultBlockState();
+        }
+
+        return null;
     }
 
     private InteractionResult handleEssenceUpgrade(ItemStack stack, Level level, BlockPos pos, Player player, PlanterBlockEntity planter, String heldItemId) {

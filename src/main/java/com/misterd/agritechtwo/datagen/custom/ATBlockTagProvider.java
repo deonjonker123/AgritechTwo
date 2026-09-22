@@ -35,6 +35,7 @@ public class ATBlockTagProvider extends BlockTagsProvider {
                 .add(key(ATBlocks.SPRUCE_PLANTER.get()))
                 .add(key(ATBlocks.WARPED_PLANTER.get()))
                 .add(key(ATBlocks.PALE_OAK_PLANTER.get()))
+                .add(key(ATBlocks.POPLAR_PLANTER.get()))
 
                 .add(key(ATBlocks.ACACIA_RAISED_BED.get()))
                 .add(key(ATBlocks.BAMBOO_RAISED_BED.get()))
@@ -48,6 +49,7 @@ public class ATBlockTagProvider extends BlockTagsProvider {
                 .add(key(ATBlocks.SPRUCE_RAISED_BED.get()))
                 .add(key(ATBlocks.WARPED_RAISED_BED.get()))
                 .add(key(ATBlocks.PALE_OAK_RAISED_BED.get()))
+                .add(key(ATBlocks.POPLAR_RAISED_BED.get()))
 
                 .add(key(ATBlocks.ACACIA_CRATE.get()))
                 .add(key(ATBlocks.BAMBOO_CRATE.get()))
@@ -59,6 +61,7 @@ public class ATBlockTagProvider extends BlockTagsProvider {
                 .add(key(ATBlocks.MANGROVE_CRATE.get()))
                 .add(key(ATBlocks.OAK_CRATE.get()))
                 .add(key(ATBlocks.PALE_OAK_CRATE.get()))
+                .add(key(ATBlocks.POPLAR_CRATE.get()))
                 .add(key(ATBlocks.SPRUCE_CRATE.get()))
                 .add(key(ATBlocks.WARPED_CRATE.get()));
 

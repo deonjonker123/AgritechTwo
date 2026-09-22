@@ -2,7 +2,6 @@ package com.misterd.agritechtwo.block.custom;
 
 import com.misterd.agritechtwo.blockentity.ATBlockEntities;
 import com.misterd.agritechtwo.blockentity.custom.CrateBlockEntity;
-import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -43,8 +42,6 @@ public class CrateBlock extends BaseEntityBlock {
             Block.box(15, 1, 1, 16, 16, 15)
     );
 
-    public static final MapCodec<CrateBlock> CODEC = simpleCodec(CrateBlock::new);
-
     public CrateBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
@@ -64,12 +61,6 @@ public class CrateBlock extends BaseEntityBlock {
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
     }
-
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
-
     @Override
     protected RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
