@@ -27,7 +27,6 @@ public class DataGenerators {
                         Set.of(),
                         List.of(new LootTableProvider.SubProviderEntry(ATLootTableProvider::new, LootContextParamSets.BLOCK))
                 ));
-        // .add(Registries.RECIPE, ...) — pending, see below
     }
 
     @SubscribeEvent
