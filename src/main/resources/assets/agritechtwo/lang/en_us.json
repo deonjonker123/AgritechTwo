@@ -47,6 +47,9 @@
 
   "tooltip.agritechtwo.growth_progress": "Growth Progress",
   "tooltip.agritechtwo.view_recipes": "Click to view recipes",
+  "tooltip.agritechtwo.slot.plant": "Plant Slot",
+  "tooltip.agritechtwo.slot.soil": "Soil Slot",
+  "tooltip.agritechtwo.slot.fertilizer": "Fertilizer Slot",
 
   "item.agritechtwo.cloche.tooltip.line1": "Place on a planter to boost growth and yield.",
   "item.agritechtwo.cloche.tooltip.line2": "Stacks with fertilizer for maximum efficiency.",
