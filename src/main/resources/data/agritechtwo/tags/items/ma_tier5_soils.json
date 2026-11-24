@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    {"id":"agritechevolved:infused_farmland", "required": false},
+    {"id": "mysticalagriculture:supremium_farmland", "required": false},
+    {"id": "mysticalagradditions:insanium_farmland", "required": false}
+  ]
+}

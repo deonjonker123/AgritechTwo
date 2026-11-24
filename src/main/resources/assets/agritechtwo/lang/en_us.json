@@ -1,0 +1,71 @@
+{
+  "creativetab.agritechtwo": "Agritech: Two",
+
+  "block.agritechtwo.acacia_planter": "Acacia Planter",
+  "block.agritechtwo.bamboo_planter": "Bamboo Planter",
+  "block.agritechtwo.birch_planter": "Birch Planter",
+  "block.agritechtwo.cherry_planter": "Cherry Planter",
+  "block.agritechtwo.crimson_planter": "Crimson Planter",
+  "block.agritechtwo.dark_oak_planter": "Dark Oak Planter",
+  "block.agritechtwo.jungle_planter": "Jungle Planter",
+  "block.agritechtwo.mangrove_planter": "Mangrove Planter",
+  "block.agritechtwo.oak_planter": "Oak Planter",
+  "block.agritechtwo.spruce_planter": "Spruce Planter",
+  "block.agritechtwo.warped_planter": "Warped Planter",
+
+  "block.agritechtwo.terracotta_planter": "Terracotta Planter",
+  "block.agritechtwo.black_terracotta_planter": "Black Terracotta Planter",
+  "block.agritechtwo.blue_terracotta_planter": "Blue Terracotta Planter",
+  "block.agritechtwo.brown_terracotta_planter": "Brown Terracotta Planter",
+  "block.agritechtwo.cyan_terracotta_planter": "Cyan Terracotta Planter",
+  "block.agritechtwo.gray_terracotta_planter": "Gray Terracotta Planter",
+  "block.agritechtwo.green_terracotta_planter": "Green Terracotta Planter",
+  "block.agritechtwo.light_blue_terracotta_planter": "Light Blue Terracotta Planter",
+  "block.agritechtwo.light_gray_terracotta_planter": "Light Gray Terracotta Planter",
+  "block.agritechtwo.lime_terracotta_planter": "Lime Terracotta Planter",
+  "block.agritechtwo.magenta_terracotta_planter": "Magenta Terracotta Planter",
+  "block.agritechtwo.orange_terracotta_planter": "Orange Terracotta Planter",
+  "block.agritechtwo.pink_terracotta_planter": "Pink Terracotta Planter",
+  "block.agritechtwo.purple_terracotta_planter": "Purple Terracotta Planter",
+  "block.agritechtwo.red_terracotta_planter": "Red Terracotta Planter",
+  "block.agritechtwo.white_terracotta_planter": "White Terracotta Planter",
+  "block.agritechtwo.yellow_terracotta_planter": "Yellow Terracotta Planter",
+
+  "item.agritechtwo.cloche_dome": "Cloche Dome",
+
+  "blockentity.agritechtwo.name": "Planter",
+
+  "container.agritechtwo.planter": "Planter",
+
+  "jei.agritechtwo.planter.tooltip": "Planters",
+
+  "message.agritechtwo.invalid_seed_soil_combination": "This seed cannot grow in this soil!",
+  "message.agritechtwo.invalid_soil": "This block cannot be used as soil!",
+  "message.agritechtwo.slots_full": "The planter is full!",
+  "message.agritechtwo.same_farmland": "This farmland is already of this type!",
+  "message.agritechtwo.same_ma_farmland": "Cannot downgrade Mystical Farmland Tier",
+
+  "tooltip.agritechtwo.growth_progress": "Growth Progress",
+  "tooltip.agritechtwo.view_recipes": "Click to view recipes",
+  "tooltip.agritechtwo.slot.plant": "Plant Slot",
+  "tooltip.agritechtwo.slot.soil": "Soil Slot",
+  "tooltip.agritechtwo.slot.fertilizer": "Fertilizer Slot",
+
+  "item.agritechtwo.cloche.tooltip.line1": "Place on a planter to boost growth and yield.",
+  "item.agritechtwo.cloche.tooltip.line2": "Stacks with fertilizer for maximum efficiency.",
+  "item.agritechtwo.cloche.tooltip.line3": "Shift-right-click with empty hand to remove.",
+
+  "config.jade.agritechtwo.planter_info": "Planter Info",
+  "config.jade.plugin_agritechtwo.planter_info": "Planter Info",
+  "jade.agritechtwo.crop_progress": "%s (Stage %d/%d - %d%%)",
+  "jade.agritechtwo.crop_ready": "%s (Ready to Harvest)",
+  "jade.agritechtwo.soil_info": "Soil: %s (%s speed)",
+  "jade.agritechtwo.fertilizer_info": "Fertilizer: %s (Speed: %s, Yield: %s)",
+  "jade.agritechtwo.cloche_installed": "Cloche: Installed (Speed: %s, Yield: %s)",
+
+  "tooltip.agritechtwo.soil_type": "Soil Info",
+  "tooltip.agritechtwo.soil_growth_modifier": "Growth Speed: %s",
+  "tooltip.agritechtwo.fertilizer_type": "Fertilizer Info",
+  "tooltip.agritechtwo.fertilizer_speed": "Growth Speed: %s",
+  "tooltip.agritechtwo.fertilizer_yield": "Yield Bonus: %s"
+}

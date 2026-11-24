@@ -1,0 +1,25 @@
+{
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "cobblemon"
+    }
+  ],
+  "type": "agritechevolved:crop",
+  "seed": {
+    "item": "cobblemon:medicinal_leek"
+  },
+  "soils": [
+    {
+      "tag": "agritechevolved:water_soils"
+    }
+  ],
+  "drops": [
+    {
+      "item": "cobblemon:medicinal_leek",
+      "min": 1,
+      "max": 1,
+      "chance": 1.0
+    }
+  ]
+}

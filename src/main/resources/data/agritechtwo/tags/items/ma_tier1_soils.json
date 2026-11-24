@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:farmland",
+    {"id":"agritechevolved:infused_farmland", "required": false},
+    {"id": "mysticalagriculture:inferium_farmland", "required": false},
+    {"id": "mysticalagriculture:prudentium_farmland", "required": false},
+    {"id": "mysticalagriculture:tertium_farmland", "required": false},
+    {"id": "mysticalagriculture:imperium_farmland", "required": false},
+    {"id": "mysticalagriculture:supremium_farmland", "required": false},
+    {"id": "mysticalagradditions:insanium_farmland", "required": false},
+    {"id": "farmersdelight:rich_soil_farmland", "required": false},
+    {"id":"regions_unexplored:peat_farmland", "required": false},
+    {"id":"regions_unexplored:silt_farmland", "required": false},
+
+    {"id":"biomeswevegone:lush_farmland", "required": false}
+  ]
+}
