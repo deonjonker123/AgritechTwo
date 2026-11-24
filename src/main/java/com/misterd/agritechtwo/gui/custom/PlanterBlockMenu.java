@@ -198,6 +198,7 @@ public class PlanterBlockMenu extends AbstractContainerMenu {
 
         @Override
         public boolean mayPlace(ItemStack stack) {
+            if (index >= 3) return false;
             return be.inventory.isValid(index, ItemResource.of(stack));
         }
 
