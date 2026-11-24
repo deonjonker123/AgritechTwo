@@ -62,3 +62,9 @@ All notable changes to this project will be documented here.
 ## [2.2.2.5+neoforge-mc26.1.2] - 2026-09-22
 ### Fixed
 - Fixed recipe loading conflict
+
+## [2.2.2.6+neoforge-mc-26.1.2] - 2026-11-24
+### Fixed
+- Items can no longer be placed by hand into the Planter's output slots
+- Clicking a progress bar to view recipes no longer crashes the game when JEI isn't installed
+- Fixed planters stalling when output is full
