@@ -5,13 +5,13 @@
       "modid": "croptopia"
     }
   ],
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "seed": {
     "item": "croptopia:rice_seed"
   },
   "soils": [
     {
-      "tag": "agritechevolved:farmland_soils"
+      "tag": "agritechtwo:farmland_soils"
     }
   ],
   "drops": [

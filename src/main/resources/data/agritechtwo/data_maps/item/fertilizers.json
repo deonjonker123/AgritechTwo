@@ -1,9 +1,18 @@
 {
   "values": {
     "minecraft:bone_meal": { "speed_multiplier": 1.2, "yield_multiplier": 1.2 },
-    "agritechtwo:crude_biomass": { "speed_multiplier": 1.1, "yield_multiplier": 1.1 },
-    "agritechtwo:biomass": { "speed_multiplier": 1.4, "yield_multiplier": 1.4 },
-    "agritechtwo:compacted_biomass": { "speed_multiplier": 1.8, "yield_multiplier": 1.8 },
+    "agritechevolved:crude_biomass": {
+      "conditions": [ { "type": "forge:mod_loaded", "modid": "agritechevolved" } ],
+      "value": { "speed_multiplier": 1.1, "yield_multiplier": 1.1 }
+    },
+    "agritechevolved:biomass": {
+      "conditions": [ { "type": "forge:mod_loaded", "modid": "agritechevolved" } ],
+      "value": { "speed_multiplier": 1.4, "yield_multiplier": 1.4 }
+    },
+    "agritechevolved:compacted_biomass": {
+      "conditions": [ { "type": "forge:mod_loaded", "modid": "agritechevolved" } ],
+      "value": { "speed_multiplier": 1.8, "yield_multiplier": 1.8 }
+    },
     "immersiveengineering:fertilizer": {
       "conditions": [ { "type": "forge:mod_loaded", "modid": "immersiveengineering" } ],
       "value": { "speed_multiplier": 1.4, "yield_multiplier": 1.4 }

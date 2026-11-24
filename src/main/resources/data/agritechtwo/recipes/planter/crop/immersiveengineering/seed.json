@@ -5,13 +5,13 @@
       "modid": "immersiveengineering"
     }
   ],
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "seed": {
     "item": "immersiveengineering:seed"
   },
   "soils": [
     {
-      "tag": "agritechevolved:farmland_soils"
+      "tag": "agritechtwo:farmland_soils"
     }
   ],
   "drops": [

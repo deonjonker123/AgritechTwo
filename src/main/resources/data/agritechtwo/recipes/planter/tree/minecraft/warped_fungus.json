@@ -1,5 +1,5 @@
 {
-  "type": "agritechevolved:tree",
+  "type": "agritechtwo:tree",
   "drops": [
     {
       "chance": 1.0,
@@ -31,7 +31,7 @@
   },
   "soils": [
     {
-      "tag": "agritechevolved:nether_soils"
+      "tag": "agritechtwo:nether_soils"
     }
   ]
 }

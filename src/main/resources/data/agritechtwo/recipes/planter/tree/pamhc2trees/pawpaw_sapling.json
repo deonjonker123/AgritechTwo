@@ -5,13 +5,13 @@
       "modid": "pamhc2trees"
     }
   ],
-  "type": "agritechevolved:tree",
+  "type": "agritechtwo:tree",
   "sapling": {
     "item": "pamhc2trees:pawpaw_sapling"
   },
   "soils": [
     {
-      "tag": "agritechevolved:tree_soils"
+      "tag": "agritechtwo:tree_soils"
     }
   ],
   "drops": [

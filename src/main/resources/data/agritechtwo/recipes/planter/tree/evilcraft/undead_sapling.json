@@ -5,13 +5,13 @@
       "modid": "evilcraft"
     }
   ],
-  "type": "agritechevolved:tree",
+  "type": "agritechtwo:tree",
   "sapling": {
     "item": "evilcraft:undead_sapling"
   },
   "soils": [
     {
-      "tag": "agritechevolved:tree_soils"
+      "tag": "agritechtwo:tree_soils"
     }
   ],
   "drops": [

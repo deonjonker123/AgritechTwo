@@ -5,13 +5,13 @@
       "modid": "mysticalagriculture"
     }
   ],
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "seed": {
     "item": "mysticalagriculture:uraninite_seeds"
   },
   "soils": [
     {
-      "tag": "agritechevolved:ma_tier5_soils"
+      "tag": "agritechtwo:ma_tier5_soils"
     }
   ],
   "drops": [

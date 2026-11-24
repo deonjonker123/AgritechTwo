@@ -5,7 +5,7 @@
       "modid": "biomesoplenty"
     }
   ],
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "drops": [
     {
       "chance": 1.0,
@@ -19,7 +19,7 @@
   },
   "soils": [
     {
-      "tag": "agritechevolved:tree_soils"
+      "tag": "agritechtwo:tree_soils"
     }
   ]
 }

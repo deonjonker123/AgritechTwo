@@ -1,5 +1,5 @@
 {
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "drops": [
     {
       "chance": 1.0,
@@ -13,10 +13,10 @@
   },
   "soils": [
     {
-      "tag": "agritechevolved:dirt_soils"
+      "tag": "agritechtwo:dirt_soils"
     },
     {
-      "tag": "agritechevolved:sand_soils"
+      "tag": "agritechtwo:sand_soils"
     }
   ]
 }

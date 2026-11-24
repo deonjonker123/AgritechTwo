@@ -5,13 +5,13 @@
       "modid": "croptopia"
     }
   ],
-  "type": "agritechevolved:tree",
+  "type": "agritechtwo:tree",
   "sapling": {
     "item": "croptopia:pear_sapling"
   },
   "soils": [
     {
-      "tag": "agritechevolved:tree_soils"
+      "tag": "agritechtwo:tree_soils"
     }
   ],
   "drops": [

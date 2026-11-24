@@ -5,16 +5,16 @@
       "modid": "ars_nouveau"
     }
   ],
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "seed": {
     "item": "ars_nouveau:sourceberry_bush"
   },
   "soils": [
     {
-      "tag": "agritechevolved:farmland_soils"
+      "tag": "agritechtwo:farmland_soils"
     },
     {
-      "tag": "agritechevolved:dirt_soils"
+      "tag": "agritechtwo:dirt_soils"
     }
   ],
   "drops": [

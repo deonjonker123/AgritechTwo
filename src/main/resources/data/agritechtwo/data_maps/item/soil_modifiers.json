@@ -22,8 +22,14 @@
     "minecraft:crimson_nylium": { "growth_modifier": 0.6 },
     "minecraft:warped_nylium": { "growth_modifier": 0.6 },
     "minecraft:stone": { "growth_modifier": 0.6 },
-    "agritechtwo:infused_farmland": { "growth_modifier": 1.5 },
-    "agritechtwo:mulch": { "growth_modifier": 1.0 },
+    "agritechevolved:infused_farmland": {
+      "conditions": [ { "type": "forge:mod_loaded", "modid": "agritechevolved" } ],
+      "value": { "growth_modifier": 1.5 }
+    },
+    "agritechevolved:mulch": {
+      "conditions": [ { "type": "forge:mod_loaded", "modid": "agritechevolved" } ],
+      "value": { "growth_modifier": 1.0 }
+    },
     "farmersdelight:rich_soil": {
       "conditions": [ { "type": "forge:mod_loaded", "modid": "farmersdelight" } ],
       "value": { "growth_modifier": 0.525 }

@@ -5,7 +5,7 @@
       "modid": "mysticalagriculture"
     }
   ],
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "seed": {
     "item": "mysticalagriculture:dragon_egg_seeds"
   },

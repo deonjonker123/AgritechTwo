@@ -5,13 +5,13 @@
       "modid": "ars_elemental"
     }
   ],
-  "type": "agritechevolved:tree",
+  "type": "agritechtwo:tree",
   "sapling": {
     "item": "ars_elemental:yellow_archwood_sapling"
   },
   "soils": [
     {
-      "tag": "agritechevolved:tree_soils"
+      "tag": "agritechtwo:tree_soils"
     }
   ],
   "drops": [

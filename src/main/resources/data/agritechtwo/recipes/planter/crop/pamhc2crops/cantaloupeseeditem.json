@@ -5,13 +5,13 @@
       "modid": "pamhc2crops"
     }
   ],
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "seed": {
     "item": "pamhc2crops:cantaloupeseeditem"
   },
   "soils": [
     {
-      "tag": "agritechevolved:farmland_soils"
+      "tag": "agritechtwo:farmland_soils"
     }
   ],
   "drops": [

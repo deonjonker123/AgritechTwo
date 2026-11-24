@@ -5,13 +5,13 @@
       "modid": "mysticalagriculture"
     }
   ],
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "seed": {
     "item": "mysticalagriculture:redstone_alloy_seeds"
   },
   "soils": [
     {
-      "tag": "agritechevolved:ma_tier3_soils"
+      "tag": "agritechtwo:ma_tier3_soils"
     }
   ],
   "drops": [

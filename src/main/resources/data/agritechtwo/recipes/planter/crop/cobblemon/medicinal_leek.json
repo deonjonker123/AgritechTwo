@@ -5,13 +5,13 @@
       "modid": "cobblemon"
     }
   ],
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "seed": {
     "item": "cobblemon:medicinal_leek"
   },
   "soils": [
     {
-      "tag": "agritechevolved:water_soils"
+      "tag": "agritechtwo:water_soils"
     }
   ],
   "drops": [

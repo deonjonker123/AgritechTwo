@@ -5,13 +5,13 @@
       "modid": "mysticalagriculture"
     }
   ],
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "seed": {
     "item": "mysticalagriculture:water_seeds"
   },
   "soils": [
     {
-      "tag": "agritechevolved:ma_tier1_soils"
+      "tag": "agritechtwo:ma_tier1_soils"
     }
   ],
   "drops": [

@@ -5,13 +5,13 @@
       "modid": "cobblemon"
     }
   ],
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "seed": {
     "item": "cobblemon:wacan_berry"
   },
   "soils": [
     {
-      "tag": "agritechevolved:farmland_soils"
+      "tag": "agritechtwo:farmland_soils"
     }
   ],
   "drops": [

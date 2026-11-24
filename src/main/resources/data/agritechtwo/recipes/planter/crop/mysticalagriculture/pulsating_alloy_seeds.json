@@ -5,13 +5,13 @@
       "modid": "mysticalagriculture"
     }
   ],
-  "type": "agritechevolved:crop",
+  "type": "agritechtwo:crop",
   "seed": {
     "item": "mysticalagriculture:pulsating_alloy_seeds"
   },
   "soils": [
     {
-      "tag": "agritechevolved:ma_tier4_soils"
+      "tag": "agritechtwo:ma_tier4_soils"
     }
   ],
   "drops": [
