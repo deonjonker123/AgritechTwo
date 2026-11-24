@@ -1,6 +1,7 @@
 package com.misterd.agritechtwo.gui.custom;
 
 import com.misterd.agritechtwo.compat.jei.ATJeiPlugin;
+import com.misterd.agritechtwo.compat.jei.JeiCompat;
 import com.misterd.agritechtwo.compat.jei.PlanterRecipeCategory;
 import com.misterd.agritechtwo.compat.jei.RaisedBedRecipeCategory;
 import mezz.jei.api.runtime.IJeiRuntime;
@@ -77,24 +78,5 @@ public class RaisedBedBlockScreen extends AbstractContainerScreen<RaisedBedBlock
             return;
         }
         super.extractTooltip(graphics, mouseX, mouseY);
-    }
-
-    @Override
-    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        if (event.button() == 0) {
-            double mx = event.x();
-            double my = event.y();
-            if (mx >= this.leftPos + 122 && mx <= this.leftPos + 128
-                    && my >= this.topPos + 18 && my <= this.topPos + 37) {
-                if (this.minecraft != null && this.minecraft.player != null) {
-                    IJeiRuntime runtime = ATJeiPlugin.getJeiRuntime();
-                    if (runtime != null) {
-                        runtime.getRecipesGui().showTypes(List.of(RaisedBedRecipeCategory.RAISED_BED_RECIPE_TYPE));
-                    }
-                }
-                return true;
-            }
-        }
-        return super.mouseClicked(event, doubleClick);
     }
 }

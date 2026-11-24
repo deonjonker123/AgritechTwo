@@ -1,12 +1,8 @@
 package com.misterd.agritechtwo.gui.custom;
 
-import com.misterd.agritechtwo.compat.jei.ATJeiPlugin;
-import com.misterd.agritechtwo.compat.jei.PlanterRecipeCategory;
-import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -81,24 +77,5 @@ public class PlanterBlockScreen extends AbstractContainerScreen<PlanterBlockMenu
             return;
         }
         super.extractTooltip(graphics, mouseX, mouseY);
-    }
-
-    @Override
-    public boolean mouseClicked(MouseButtonEvent event, boolean doubleClick) {
-        if (event.button() == 0) {
-            double mx = event.x();
-            double my = event.y();
-            if (mx >= this.leftPos + 40 && mx <= this.leftPos + 46
-                    && my >= this.topPos + 18 && my <= this.topPos + 71) {
-                if (this.minecraft != null && this.minecraft.player != null) {
-                    IJeiRuntime runtime = ATJeiPlugin.getJeiRuntime();
-                    if (runtime != null) {
-                        runtime.getRecipesGui().showTypes(List.of(PlanterRecipeCategory.PLANTER_RECIPE_TYPE));
-                    }
-                }
-                return true;
-            }
-        }
-        return super.mouseClicked(event, doubleClick);
     }
 }

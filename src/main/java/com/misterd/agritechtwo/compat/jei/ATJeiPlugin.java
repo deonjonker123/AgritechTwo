@@ -3,6 +3,8 @@ package com.misterd.agritechtwo.compat.jei;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.misterd.agritechtwo.block.ATBlocks;
+import com.misterd.agritechtwo.gui.custom.PlanterBlockScreen;
+import com.misterd.agritechtwo.gui.custom.RaisedBedBlockScreen;
 import com.misterd.agritechtwo.recipe.ATRecipeTypes;
 import com.misterd.agritechtwo.recipe.CropRecipe;
 import com.misterd.agritechtwo.recipe.TreeRecipe;
@@ -11,11 +13,18 @@ import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.JsonOps;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
+import mezz.jei.api.gui.handlers.IGuiClickableArea;
+import mezz.jei.api.gui.handlers.IGuiContainerHandler;
+import mezz.jei.api.recipe.IFocusFactory;
+import mezz.jei.api.recipe.types.IRecipeType;
+import mezz.jei.api.registration.IGuiHandlerRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.runtime.IJeiRuntime;
+import mezz.jei.api.runtime.IRecipesGui;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Rect2i;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.world.level.storage.LevelResource;
@@ -26,6 +35,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -311,5 +321,41 @@ public class ATJeiPlugin implements IModPlugin {
                 }
             });
         }
+    }
+
+    @Override
+    public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        registration.addGuiContainerHandler(PlanterBlockScreen.class, new IGuiContainerHandler<>() {
+            @Override
+            public Collection<IGuiClickableArea> getGuiClickableAreas(PlanterBlockScreen screen, double mouseX, double mouseY) {
+                return List.of(recipeArea(40, 18, 7, 54, PlanterRecipeCategory.PLANTER_RECIPE_TYPE));
+            }
+        });
+        registration.addGuiContainerHandler(RaisedBedBlockScreen.class, new IGuiContainerHandler<>() {
+            @Override
+            public Collection<IGuiClickableArea> getGuiClickableAreas(RaisedBedBlockScreen screen, double mouseX, double mouseY) {
+                return List.of(recipeArea(122, 18, 7, 55, RaisedBedRecipeCategory.RAISED_BED_RECIPE_TYPE));
+            }
+        });
+    }
+
+    private static IGuiClickableArea recipeArea(int x, int y, int width, int height, IRecipeType<?> recipeType) {
+        Rect2i area = new Rect2i(x, y, width, height);
+        return new IGuiClickableArea() {
+            @Override
+            public Rect2i getArea() {
+                return area;
+            }
+
+            @Override
+            public boolean isTooltipEnabled() {
+                return false;
+            }
+
+            @Override
+            public void onClick(IFocusFactory focusFactory, IRecipesGui recipesGui) {
+                recipesGui.showTypes(List.of(recipeType));
+            }
+        };
     }
 }

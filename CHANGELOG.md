@@ -73,3 +73,9 @@ All notable changes to this project will be documented here.
 ### Hotfix
 - Textures fixed
 - Recipes working again
+
+## [4.0.0.3+neoforge-mc26.3] - 2026-11-24
+### Fixed
+- Items can no longer be placed by hand into the Planter's output slots
+- Clicking a progress bar to view recipes no longer crashes the game when JEI isn't installed
+- Fixed planters stalling when output is full

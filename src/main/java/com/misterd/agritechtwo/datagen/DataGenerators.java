@@ -36,8 +36,6 @@ public class DataGenerators {
         PackOutput packOutput = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> worldLookup = event.getWorldLookupProvider();
 
-        event.createReloadableRegistryObjects(reloadableRegistries());
-
         BlockTagsProvider blockTagsProvider = new ATBlockTagProvider(packOutput, worldLookup);
         generator.addProvider(true, blockTagsProvider);
 
@@ -49,8 +47,6 @@ public class DataGenerators {
         DataGenerator generator = event.getGenerator();
         PackOutput packOutput = generator.getPackOutput();
         CompletableFuture<HolderLookup.Provider> worldLookup = event.getWorldLookupProvider();
-
-        event.createReloadableRegistryObjects(reloadableRegistries());
 
         BlockTagsProvider blockTagsProvider = new ATBlockTagProvider(packOutput, worldLookup);
         generator.addProvider(true, blockTagsProvider);
